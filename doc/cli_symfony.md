@@ -52,7 +52,7 @@ pour avoir la dernière version en mode microservice, API
 
 ## Faire tourner notre application avec la commande composer
 
-On telecharge un serveur personnalisé via composer, qu'on utiliser seulement lorsqu'on sera en mode développement
+On telecharge un serveur personnalisé via composer, qu'on utilise seulement lorsqu'on sera en mode développement
 
     - composer require server --dev
 
