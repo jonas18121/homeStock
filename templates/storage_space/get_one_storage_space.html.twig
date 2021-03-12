@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espaces de stockage{% endblock %}
+
+{% block body %}
+
+<div class="contrainer">
+    <h1>Espaces de stockage</h1>
+
+    <section>
+        <article>
+
+            <ul>
+
+                <div>
+                    {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
+                </div>
+
+                <li> {{ storageSpace.title }} </li>
+                <li> {{ storageSpace.description }} </li>
+                <li> 
+                    <span> {{ storageSpace.adresse }}  </span> 
+                    <span> {{ storageSpace.postalCode }} </span> 
+                    <span> {{ storageSpace.city }} </span>
+                </li>
+                <li> {{ storageSpace.type }} </li>
+                <li> {{ storageSpace.space }} m2</li>
+                <li> {{ storageSpace.price }} € / mois</li>
+                <li>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
+
+            </ul>
+
+        </article>
+    </section>
+</div>
+{% endblock %}
