@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Inscription' %}
+
+{% block body %}
+<div class="form__container">
+
+    {{ form_start(formRegistration, { 'attr' : { 'class' : 'form' }} ) }}
+
+        <div class="form__group">
+
+            <div class="form-error">
+                {{ form_errors(formRegistration.lastName) }}
+            </div>
+
+            <label for="inputUsername">Nom d'utilisateur</label>
+
+            <div>
+                {{ form_widget(formRegistration.lastName, {attr : {class : 'form__control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formRegistration.lastName) }} </small>
+
+        </div>
+
+        <div class="form__group">
+
+            <div class="form-error">
+                {{ form_errors(formRegistration.firstName) }}
+            </div>
+
+            <label for="inputUsername">Prénom d'utilisateur</label>
+
+            <div>
+                {{ form_widget(formRegistration.firstName, {attr : {class : 'form__control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formRegistration.firstName) }} </small>
+
+        </div>
+
+        <div class="form__group">
+
+            <label for="inputEmail">{{ form_label(formRegistration.email) }}</label>
+
+            <div>
+                {{ form_widget(formRegistration.email, {attr : {class : 'form__control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formRegistration.email) }} </small>
+        </div>
+
+        <div class="form__group">
+
+            <div class="form-error">
+                {{ form_errors(formRegistration.password) }}
+            </div>
+
+            <label for="inputPassword">Mot de passe</label>
+
+            <div>
+                {{ form_widget(formRegistration.password, {attr : {class : 'form__control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formRegistration.password) }} </small>
+
+        </div>
+
+        <div class="form__group">
+
+            <div class="form-error">
+                {{ form_errors(formRegistration.confirm_password) }}
+            </div>
+
+            <label for="inputPassword">Confirmer Mot de passe</label>
+
+            <div>
+                {{ form_widget(formRegistration.confirm_password, {attr : {class : 'form__control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formRegistration.confirm_password) }} </small>
+        </div>
+
+        <div class="form__group">
+
+            <div class="form-error">
+                {{ form_errors(formRegistration.confirm_password) }}
+            </div>
+
+            <label for="inputPassword">Confirmer Mot de passe</label>
+
+            <div>
+                {{ form_widget(formRegistration.confirm_password, {attr : {class : 'form__control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formRegistration.confirm_password) }} </small>
+        </div>
+
+        {# <div class="form__group">
+            <label for="inputImage">Photo de profil (Facultatif)</label>
+            {{ form_widget(form.image.file, {attr : {class : 'form__control'} } ) }}
+            {{ form_errors(form.image.file) }}
+        </div> #}
+        <div class="form__actions">
+            <a href="{{ path('app_login')}}">Vous avez un compte ? Connectez-vous</a> 
+        </div>
+
+        <button type="submit" class="btn__submit">S'incrire</button>
+
+    {{ form_end(formRegistration) }}
+</div>
+{% endblock body %}
