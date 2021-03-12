@@ -37,6 +37,8 @@ class User implements UserInterface
      */
     private $password;
 
+    private $confirm_password;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -311,6 +313,26 @@ class User implements UserInterface
                 $comment->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of confirm_password
+     */ 
+    public function getConfirmPassword()
+    {
+        return $this->confirm_password;
+    }
+
+    /**
+     * Set the value of confirm_password
+     *
+     * @return  self
+     */ 
+    public function setConfirmPassword($confirm_password)
+    {
+        $this->confirm_password = $confirm_password;
 
         return $this;
     }
