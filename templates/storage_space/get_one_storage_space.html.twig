@@ -27,15 +27,19 @@
                 <li> {{ storageSpace.space }} m2</li>
                 <li> {{ storageSpace.price }} € / mois</li>
                 <li>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
-                <li>
-                    <span>
-                        <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}">Modifier</a>
-                    </span>
 
-                    <span>
-                        <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}">Supprimer</a>
-                    </span>
-                </li>
+                {% if app.user %}
+                    <li>
+                        <span>
+                            <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}">Modifier</a>
+                        </span>
+
+                        <span>
+                            <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}">Supprimer</a>
+                        </span>
+                    </li>
+                {% else %}
+                {% endif %}
 
             </ul>
 
