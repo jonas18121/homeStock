@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class StorageSpaceController extends AbstractController
 {
     /**
-     * @Route("/storageSpace", name="storage_space_all")
+     * @Route("/", name="storage_space_all")
      */
     public function get_all_storage_space(StorageSpaceRepository $repo): Response
     {
@@ -46,6 +46,10 @@ class StorageSpaceController extends AbstractController
      */
     public function create_storage_space(Request $request, EntityManagerInterface $manager)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
         $storageSpace = new StorageSpace;
 
         $form = $this->createForm(StorageSpaceType::class, $storageSpace);
@@ -75,6 +79,10 @@ class StorageSpaceController extends AbstractController
      */
     public function edit_product(StorageSpace $storageSpace, Request $request, EntityManagerInterface $manager)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
         $form = $this->createForm(StorageSpaceType::class, $storageSpace, [ 'method' => 'PUT' ]);
 
         $form->handleRequest($request);
@@ -98,6 +106,10 @@ class StorageSpaceController extends AbstractController
      */
     public function delete_product(StorageSpace $storageSpace, EntityManagerInterface $manager)
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+        
         $manager->remove($storageSpace);
         $manager->flush();
 
