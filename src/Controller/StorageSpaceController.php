@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\StorageSpace;
+use App\Form\CommentType;
 use App\Form\StorageSpaceType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,18 +29,54 @@ class StorageSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/storageSpace/{id}", name="storage_space_one", requirements={"id": "\d+"}, methods="GET")
+     * @Route("/storageSpace/{id}", name="storage_space_one", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
-    public function get_one_product($id, StorageSpaceRepository $repo)
+    public function get_one_product($id, StorageSpaceRepository $repo, Request $request)
     {
 
         $storageSpace = $repo->find($id);
 
-        /* dump($product[0]);
-        dd($product); */
+
+        // Partie commentaire
+
+        $comment = new Comment();
+
+        $formComment = $this->createForm(CommentType::class, $comment);
+
+        $formComment->handleRequest($request);
+
+        if ($formComment->isSubmitted() && $formComment->isValid()) {
+
+            // dd($comment);
+
+            $comment->setDateCreatedAt(new DateTime())
+                ->setStorageSpace($storageSpace)
+                ->setOwner($this->getUser())
+            ;
+
+            //récupérer le contenu du champ parentid
+            $parentid = $formComment->get("parentid")->getData();
+            
+            $manager = $this->getDoctrine()->getManager();
+            
+            //on va chercher le commentaire correspondant
+            if ($parentid != null) {
+                $parent = $manager->getRepository(Comment::class)->find($parentid);
+            }
+            
+            // On définit le commentaire parent
+            $comment->setParent($parent ?? null); 
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash('message', 'Votre commentaire a bien été envoyé');
+            return $this->redirectToRoute('storage_space_one', [ 'id' => $storageSpace->getId()]);
+        }
 
         return $this->render('storage_space/get_one_storage_space.html.twig', [
-            'storageSpace' => $storageSpace
+            'storageSpace' => $storageSpace,
+            'formComment' => $formComment->createView()
         ]);
     }
 
