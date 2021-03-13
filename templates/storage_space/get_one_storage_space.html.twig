@@ -42,8 +42,69 @@
                 {% endif %}
 
             </ul>
+        </article>
 
+        <article>
+            <div>
+                <h2>Liste des commentaires</h2>
+
+                {% for comment in storageSpace.comments %}
+
+                    {% if comment.parent == null %}
+                    
+                        <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
+                        <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }}</p>
+                        <p>{{ comment.content }}</P>
+                        <p><a href="#add-comment" data-reply data-id="{{ comment.id }}">Répondre</a></p>
+                        {# dataset https://developer.mozilla.org/fr/docs/Web/API/HTMLOrForeignElement/dataset #}
+
+                        {# on affiche les réponses #}
+                        {% for reply in comment.replies %}
+                            <p>Réponse publié par <strong> {{ reply.owner.lastName }} {{ reply.owner.firstName }} </strong> le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}</p>
+                            <p>{{ reply.content }}</P>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div id="add-comment">
+                <h2>Ajouter un commentaire</h2>
+
+                {{ form_start(formComment, { 'attr' : { 'class' : 'form' }} ) }}
+
+                    <div class="form_group">
+
+                        <div class="form-error">
+                            {{ form_errors(formComment.content) }}
+                        </div>
+
+                        <label for="inputTitle">Commentaire : </label>
+
+                        <div>
+                            {{ form_widget(formComment.content, {attr : {class : 'form_control' }} ) }}
+                        </div>
+                        
+                        <small>{{ form_errors(formComment.content) }} </small>
+
+                    </div>
+
+                    <button type="submit" class="btn_submit">Ajouter</button>
+
+                {{ form_end(formComment) }}
+            </div>
         </article>
     </section>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.onload = () => {
+            document.querySelectorAll("[data-reply]").forEach(element => {
+                element.addEventListener("click", function(){
+                    document.querySelector("#comment_parentid").value = this.dataset.id;         
+                })
+            });
+        }
+    </script>
 {% endblock %}
