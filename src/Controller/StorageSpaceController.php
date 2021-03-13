@@ -69,4 +69,38 @@ class StorageSpaceController extends AbstractController
             'formStorageSpace' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/storageSpace/edit/{id}", name="storage_space_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
+     */
+    public function edit_product(StorageSpace $storageSpace, Request $request, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(StorageSpaceType::class, $storageSpace, [ 'method' => 'PUT' ]);
+
+        $form->handleRequest($request);
+
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $manager->persist($storageSpace);
+            $manager->flush();
+
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        return $this->render('storage_space/edit_storage_space.html.twig', [
+            'formStorageSpace' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/storageSpace/delete/{id}", name="storage_space_delete", requirements={"id": "\d+"})
+     */
+    public function delete_product(StorageSpace $storageSpace, EntityManagerInterface $manager)
+    {
+        $manager->remove($storageSpace);
+        $manager->flush();
+
+        return $this->redirectToRoute('storage_space_all');
+    }
 }

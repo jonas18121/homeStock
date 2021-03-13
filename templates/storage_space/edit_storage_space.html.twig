@@ -1,0 +1,146 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Modifier un espace de stockage' %}
+
+{% block body %}
+<div class="form_container">
+
+    <h1>Modifier un espace de stockage</h1>
+
+    {{ form_start(formStorageSpace, { 'attr' : { 'class' : 'form' }} ) }}
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formStorageSpace.title) }}
+            </div>
+
+            <label for="inputTitle">Titre : </label>
+
+            <div>
+                {{ form_widget(formStorageSpace.title, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formStorageSpace.title) }} </small>
+
+        </div>
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formStorageSpace.description) }}
+            </div>
+
+            <label for="inputDescription">Description : </label>
+
+            <div>
+                {{ form_widget(formStorageSpace.description, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formStorageSpace.description) }} </small>
+
+        </div>
+
+        <div class="form_group">
+
+            <label for="inputAdresse">{{ form_label(formStorageSpace.adresse) }}</label>
+
+            <div>
+                {{ form_widget(formStorageSpace.adresse, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formStorageSpace.adresse) }} </small>
+        </div>
+
+        <div class="form_group">
+
+            <span>
+                {# <div class="form-error"> #}
+                    {{ form_errors(formStorageSpace.postalCode) }}
+                {# </div> #}
+
+                <label for="inputPostalCode">Code postale : </label>
+
+                {# <div> #}
+                    {{ form_widget(formStorageSpace.postalCode, {attr : {class : 'form_control' }} ) }}
+                {# </div> #}
+                
+                <small>{{ form_errors(formStorageSpace.postalCode) }} </small>
+            </span>
+
+            <span>
+                {# <div class="form-error"> #}
+                    {{ form_errors(formStorageSpace.city) }}
+                {# </div> #}
+
+                <label for="inputPostalCode">Ville : </label>
+
+                {# <div> #}
+                    {{ form_widget(formStorageSpace.city, {attr : {class : 'form_control' }} ) }}
+                {# </div> #}
+                
+                <small>{{ form_errors(formStorageSpace.city) }} </small>
+            </span>
+        </div>
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formStorageSpace.type) }}
+            </div>
+
+            <label for="inputType">Type d'espace : </label>
+
+            <div>
+                {{ form_widget(formStorageSpace.type, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formStorageSpace.type) }} </small>
+
+        </div>
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formStorageSpace.space) }}
+            </div>
+
+            <label for="inputSpace">Espace en m2 : </label>
+
+            <div>
+                {{ form_widget(formStorageSpace.space, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formStorageSpace.space) }} </small>
+        </div>
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formStorageSpace.price) }}
+            </div>
+
+            <label for="inputPrice">Price : </label>
+
+            <div>
+                {{ form_widget(formStorageSpace.price, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formStorageSpace.price) }} </small>
+        </div>
+
+        <div class="form_group">
+            <label for="inputImage">Photo de l'espace de stockage (Facultatif)</label>
+
+            <div>
+                {{ form_widget(formStorageSpace.images, {attr : {class : 'form_control'} } ) }}
+            </div>
+
+            <small>{{ form_errors(formStorageSpace.images) }}</small>
+        </div>
+
+        <button type="submit" class="btn_submit">Modifier</button>
+
+    {{ form_end(formStorageSpace) }}
+</div>
+{% endblock body %}
