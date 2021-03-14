@@ -82,23 +82,6 @@ class StorageSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/comment/delete/{id}", name="comment_delete", requirements={"id": "\d+"})
-     */
-    public function delete_comment(Comment $comment, EntityManagerInterface $manager)
-    {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('storage_space_all');
-        }
-        
-        $manager->remove($comment);
-        $manager->flush();
-
-        return $this->redirectToRoute('storage_space_one', [ 'id' => $comment->getStorageSpace()->getId()]);
-    }
-
-    
-
-    /**
      * @Route("/storageSpace/add", name="storage_space_add")
      */
     public function create_storage_space(Request $request, EntityManagerInterface $manager)
