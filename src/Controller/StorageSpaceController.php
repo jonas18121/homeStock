@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\StorageSpace;
 use App\Form\CommentType;
 use App\Form\StorageSpaceType;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
 use DateTime;
@@ -63,7 +64,7 @@ class StorageSpaceController extends AbstractController
             if ($parentid != null) {
                 $parent = $manager->getRepository(Comment::class)->find($parentid);
             }
-            
+
             // On définit le commentaire parent
             $comment->setParent($parent ?? null); 
 
@@ -79,6 +80,23 @@ class StorageSpaceController extends AbstractController
             'formComment' => $formComment->createView()
         ]);
     }
+
+    /**
+     * @Route("/comment/delete/{id}", name="comment_delete", requirements={"id": "\d+"})
+     */
+    public function delete_comment(Comment $comment, EntityManagerInterface $manager)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+        
+        $manager->remove($comment);
+        $manager->flush();
+
+        return $this->redirectToRoute('storage_space_one', [ 'id' => $comment->getStorageSpace()->getId()]);
+    }
+
+    
 
     /**
      * @Route("/storageSpace/add", name="storage_space_add")
@@ -116,7 +134,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/edit/{id}", name="storage_space_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
      */
-    public function edit_product(StorageSpace $storageSpace, Request $request, EntityManagerInterface $manager)
+    public function edit_storage_space(StorageSpace $storageSpace, Request $request, EntityManagerInterface $manager)
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
@@ -143,7 +161,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/delete/{id}", name="storage_space_delete", requirements={"id": "\d+"})
      */
-    public function delete_product(StorageSpace $storageSpace, EntityManagerInterface $manager)
+    public function delete_storage_space(StorageSpace $storageSpace, EntityManagerInterface $manager)
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
