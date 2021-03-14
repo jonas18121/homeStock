@@ -54,7 +54,7 @@ class Comment
      * 
      * Dans la BDD, la table Comment aura comment.id qui sera en relation avec comment.parent_id
      * 
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="parent", orphanRemoval=true)
      */
     private $replies;
 
