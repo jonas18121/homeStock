@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Inscription' %}
+
+{% block body %}
+<div class="form_container">
+
+    {{ form_start(formUser, { 'attr' : { 'class' : 'form' }} ) }}
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formUser.lastName) }}
+            </div>
+
+            <label for="inputUsername">Nom d'utilisateur</label>
+
+            <div>
+                {{ form_widget(formUser.lastName, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formUser.lastName) }} </small>
+
+        </div>
+
+        <div class="form__group">
+
+            <div class="form-error">
+                {{ form_errors(formUser.firstName) }}
+            </div>
+
+            <label for="inputUsername">Prénom d'utilisateur</label>
+
+            <div>
+                {{ form_widget(formUser.firstName, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formUser.firstName) }} </small>
+
+        </div>
+
+        <div class="form_group">
+
+            <label for="inputEmail">{{ form_label(formUser.email) }}</label>
+
+            <div>
+                {{ form_widget(formUser.email, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formUser.email) }} </small>
+        </div>
+
+        {# <div class="form_group">
+            <label for="inputImage">Photo de profil (Facultatif)</label>
+            {{ form_widget(form.image.file, {attr : {class : 'form_control'} } ) }}
+            {{ form_errors(form.image.file) }}
+        </div> #}
+
+        <button type="submit" class="btn_submit">Modifier</button>
+
+    {{ form_end(formUser) }}
+</div>
+{% endblock body %}
