@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Créer un espace de stockage' %}
+
+{% block body %}
+<div class="form_container">
+
+    <h1>Faire une réservation</h1>
+
+    {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formBooking.dateStartAt) }}
+            </div>
+
+            <label for="inputTitle">Date de réservation : </label>
+
+            <div>
+                {{ form_widget(formBooking.dateStartAt, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formBooking.dateStartAt) }} </small>
+
+        </div>
+
+        <button type="submit" class="btn_submit">Réserver</button>
+
+    {{ form_end(formBooking) }}
+</div>
+{% endblock body %}
