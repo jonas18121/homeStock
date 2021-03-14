@@ -31,6 +31,10 @@
                 {% if app.user %}
                     <li>
                         <span>
+                            <a href="{{ path('booking_add', { 'id' : storageSpace.id } ) }}">Réserver</a>
+                        </span>
+
+                        <span>
                             <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}">Modifier</a>
                         </span>
 
