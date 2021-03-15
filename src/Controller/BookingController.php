@@ -63,8 +63,11 @@ class BookingController extends AbstractController
             $booking->setDateCreatedAt(new \DateTime())
                 ->setLodger($this->getUser())
             ;
-
             $manager->persist($booking);
+
+            $storageSpace->setAvailable(false);
+            $manager->persist($storageSpace);
+
             $manager->flush();
 
             return $this->redirectToRoute('storage_space_all');
@@ -72,6 +75,24 @@ class BookingController extends AbstractController
 
         return $this->render('booking/create_booking.html.twig', [
             'formBooking' => $formBooking->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/booking/user", name="booking_for_user")
+     */
+    public function get_all_booking_for_user(BookingRepository $repo): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        $user = $this->getUser();
+
+        $bookings = $repo->findBy([ 'lodger' => $user ]);
+
+        return $this->render('booking/get_all_booking_for_user.html.twig', [
+            'bookings' => $bookings,
         ]);
     }
 }

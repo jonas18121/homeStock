@@ -20,6 +20,13 @@
                     <li><a href='{{ path('storage_space_all') }}' >Accueil</a></li>
 
                     {% if app.user %}
+                        <li>
+                            Tableau de bord
+                            <ul>
+                                <li><a href="{{ path('booking_for_user') }}">Mes payements</a></li>
+                                <li><a href="{{ path('storage_space_for_user') }}">Mes annonces d'espace de stockage</a></li>
+                            </ul>
+                        </li>
                         <li><a href="{{ path('user_one', { 'id' : app.user.id }) }}"> Mon compte </a></li>
                         <li><a href="{{ path('app_logout') }}"> Déconnexion </a></li>
                     {% else %}
