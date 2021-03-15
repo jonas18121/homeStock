@@ -63,8 +63,11 @@ class BookingController extends AbstractController
             $booking->setDateCreatedAt(new \DateTime())
                 ->setLodger($this->getUser())
             ;
-
             $manager->persist($booking);
+
+            $storageSpace->setAvailable(false);
+            $manager->persist($storageSpace);
+
             $manager->flush();
 
             return $this->redirectToRoute('storage_space_all');

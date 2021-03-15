@@ -1,18 +1,15 @@
 {% extends "base.html.twig" %}
 
-{% block title 'Voir tous mes espaces de stockage' %}
+{% block title 'Voir tous mes transactions' %}
 
 {% block body %}
 
 <div class="container">
 
     <section>
-        <h1>Voir tous mes espaces de stockage</h1>
+        <h1>Voir tous mes transactions</h1>
 
-        <pre>
-            {{ dump(bookings) }}
-        </pre>
-
+        
         <table class="table">
             <thead>
                 <tr>
@@ -24,6 +21,8 @@
                     <th scope="col">Prix/mois du produit</th>
                     <th scope="col">Date de création de la réservation</th>
                     <th scope="col">Date du début de la réservation</th>
+                    <th scope="col">Date de fin de la réservation</th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -31,6 +30,9 @@
 
             <tbody>
                 {% for booking in bookings %}
+                <pre>
+            {{ dump(booking) }}
+        </pre>
                     <tr>
                         <td>{{ booking.storageSpace.title }}</td>
                         <td>
@@ -47,6 +49,8 @@
                         <td>{{ booking.storageSpace.price }}€/mois</td>
                         <td>{{ booking.dateCreatedAt | date('d/m/Y H:i') }}</td>
                         <td>{{ booking.dateStartAt | date('d/m/Y') }}</td>
+                        <td></td>
+                        <td><a href="#">Mettre fin à l'abonnement</td>
                     </tr>
                 {% endfor %}
             </tbody>

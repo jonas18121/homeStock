@@ -30,6 +30,24 @@ class StorageSpaceController extends AbstractController
     }
 
     /**
+     * @Route("/storageSpace/user", name="storage_space_for_user")
+     */
+    public function get_all_storage_space_for_user(StorageSpaceRepository $repo): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        $user = $this->getUser();
+
+        $storageSpaces = $repo->findBy([ 'owner' => $user ]);
+
+        return $this->render('storage_space/get_all_storage_space_for_user.html.twig', [
+            'storageSpaces' => $storageSpaces,
+        ]);
+    }
+
+    /**
      * @Route("/storageSpace/{id}", name="storage_space_one", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
     public function get_one_product($id, StorageSpaceRepository $repo, Request $request)
