@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Fermer une reservation' %}
+
+{% block body %}
+<div class="form_container">
+
+    <h1>Fermer une reservation</h1>
+
+    {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
+
+        <div class="form_group">
+
+            <div class="form-error">
+                {{ form_errors(formBooking.dateEndAt) }}
+            </div>
+
+            <label for="inputTitle">Date de fin de réservation : </label>
+
+            <div>
+                {{ form_widget(formBooking.dateEndAt, {attr : 
+                    {
+                        class : 'form_control js-datepicker',
+
+                    }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formBooking.dateEndAt) }} </small>
+
+        </div>
+
+        <button type="submit" class="btn_submit">Fermer la Réservation</button>
+
+    {{ form_end(formBooking) }}
+</div>
+{% endblock body %}
