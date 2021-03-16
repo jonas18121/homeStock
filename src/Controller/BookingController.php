@@ -47,12 +47,12 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
+
         $booking = new Booking;
 
         $storageSpace = $repo->find($id);
 
-        $booking->setStorageSpace($storageSpace);
-
+        // $booking->setStorageSpace($storageSpace);
 
         $formBooking = $this->createForm(BookingType::class, $booking);
 
@@ -60,12 +60,15 @@ class BookingController extends AbstractController
 
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             
+            $storageSpace->setAvailable(false)
+                ->addBooking($booking)
+            ;
+
             $booking->setDateCreatedAt(new \DateTime())
                 ->setLodger($this->getUser())
             ;
             $manager->persist($booking);
 
-            $storageSpace->setAvailable(false);
             $manager->persist($storageSpace);
 
             $manager->flush();

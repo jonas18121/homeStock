@@ -27,16 +27,18 @@ class Booking
      */
     private $dateCreatedAt;
 
-    /**
-     * @ORM\OneToOne(targetEntity=StorageSpace::class, mappedBy="booking", cascade={"persist", "remove"})
-     */
-    private $storageSpace;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lodger;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=StorageSpace::class, inversedBy="bookings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $storageSpace;
 
     public function getId(): ?int
     {
@@ -67,28 +69,6 @@ class Booking
         return $this;
     }
 
-    public function getStorageSpace(): ?StorageSpace
-    {
-        return $this->storageSpace;
-    }
-
-    public function setStorageSpace(?StorageSpace $storageSpace): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($storageSpace === null && $this->storageSpace !== null) {
-            $this->storageSpace->setBooking(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($storageSpace !== null && $storageSpace->getBooking() !== $this) {
-            $storageSpace->setBooking($this);
-        }
-
-        $this->storageSpace = $storageSpace;
-
-        return $this;
-    }
-
     public function getLodger(): ?User
     {
         return $this->lodger;
@@ -97,6 +77,18 @@ class Booking
     public function setLodger(?User $lodger): self
     {
         $this->lodger = $lodger;
+
+        return $this;
+    }
+
+    public function getStorageSpace(): ?StorageSpace
+    {
+        return $this->storageSpace;
+    }
+
+    public function setStorageSpace(?StorageSpace $storageSpace): self
+    {
+        $this->storageSpace = $storageSpace;
 
         return $this;
     }

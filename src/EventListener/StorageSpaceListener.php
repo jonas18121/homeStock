@@ -12,20 +12,18 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 class StorageSpaceListener {
 
     protected $storageSpaceService;
-
-    protected $endDate;
+    protected $storageSpaceRepository;
+    protected $bookingRepository;
+    protected $manager;
 
     public function __construct(
         StorageSpaceService $storage, 
-        /*$endDate,*/ 
         StorageSpaceRepository $repoStorage, 
         BookingRepository $repoBooking,
         EntityManagerInterface $manager
     )
     {
-        // dd($endDate);
         $this->storageSpaceService = $storage;
-        // $this->endDate = new \DateTime($endDate);
         $this->storageSpaceRepository = $repoStorage;
         $this->bookingRepository = $repoBooking;
         $this->manager = $manager;
@@ -33,14 +31,6 @@ class StorageSpaceListener {
 
     public function processStorage(ResponseEvent $event)
     {
-        // $checkDate = $this->endDate->diff(new \DateTime())->days;
-
-    // dd($storageSpace);
-
-        // if ($checkDate >= 0) {
-        $response = $this->storageSpaceService->emitStorageCheckDate($event->getRequest(), $this->storageSpaceRepository, $this->bookingRepository, $this->manager);
-            //$event->setResponse($response);
-        // }
-        return;
+        $this->storageSpaceService->emitStorageCheckDate($event->getRequest(), $this->storageSpaceRepository, $this->bookingRepository, $this->manager);
     }
 }

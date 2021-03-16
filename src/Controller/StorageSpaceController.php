@@ -54,6 +54,7 @@ class StorageSpaceController extends AbstractController
     {
         $storageSpace = $repo->find($id);
 
+
         // Partie commentaire
 
         $comment = new Comment();

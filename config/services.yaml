@@ -43,8 +43,7 @@ services:
 
         arguments: 
             - "@storage.space.check.date"
-            # - "2020-05-12"
-            - "@storage.space.repository"
+            # - "@storage.space.repository"
         
         tags:
             - {

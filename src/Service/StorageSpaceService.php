@@ -19,16 +19,15 @@ class StorageSpaceService
         EntityManagerInterface $manager
     )
     {
-        // $storageSpaces = $repoStorage->find_All_storage();
         $bookings = $repoBooking->findAll();
-
+        
         foreach ($bookings as $key => $booking) {
-            // $value->getDateStartAt()->format('d/m/Y')
-            // $dateCurrent > $value->getDateStartAt()
-            $dateCurrent = new \DateTime('11/05/2022');
+            
+            $dateCurrent = new \DateTime('11/01/2025');
+            
             if ($dateCurrent > $booking->getDateStartAt()) {
-
-                $storageSpaces = $repoStorage->findBy(['booking' => $booking->getId()]);
+                
+                $storageSpaces = $repoStorage->find_one_booking_in_storage($booking->getId());
 
                 foreach ($storageSpaces as $key => $storageSpace) {
 
@@ -36,13 +35,9 @@ class StorageSpaceService
 
                     $manager->persist($storageSpace);
                     $manager->flush();
-
-                    // dd($storageSpace);
                 }
-                
             }
-
         }
-        //dd('ok');
+        
     }
 }
