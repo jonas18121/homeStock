@@ -64,10 +64,6 @@ class StorageSpace
      */
     private $images;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Booking::class, inversedBy="storageSpace", cascade={"persist", "remove"})
-     */
-    private $booking;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="storageSpace", orphanRemoval=true)
@@ -90,9 +86,15 @@ class StorageSpace
      */
     private $postalCode;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="storageSpace", orphanRemoval=true)
+     */
+    private $bookings;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -208,18 +210,6 @@ class StorageSpace
         return $this;
     }
 
-    public function getBooking(): ?Booking
-    {
-        return $this->booking;
-    }
-
-    public function setBooking(?Booking $booking): self
-    {
-        $this->booking = $booking;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Comment[]
      */
@@ -282,6 +272,36 @@ class StorageSpace
     public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setStorageSpace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getStorageSpace() === $this) {
+                $booking->setStorageSpace(null);
+            }
+        }
 
         return $this;
     }

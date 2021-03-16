@@ -49,8 +49,14 @@
                         <td>{{ booking.storageSpace.price }}€/mois</td>
                         <td>{{ booking.dateCreatedAt | date('d/m/Y H:i') }}</td>
                         <td>{{ booking.dateStartAt | date('d/m/Y') }}</td>
-                        <td></td>
-                        <td><a href="#">Mettre fin à l'abonnement</td>
+
+                        {% if booking.dateEndAt %}
+                            <td>{{ booking.dateEndAt | date('d/m/Y') }}</td>
+                        {% else %}
+                               <td></td>
+                        {% endif %}
+                        
+                        <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à l'abonnement</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -59,3 +65,5 @@
 </div>    
 
 {% endblock body %}
+
+

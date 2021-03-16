@@ -47,4 +47,26 @@ class StorageSpaceRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function find_All_storage()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s, b')
+            ->leftJoin('s.booking', 'b')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+    public function find_one_booking_in_storage($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s, b')
+            ->leftJoin('s.bookings', 'b')
+            ->andWhere('b.id IN (:id)')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+        ;
+    }
 }

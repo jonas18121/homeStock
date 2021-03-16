@@ -2,6 +2,13 @@
 
 {% block title 'Créer un espace de stockage' %}
 
+
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+{% endblock %}
 {% block body %}
 <div class="form_container">
 
@@ -18,7 +25,11 @@
             <label for="inputTitle">Date de réservation : </label>
 
             <div>
-                {{ form_widget(formBooking.dateStartAt, {attr : {class : 'form_control' }} ) }}
+                {{ form_widget(formBooking.dateStartAt, {attr : 
+                    {
+                        class : 'form_control js-datepicker',
+
+                    }} ) }}
             </div>
             
             <small>{{ form_errors(formBooking.dateStartAt) }} </small>
@@ -30,3 +41,24 @@
     {{ form_end(formBooking) }}
 </div>
 {% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+    /*
+    $(document).ready(function(){
+        // var datesDisabled = $('.js-datepicker').attr('data-ates-disabled')
+        //var datesDisabled = $('.js-datepicker').val()
+        console.log(datesDisabled);
+        $('.js-datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            datesDisabled: ['16/03/2021', '17/03/2021','18/03/2021','19/03/2021','20/03/2021','21/03/2021','22/03/2021']
+        });
+    });
+    */
+    </script>
+{% endblock %}
+

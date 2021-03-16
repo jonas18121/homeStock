@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Form\BookingType;
+use App\Form\BookingFinishType;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
@@ -47,12 +48,12 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
+
         $booking = new Booking;
 
         $storageSpace = $repo->find($id);
 
-        $booking->setStorageSpace($storageSpace);
-
+        // $booking->setStorageSpace($storageSpace);
 
         $formBooking = $this->createForm(BookingType::class, $booking);
 
@@ -60,12 +61,15 @@ class BookingController extends AbstractController
 
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             
+            $storageSpace->setAvailable(false)
+                ->addBooking($booking)
+            ;
+
             $booking->setDateCreatedAt(new \DateTime())
                 ->setLodger($this->getUser())
             ;
             $manager->persist($booking);
 
-            $storageSpace->setAvailable(false);
             $manager->persist($storageSpace);
 
             $manager->flush();
@@ -95,4 +99,41 @@ class BookingController extends AbstractController
             'bookings' => $bookings,
         ]);
     }
+
+    /**
+     * @Route("/booking/form/finish/{id}", name="booking_finish")
+     */
+    public function get_form_booking_finish(Booking $booking, Request $request, EntityManagerInterface $manager)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+
+        // $booking = new Booking;
+
+        // $booking->setStorageSpace($storageSpace);
+        $formBooking = $this->createForm(BookingFinishType::class, $booking);
+        
+        $formBooking->handleRequest($request);
+
+        // dd($booking);
+        
+        if ($formBooking->isSubmitted() && $formBooking->isValid()) {
+            // dd($booking);
+
+            /* $booking->setDateCreatedAt(new \DateTime())
+                ->setLodger($this->getUser())
+            ; */
+
+            $manager->persist($booking);
+            $manager->flush();
+
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        return $this->render('booking/finish_booking.html.twig', [
+            'formBooking' => $formBooking->createView()
+        ]);
+    } 
 }
