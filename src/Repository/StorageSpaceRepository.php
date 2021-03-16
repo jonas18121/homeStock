@@ -47,4 +47,14 @@ class StorageSpaceRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function find_All_storage()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s, b')
+            ->leftJoin('s.booking', 'b')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
 }

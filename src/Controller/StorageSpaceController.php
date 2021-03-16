@@ -52,9 +52,7 @@ class StorageSpaceController extends AbstractController
      */
     public function get_one_product($id, StorageSpaceRepository $repo, Request $request)
     {
-
         $storageSpace = $repo->find($id);
-
 
         // Partie commentaire
 
@@ -65,8 +63,6 @@ class StorageSpaceController extends AbstractController
         $formComment->handleRequest($request);
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
-
-            // dd($comment);
 
             $comment->setDateCreatedAt(new DateTime())
                 ->setStorageSpace($storageSpace)

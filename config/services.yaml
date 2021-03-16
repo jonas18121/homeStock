@@ -29,3 +29,26 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    #  doctrine.orm.entity_listener
+
+    storage.space.repository:
+        class: App\Repository\StorageSpaceRepository
+
+    storage.space.check.date:
+        class: App\Service\StorageSpaceService
+
+    storage.space.check.date.listener:
+        class: App\EventListener\StorageSpaceListener
+
+        arguments: 
+            - "@storage.space.check.date"
+            # - "2020-05-12"
+            - "@storage.space.repository"
+        
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.response,
+                method: processStorage
+            }

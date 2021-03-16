@@ -13,7 +13,11 @@ class BookingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateStartAt', DateType::class)
+            // ->add('dateStartAt', DateType::class)
+            ->add('dateStartAt', DateType::class, [
+                'widget' => 'single_text',
+                // 'html5' => false
+            ])
         ;
     }
 
