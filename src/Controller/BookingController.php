@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Form\BookingType;
+use App\Form\BookingFinishType;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
@@ -98,4 +99,41 @@ class BookingController extends AbstractController
             'bookings' => $bookings,
         ]);
     }
+
+    /**
+     * @Route("/booking/form/finish/{id}", name="booking_finish")
+     */
+    public function get_form_booking_finish(Booking $booking, Request $request, EntityManagerInterface $manager)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+
+        // $booking = new Booking;
+
+        // $booking->setStorageSpace($storageSpace);
+        $formBooking = $this->createForm(BookingFinishType::class, $booking);
+        
+        $formBooking->handleRequest($request);
+
+        // dd($booking);
+        
+        if ($formBooking->isSubmitted() && $formBooking->isValid()) {
+            // dd($booking);
+
+            /* $booking->setDateCreatedAt(new \DateTime())
+                ->setLodger($this->getUser())
+            ; */
+
+            $manager->persist($booking);
+            $manager->flush();
+
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        return $this->render('booking/finish_booking.html.twig', [
+            'formBooking' => $formBooking->createView()
+        ]);
+    } 
 }

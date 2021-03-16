@@ -40,6 +40,12 @@ class Booking
      */
     private $storageSpace;
 
+    /**
+     * @ORM\Column(type="datetime")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $dateEndAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +95,18 @@ class Booking
     public function setStorageSpace(?StorageSpace $storageSpace): self
     {
         $this->storageSpace = $storageSpace;
+
+        return $this;
+    }
+
+    public function getDateEndAt(): ?\DateTimeInterface
+    {
+        return $this->dateEndAt;
+    }
+
+    public function setDateEndAt(\DateTimeInterface $dateEndAt): self
+    {
+        $this->dateEndAt = $dateEndAt;
 
         return $this;
     }
