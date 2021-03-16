@@ -12,6 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StorageSpaceService 
 {
+    /**
+     * Lorsque StorageSpaceListener réagi à l'évènnement kernel.response
+     * StorageSpaceListener fait fonctionner StorageSpaceService::emitStorageCheckDate()
+     * qui va rendre un espace de stockage disponible si la date de fin de réservation est passé
+     * 
+     * Si la date d'aujourd'hui est plus grand que la date de fin de réservation,
+     * on met la propriété available de StorageSpace en true , pour qu'il soit disponible aux autre user
+     */
     public function emitStorageCheckDate(
         Request $response, 
         StorageSpaceRepository $repoStorage, 
@@ -23,10 +31,10 @@ class StorageSpaceService
         
         foreach ($bookings as $key => $booking) {
             
-            $dateCurrent = new \DateTime('11/01/2025');
+            $dateCurrent = new \DateTime();
             
             if ($dateCurrent > $booking->getDateStartAt()) {
-                
+
                 $storageSpaces = $repoStorage->find_one_booking_in_storage($booking->getId());
 
                 foreach ($storageSpaces as $key => $storageSpace) {
