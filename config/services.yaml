@@ -48,6 +48,6 @@ services:
         tags:
             - {
                 name: kernel.event_listener,
-                event: kernel.response,
+                event: kernel.request,
                 method: processStorage
             }

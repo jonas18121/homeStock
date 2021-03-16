@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class StorageSpaceService 
 {
     /**
-     * Lorsque StorageSpaceListener réagi à l'évènnement kernel.response
+     * Lorsque StorageSpaceListener réagi à l'évènnement kernel.request
      * StorageSpaceListener fait fonctionner StorageSpaceService::emitStorageCheckDate()
      * qui va rendre un espace de stockage disponible si la date de fin de réservation est passé
      * 

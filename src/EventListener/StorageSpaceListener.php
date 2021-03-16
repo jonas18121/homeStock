@@ -7,6 +7,7 @@ use App\Service\StorageSpaceService;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class StorageSpaceListener {
@@ -29,7 +30,11 @@ class StorageSpaceListener {
         $this->manager = $manager;
     }
 
-    public function processStorage(ResponseEvent $event)
+    /**
+     * Pour réagir à une reponse ResponseEvent $event
+     * Pour réagir à une request RequestEvent $event
+     */
+    public function processStorage(RequestEvent $event)
     {
         $this->storageSpaceService->emitStorageCheckDate($event->getRequest(), $this->storageSpaceRepository, $this->bookingRepository, $this->manager);
     }
