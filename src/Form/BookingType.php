@@ -15,8 +15,13 @@ class BookingType extends AbstractType
         $builder
             // ->add('dateStartAt', DateType::class)
             ->add('dateStartAt', DateType::class, [
-                'widget' => 'single_text',
+                // 'widget' => 'single_text',
+                'widget' => 'choice',
                 // 'html5' => false
+                'days' => range(date('d'), date('d') + 7),
+                'months' => [date('m')],
+                'years' => [date('y')]
+
             ])
         ;
     }
