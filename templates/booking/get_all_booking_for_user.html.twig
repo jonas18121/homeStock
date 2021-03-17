@@ -55,8 +55,24 @@
                         {% endif %}
                         
                         {% if booking.dateEndAt is null %}
-                            <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à l'abonnement</td>
+                            <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à la réservation</td>
                         {% endif %}
+
+                        {# 
+                            si la date du jour n'ait pas égale ou n'a pas encore dépassé la date de début de la réservation, 
+                            on permet la suppréssion de cette réservation,
+                            passé la date, l'user ne pourra plus supprimer la réservation   
+                        #}
+                        {% if booking.dateStartAt > date() %}
+                            <td>
+                                <form method="POST" action="{{ path('booking_delete', { 'id' : booking.id }) }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre réservation ?')">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                                    <button> Supprimer </button>
+                                </form>
+                            </td>
+                        {% endif %}
+                        
                     </tr>
                 {% endfor %}
             </tbody>

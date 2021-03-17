@@ -136,4 +136,33 @@ class BookingController extends AbstractController
             'formBooking' => $formBooking->createView()
         ]);
     } 
+
+    /**
+     * @Route("/booking/delete/{id}", name="booking_delete", requirements={"id": "\d+"})
+     */
+    public function delete_booking(
+        $id,
+        BookingRepository $repoBooking, 
+        EntityManagerInterface $manager, 
+        Request $request
+    )
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        $booking = $repoBooking->find_one_storage_in_booking($id);
+        
+        if($this->isCsrfTokenValid('delete', $request->get('_token'))){
+
+            $booking->getStorageSpace()->setAvailable(true);
+
+            $manager->remove($booking);
+            $manager->flush();
+
+            $this->addFlash('success',"Votre réservation a été supprimé !");
+        }
+
+        return $this->redirectToRoute('storage_space_all');
+    }
 }

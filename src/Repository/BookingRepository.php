@@ -48,5 +48,15 @@ class BookingRepository extends ServiceEntityRepository
     }
     */
 
-    
+    public function find_one_storage_in_booking($id)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b, s')
+            ->leftJoin('b.storageSpace', 's')
+            ->andWhere('b.id IN (:id)')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult();
+        ;
+    }
 }
