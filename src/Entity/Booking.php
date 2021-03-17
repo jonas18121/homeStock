@@ -42,9 +42,14 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $dateEndAt;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $finish = false;
 
     public function getId(): ?int
     {
@@ -107,6 +112,18 @@ class Booking
     public function setDateEndAt(\DateTimeInterface $dateEndAt): self
     {
         $this->dateEndAt = $dateEndAt;
+
+        return $this;
+    }
+
+    public function getFinish(): ?bool
+    {
+        return $this->finish;
+    }
+
+    public function setFinish(?bool $finish): self
+    {
+        $this->finish = $finish;
 
         return $this;
     }

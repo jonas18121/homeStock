@@ -35,7 +35,7 @@ class StorageSpaceService
 
             
             if ($booking->getDateEndAt()) {
-                
+
                 if ($dateCurrent >= $booking->getDateEndAt()) {
                     
                     /*                              17/03/2021                                 >                                   16/03/2021        retourne +1 jour
@@ -51,15 +51,19 @@ class StorageSpaceService
 
                     $nb_days = $nb_days_positif_or_negatif->format('%R%a'); //exemple retourne +1 ou -1 ou +0
 
-                    if ($nb_days == 0) {
+                    if ($nb_days == 0 && $booking->getFinish() == false) {
+
 
                         $storageSpaces = $repoStorage->find_one_booking_in_storage($booking->getId());
                         
                         foreach ($storageSpaces as $key => $storageSpace) {
         
                             $storageSpace->setAvailable(true);
-        
                             $manager->persist($storageSpace);
+
+                            $booking->setFinish(true);
+                            $manager->persist($booking);
+
                             $manager->flush();
                         }
                     }

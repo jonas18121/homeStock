@@ -30,7 +30,7 @@
 
             <tbody>
                 {% for booking in bookings %}
-                
+
                     <tr>
                         <td>{{ booking.storageSpace.title }}</td>
                         <td>
@@ -54,7 +54,9 @@
                                <td></td>
                         {% endif %}
                         
-                        <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à l'abonnement</td>
+                        {% if booking.dateEndAt is null %}
+                            <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à l'abonnement</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
