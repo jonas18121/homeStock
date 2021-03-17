@@ -26,10 +26,10 @@
                 <span>
                     {# <a href="{{ path('user_delete', { 'id' : user.id } ) }}">Supprimer</a> #}
                     <form method="POST" action="{{ path('user_delete') }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre compte ?')">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                            <button> Supprimer </button>
-                        </form>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                        <button> Supprimer </button>
+                    </form>
                 </span>
             </li>
         </ul>
