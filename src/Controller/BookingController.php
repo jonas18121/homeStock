@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use Stripe\Stripe;
 use App\Entity\Booking;
 use App\Form\BookingType;
+use Stripe\Checkout\Session;
 use App\Form\BookingFinishType;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -61,8 +63,8 @@ class BookingController extends AbstractController
 
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             
-            $storageSpace->setAvailable(false)
-                ->addBooking($booking)
+            $storageSpace->addBooking($booking)
+                // ->setAvailable(false) à mettre lorsque le payement est valider
             ;
 
             $booking->setDateCreatedAt(new \DateTime())
@@ -72,14 +74,66 @@ class BookingController extends AbstractController
 
             $manager->persist($storageSpace);
 
-            $manager->flush();
+            // $manager->flush();
 
-            return $this->redirectToRoute('storage_space_all');
+
+
+            // STRIPE   
+
+            /* $storage_for_stripe = [];
+            $YOUR_DOMAIN = 'http://127.0.0.1:8000'; */
+
+
+            /* // $storage_for_stripe ira dans line_items qui est dans Session::create
+            $storage_for_stripe[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => $storageSpace->getPrice()*100,
+                    'product_data' => [
+                        'name' => $storageSpace->getTitle(),
+                        'images' => [ $YOUR_DOMAIN . "/images/storageSpace/" . $storageSpace->getImages() ],
+                    ],
+                ],
+                'quantity' => 1,
+            ]; */
+            
+
+            /* //initialiser stripe
+            Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
+
+            // afficher les info qu'on veut monterer à l'user
+            
+            $checkout_session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    $storage_for_stripe
+                ]],
+                'mode' => 'payment',
+                'success_url' => $YOUR_DOMAIN . '/success.html',
+                'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+            ]);
+            // echo json_encode(['id' => $checkout_session->id]); */
+
+            // dump($checkout_session->id);
+            // dd($checkout_session);
+            // dump($storageSpace);
+
+            // return $this->redirectToRoute('booking_pay');
         }
 
         return $this->render('booking/create_booking.html.twig', [
-            'formBooking' => $formBooking->createView()
+            'formBooking' => $formBooking->createView(),
+            'storageSpace' => $storageSpace,
+            // 'stripe_checkout_session' => $checkout_session->id ?? null
         ]);
+    }
+
+    /**
+     * @Route("/booking/pay/{id}", name="booking_pay")
+     */
+    public function booking_pay(Booking $booking){
+
+        dd('ok');
     }
 
     /**

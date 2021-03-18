@@ -9,10 +9,6 @@
     <section>
         <h1>Voir tous mes espaces de stockage</h1>
 
-        <pre>
-            {{ dump(storageSpaces) }}
-        </pre>
-
         <table class="table">
             <thead>
                 <tr>
@@ -26,8 +22,6 @@
                     <th scope="col">Date du début de la réservation</th>
                 </tr>
             </thead>
-
-            
 
             <tbody>
                 {% for storageSpace in storageSpaces %}
