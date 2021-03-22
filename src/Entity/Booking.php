@@ -60,6 +60,11 @@ class Booking
      */
     private $checkForPayement = false;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $stripeSessionId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +162,18 @@ class Booking
     public function setCheckForPayement(bool $checkForPayement): self
     {
         $this->checkForPayement = $checkForPayement;
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): self
+    {
+        $this->stripeSessionId = $stripeSessionId;
 
         return $this;
     }

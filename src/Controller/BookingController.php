@@ -118,7 +118,7 @@ class BookingController extends AbstractController
             // dd($checkout_session);
             // dump($storageSpace);
 
-            return $this->redirectToRoute('booking_for_user');
+            return $this->redirectToRoute('booking_for_user', ['id' => $booking->getId()]);
         }
 
         return $this->render('booking/create_booking.html.twig', [

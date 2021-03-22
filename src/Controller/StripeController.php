@@ -22,7 +22,7 @@ class StripeController extends AbstractController
     {
         $storageSpace = $manager->getRepository(StorageSpace::class)->findOneBy([ 'id' => $id_storage]);
         $booking = $manager->getRepository(Booking::class)->findOneBy([ 'id' => $id_booking]);
-        dd($storageSpace);
+        //  dd($storageSpace);
         if (!$storageSpace) {
             new JsonResponse(['error' => 'not_storage']);
         }
@@ -51,13 +51,17 @@ class StripeController extends AbstractController
             'quantity' => 1,
         ];
 
+        
+
         //initialiser stripe
         Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
       
         header('Content-Type: application/json');
 
-        // afficher les info qu'on veut monterer à l'user
         
+        
+
+        // afficher les info qu'on veut monterer à l'user
         $checkout_session = Session::create([
             'customer_email' => $this->getUser()->getEmail(),
             'payment_method_types' => ['card'],
@@ -65,9 +69,17 @@ class StripeController extends AbstractController
                 $storage_for_stripe
             ],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/success.html',
+            'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
         ]);
+
+        
+        $booking->setStripeSessionId($checkout_session->id);
+        $manager->persist($booking);
+        $manager->flush();
+        
+        
+
         // echo json_encode(['id' => $checkout_session->id]);
         $response = new JsonResponse(['id' => $checkout_session->id]);
         return $response;

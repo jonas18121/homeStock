@@ -117,7 +117,7 @@
                 //console.log(response.text());
             })
             .then(function (session) {
-                //console.log(session);
+                console.log(session);
                 if(session.error == 'not_storage'){
                     window.location.replace(' {{ path("storage_space_all") }} ')
                 }else{
