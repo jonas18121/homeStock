@@ -17,7 +17,6 @@ class StripeController extends AbstractController
      */
     public function index(StorageSpace $storageSpace)
     {
-        // dd(new JsonResponse(['stripeController' => $storageSpace]));
 
         $storage_for_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
