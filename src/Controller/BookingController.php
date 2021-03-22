@@ -64,7 +64,7 @@ class BookingController extends AbstractController
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             
             $storageSpace->addBooking($booking)
-                // ->setAvailable(false) à mettre lorsque le payement est valider
+                ->setAvailable(false) //à mettre lorsque le payement est valider
             ;
 
             $booking->setDateCreatedAt(new \DateTime())
@@ -74,7 +74,7 @@ class BookingController extends AbstractController
 
             $manager->persist($storageSpace);
 
-            // $manager->flush();
+            $manager->flush();
 
 
 
