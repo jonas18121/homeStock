@@ -33,7 +33,6 @@ class StorageSpaceService
             
             $dateCurrent = new \DateTime();
 
-            
             if ($booking->getDateEndAt()) {
 
                 if ($dateCurrent >= $booking->getDateEndAt()) {
@@ -53,7 +52,6 @@ class StorageSpaceService
 
                     if ($nb_days == 0 && $booking->getFinish() == false) {
 
-
                         $storageSpaces = $repoStorage->find_one_booking_in_storage($booking->getId());
                         
                         foreach ($storageSpaces as $key => $storageSpace) {
@@ -67,11 +65,8 @@ class StorageSpaceService
                             $manager->flush();
                         }
                     }
-    
                 }
             }
-            
-        }
-        
+        } 
     }
 }

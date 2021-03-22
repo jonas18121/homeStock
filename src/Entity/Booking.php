@@ -55,6 +55,11 @@ class Booking
      */
     private $pay = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $checkForPayement = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,6 +145,18 @@ class Booking
     public function setPay(bool $pay): self
     {
         $this->pay = $pay;
+
+        return $this;
+    }
+
+    public function getCheckForPayement(): ?bool
+    {
+        return $this->checkForPayement;
+    }
+
+    public function setCheckForPayement(bool $checkForPayement): self
+    {
+        $this->checkForPayement = $checkForPayement;
 
         return $this;
     }
