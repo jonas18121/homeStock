@@ -51,8 +51,8 @@
         </div>
         <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
 
-        {# type="submit" #}
-        <button type='button' class="btn_submit" id="checkout-button" >Passer au payement </button>
+        {# type="submit" id="checkout-button" #}
+        <button type='submit' class="btn_submit"  >Reserver </button>
 
     {{ form_end(formBooking) }}
 </div>
@@ -97,7 +97,12 @@
             })
             .then(function (session) {
                 //console.log(session);
-                return stripe.redirectToCheckout({ sessionId: session.id });
+                if(session.error == 'not_storage'){
+                    window.location.replace(' {{ path("storage_space_all") }} ')
+                }else{
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                }
+                
             })
             .then(function (result) {
                 // If redirectToCheckout fails due to a browser or network

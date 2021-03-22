@@ -64,7 +64,7 @@ class BookingController extends AbstractController
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             
             $storageSpace->addBooking($booking)
-                ->setAvailable(false) //à mettre lorsque le payement est valider
+                // ->setAvailable(false) //à mettre lorsque le payement est valider
             ;
 
             $booking->setDateCreatedAt(new \DateTime())
@@ -118,7 +118,7 @@ class BookingController extends AbstractController
             // dd($checkout_session);
             // dump($storageSpace);
 
-            // return $this->redirectToRoute('booking_pay');
+            return $this->redirectToRoute('booking_for_user', ['id' => $booking->getId()]);
         }
 
         return $this->render('booking/create_booking.html.twig', [
