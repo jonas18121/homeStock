@@ -2,27 +2,41 @@
 
 namespace App\Controller;
 
-use App\Entity\StorageSpace;
+use App\Entity\Booking;
 use Stripe\Stripe;
+use App\Entity\StorageSpace;
 use Stripe\Checkout\Session;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StripeController extends AbstractController
 {
     /**
-     * @Route("/commande/create-session/{id}", name="stripe_create_session")
+     * @Route("/commande/create-session/{id_storage}/{id_booking}", name="stripe_create_session")
      */
-    public function index(StorageSpace $storageSpace)
+    public function index($id_storage, $id_booking, EntityManagerInterface $manager)
     {
+        $storageSpace = $manager->getRepository(StorageSpace::class)->findOneBy([ 'id' => $id_storage]);
+        $booking = $manager->getRepository(Booking::class)->findOneBy([ 'id' => $id_booking]);
+        dd($storageSpace);
+        if (!$storageSpace) {
+            new JsonResponse(['error' => 'not_storage']);
+        }
+
+        /* $storageSpace->setAvailable(false);
+        $manager->persist($storageSpace);
+        $manager->flush(); */
 
         $storage_for_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
-
         //quand on passera en production stripe ira chercher les images dans la vrai adresse
         // https:www/homestock.com/public/images/
+
+        
 
         // $storage_for_stripe ira dans line_items qui est dans Session::create
         $storage_for_stripe[] = [

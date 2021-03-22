@@ -41,8 +41,7 @@ class Booking
     private $storageSpace;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateEndAt;
 
@@ -50,6 +49,11 @@ class Booking
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $finish = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $pay = false;
 
     public function getId(): ?int
     {
@@ -124,6 +128,18 @@ class Booking
     public function setFinish(?bool $finish): self
     {
         $this->finish = $finish;
+
+        return $this;
+    }
+
+    public function getPay(): ?bool
+    {
+        return $this->pay;
+    }
+
+    public function setPay(bool $pay): self
+    {
+        $this->pay = $pay;
 
         return $this;
     }

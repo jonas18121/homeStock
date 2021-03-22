@@ -2,6 +2,10 @@
 
 {% block title 'Voir tous mes transactions' %}
 
+{% block javascrpit2 %}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
 
 {% block body %}
 
@@ -54,10 +58,19 @@
                         {% else %}
                                <td></td>
                         {% endif %}
+
+                        {% if booking.pay == false %}
+                            <input type='hidden' name='booking' value="{{ booking.id }}" id='booking'>
+                            <input type='hidden' name='storage' value="{{ booking.storageSpace.id }}" id='storage'>
+                            <td ><button id="checkout-button">payer la reservation</button></td>
+                        {% endif %}
                         
                         {% if booking.dateEndAt is null %}
                             <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à la réservation</td>
                         {% endif %}
+
+                        
+                        
 
                         {# 
                             si la date du jour n'ait pas égale ou n'a pas encore dépassé la date de début de la réservation, 
@@ -83,4 +96,49 @@
 
 {% endblock body %}
 
+
+{% block script %}
+    <script type="text/javascript">
+    
+        var storage = document.getElementById("storage");
+        console.log(storage.value);
+        var booking = document.getElementById("booking");
+        console.log(booking.value);
+        // Create an instance of the Stripe object with your publishable API key
+        {# var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx"); #}
+        var stripe = Stripe("pk_test_51IWMatFt4LI0nktGFU4LeoUDWwAX14vyTzFYMWPd11q7ohJjoeFOoSCe6FeSVa5QigzkorWp5dqTe9VqjswDRwll00c5dMrO46");
+        var checkoutButton = document.getElementById("checkout-button");
+        checkoutButton.addEventListener("click", function () {
+            fetch("/commande/create-session/"+ storage.value + "/" + booking.value , {
+                method: "POST",
+            })
+            .then(function (response) {
+                return response.json();
+                //console.log(response.text());
+            })
+            .then(function (session) {
+                //console.log(session);
+                if(session.error == 'not_storage'){
+                    window.location.replace(' {{ path("storage_space_all") }} ')
+                }else{
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                }
+                
+            })
+            .then(function (result) {
+                // If redirectToCheckout fails due to a browser or network
+                // error, you should display the localized error message to your
+                // customer using error.message.
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.error("Error:", error);
+            });
+        });
+    </script>
+
+{% endblock %}
 
