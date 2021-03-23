@@ -6,9 +6,12 @@ use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingService
 {
+    
     /**
      * Si le payement est ok, le storage devient indisponible 
      * et on confirme que le check de payement pour la réservation a été fait 
@@ -64,5 +67,34 @@ class BookingService
             }
         }
 
+    }
+
+    /**
+     * si le user décide de ne pas payer sa réservation dans http://127.0.0.1:8000/booking/{id}
+     * et change directement d'url on supprime sa réservation
+     */
+    public function emitBookingPaymentNo(
+        Response $response,
+        BookingRepository $repoBooking,
+        StorageSpaceRepository $repoStorage,
+        EntityManagerInterface $manager
+    )
+    {
+        $bookings = $repoBooking->findAll();
+
+        foreach ($bookings as $key => $booking) {
+
+            if ($booking->getPay() == false) {
+
+                // return header('Location: http://127.0.0.1:8000/booking/' . $booking->getId());
+                // $abstractController->redirectToRoute('booking_one_for_user', [ 'id' => $booking->getId() ]);
+
+                /* $manager->remove($booking);
+                $manager->flush(); */
+                /* if (header('Location: http://127.0.0.1:8000/booking/' . $booking->getId())) {
+                    break;
+                } */
+            }
+        }
     }
 }

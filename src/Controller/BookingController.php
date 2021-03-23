@@ -17,6 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
 {
+
+    protected $booking_trouves;
+
     /**
      * @Route("/booking", name="booking_all")
      */
@@ -30,11 +33,20 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/booking/{id}", name="booking_one", requirements={"id": "\d+"}, methods={"GET"})
+     * @Route("/booking/{id}", name="booking_one_for_user", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function get_one_booking(Booking $booking){
+    public function get_one_booking_for_user(Booking $booking){
 
-        return $this->render('booking/get_one_booking.html.twig', [
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+        
+
+        if ($this->getUser() != $booking->getLodger() ) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        return $this->render('booking/get_one_booking_for_user.html.twig', [
             'booking' => $booking
         ]);
     }
@@ -118,7 +130,7 @@ class BookingController extends AbstractController
             // dd($checkout_session);
             // dump($storageSpace);
 
-            return $this->redirectToRoute('booking_for_user', ['id' => $booking->getId()]);
+            return $this->redirectToRoute('booking_one_for_user', ['id' => $booking->getId()]);
         }
 
         return $this->render('booking/create_booking.html.twig', [
@@ -139,7 +151,7 @@ class BookingController extends AbstractController
     /**
      * @Route("/booking/user", name="booking_for_user")
      */
-    public function get_all_booking_for_user(BookingRepository $repo): Response
+    public function get_all_booking_for_user(BookingRepository $repoBooking, StorageSpaceRepository $repoStorageSpace): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
@@ -147,10 +159,29 @@ class BookingController extends AbstractController
 
         $user = $this->getUser();
 
-        $bookings = $repo->findBy([ 'lodger' => $user ]);
+
+        $bookings = $repoBooking->findBy([ 'lodger' => $user ]);
+
+           /*  $storages = $repoStorageSpace->findAll();
+            foreach ($storages as $storage) {
+                $this->booking_trouves[] = $repoBooking->findBy([ 'storageSpace' => $storage->getId() ]);
+            }
+            
+            foreach ($this->booking_trouves as $values) {
+                
+              
+                foreach ($values as  $value) {
+                    $OK[] = $value;
+                    // dump($value->getPay() == true && $value->getLodger() == $this->getUser());
+                }
+            }
+            
+            dump($OK); */
+
 
         return $this->render('booking/get_all_booking_for_user.html.twig', [
-            'bookings' => $bookings,
+            // 'bookings' => $bookings,
+            'bookings' => $bookings
         ]);
     }
 
@@ -217,6 +248,6 @@ class BookingController extends AbstractController
             $this->addFlash('success',"Votre réservation a été supprimé !");
         }
 
-        return $this->redirectToRoute('storage_space_all');
+        return $this->redirectToRoute('booking_for_user');
     }
 }

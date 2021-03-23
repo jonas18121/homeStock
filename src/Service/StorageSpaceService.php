@@ -14,13 +14,13 @@ class StorageSpaceService
 {
     /**
      * Lorsque StorageSpaceListener réagi à l'évènnement kernel.request
-     * StorageSpaceListener fait fonctionner StorageSpaceService::emitStorageCheckDate()
+     * StorageSpaceListener fait fonctionner StorageSpaceService::emitStorageCheckDateEndAt()
      * qui va rendre un espace de stockage disponible si la date de fin de réservation est passé
      * 
      * Si la date d'aujourd'hui est plus grand ou égale à la date de fin de réservation,
      * on met la propriété available de l'entité StorageSpace en true , pour qu'il soit disponible aux autres user
      */
-    public function emitStorageCheckDate(
+    public function emitStorageCheckDateEndAt(
         Request $response, 
         StorageSpaceRepository $repoStorage, 
         BookingRepository $repoBooking,
@@ -68,5 +68,15 @@ class StorageSpaceService
                 }
             }
         } 
+    }
+
+    /**
+     * Si la date d'aujourd'hui est plus grand que la date de début de la réservation 
+     * et que la date de début de la réservation, n'est toujour pas payé. 
+     * alors, on supprime la réservation 
+     */
+    public function emitStorageCheckDateStartAt()
+    {
+
     }
 }

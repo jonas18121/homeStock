@@ -7,7 +7,10 @@ use App\Service\BookingService;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingListener {
 
@@ -32,5 +35,10 @@ class BookingListener {
     public function processBooking(RequestEvent $event)
     {
         $this->bookingService->emitBookingPaymentOk($event->getRequest(), $this->repoBooking, $this->repoStorage, $this->manager);
+    }
+
+    public function processBookingPayementNo(ResponseEvent $event)
+    {
+        $this->bookingService->emitBookingPaymentNo($event->getResponse(), $this->repoBooking, $this->repoStorage, $this->manager);
     }
 }

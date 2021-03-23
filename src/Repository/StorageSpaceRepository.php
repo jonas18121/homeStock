@@ -52,7 +52,7 @@ class StorageSpaceRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->select('s, b')
-            ->leftJoin('s.booking', 'b')
+            ->leftJoin('s.bookings', 'b')
             ->getQuery()
             ->getResult();
         ;
@@ -69,4 +69,5 @@ class StorageSpaceRepository extends ServiceEntityRepository
             ->getResult();
         ;
     }
+
 }
