@@ -30,7 +30,6 @@ class PayementSuccessController extends AbstractController
         $booking->setPay(true);
         $this->entityManager->persist($booking);
         $this->entityManager->flush();
-        dump($booking);
         
         return $this->render('payement_success/success.html.twig', [
             'booking' => $booking,

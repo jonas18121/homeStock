@@ -15,6 +15,8 @@
         <h1>Voir tous mes transactions</h1>
 
         
+
+        
         <table class="table">
             <thead>
                 <tr>
@@ -35,7 +37,7 @@
 
             <tbody>
                 {% for booking in bookings %}
-
+                    
                     <tr>
                         <td>{{ booking.storageSpace.title }}</td>
                         <td>
@@ -59,10 +61,14 @@
                                <td></td>
                         {% endif %}
 
-                        {% if booking.pay == false %}
+                        {# {% if booking.pay == false %}
                             <input type='hidden' name='booking' value="{{ booking.id }}" id='booking'>
                             <input type='hidden' name='storage' value="{{ booking.storageSpace.id }}" id='storage'>
                             <td ><button id="checkout-button">payer la reservation</button></td>
+                        {% endif %} #}
+
+                        {% if booking.pay == false and booking.storageSpace.available == true %}
+                            <td ><button ><a href="{{ path('booking_one_for_user', { 'id' : booking.id }) }}" >Allé payer la reservation</a></button></td>
                         {% endif %}
                         
                         {% if booking.dateEndAt is null %}
@@ -73,19 +79,29 @@
                         
 
                         {# 
-                            si la date du jour n'ait pas égale ou n'a pas encore dépassé la date de début de la réservation, 
+                            si la date du jour n'est pas égale ou n'a pas encore dépassé la date de début de la réservation, 
+                            et que le storage est encore disponible,
+                            ou que la réservation n'est pas encore payé
                             on permet la suppréssion de cette réservation,
                             passé la date, l'user ne pourra plus supprimer la réservation   
                         #}
-                        {% if booking.dateStartAt > date() %}
-                            <td>
-                                <form method="POST" action="{{ path('booking_delete', { 'id' : booking.id }) }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre réservation ?')">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                                    <button> Supprimer </button>
-                                </form>
-                            </td>
+                        {% if booking.storageSpace.available == true %}
+
+                            {% if booking.dateStartAt > date() or booking.pay == false %}
+                                <td>
+                                    <form method="POST" action="{{ path('booking_delete', { 'id' : booking.id }) }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre réservation ?')">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                                        <button> Supprimer </button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                        {% else %}
+                            <td>Indisponible</td>
                         {% endif %}
+
+                        
+                        
                         
                     </tr>
                 {% endfor %}

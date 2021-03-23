@@ -38,14 +38,11 @@ services:
     storage.space.check.date:
         class: App\Service\StorageSpaceService
 
-
     storage.space.check.date.listener:
         class: App\EventListener\StorageSpaceListener
-
         arguments: 
             - "@storage.space.check.date"
             # - "@storage.space.repository"
-        
         tags:
             - {
                 name: kernel.event_listener,
@@ -59,13 +56,22 @@ services:
 
     booking.payement.ok.listener:
         class: App\EventListener\BookingListener
-
         arguments:
             - "@booking.service"
-
         tags:
             - {
                 name: kernel.event_listener,
                 event: kernel.request,
                 method: processBooking
+            }
+
+    booking.payement.no.listener:
+        class: App\EventListener\BookingListener
+        arguments:
+            - "@booking.service"
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.response,
+                method: processBookingPayementNo
             }
