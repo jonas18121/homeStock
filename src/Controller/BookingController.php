@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use Stripe\Stripe;
 use App\Entity\Booking;
 use App\Form\BookingType;
+use Stripe\Checkout\Session;
 use App\Form\BookingFinishType;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
 {
+
+    protected $booking_trouves;
+
     /**
      * @Route("/booking", name="booking_all")
      */
@@ -28,11 +33,15 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/booking/{id}", name="booking_one", requirements={"id": "\d+"}, methods={"GET"})
+     * @Route("/booking/{id}", name="booking_one_for_user", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function get_one_booking(Booking $booking){
+    public function get_one_booking_for_user(Booking $booking){
 
-        return $this->render('booking/get_one_booking.html.twig', [
+        if (!$this->getUser() || $this->getUser() != $booking->getLodger()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        return $this->render('booking/get_one_booking_for_user.html.twig', [
             'booking' => $booking
         ]);
     }
@@ -61,8 +70,8 @@ class BookingController extends AbstractController
 
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             
-            $storageSpace->setAvailable(false)
-                ->addBooking($booking)
+            $storageSpace->addBooking($booking)
+                // ->setAvailable(false) //à mettre lorsque le payement est valider
             ;
 
             $booking->setDateCreatedAt(new \DateTime())
@@ -74,18 +83,24 @@ class BookingController extends AbstractController
 
             $manager->flush();
 
-            return $this->redirectToRoute('storage_space_all');
+            return $this->redirectToRoute('booking_one_for_user', ['id' => $booking->getId()]);
+           
         }
 
         return $this->render('booking/create_booking.html.twig', [
-            'formBooking' => $formBooking->createView()
+            'formBooking' => $formBooking->createView(),
+            'storageSpace' => $storageSpace
         ]);
     }
 
     /**
      * @Route("/booking/user", name="booking_for_user")
      */
-    public function get_all_booking_for_user(BookingRepository $repo): Response
+    public function get_all_booking_for_user(
+        BookingRepository $repoBooking, 
+        StorageSpaceRepository $repoStorageSpace,
+        EntityManagerInterface $manager
+    ): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
@@ -93,10 +108,28 @@ class BookingController extends AbstractController
 
         $user = $this->getUser();
 
-        $bookings = $repo->findBy([ 'lodger' => $user ]);
+        $bookings = $repoBooking->findBy([ 'lodger' => $user ]);
+
+        // s'il y a une réservation qui n'a pas été payé,
+        // on le supprime de la bdd et du tableau $bookings
+        $newBookings = [];
+        foreach ($bookings as $booking) {
+
+            if ($booking->getPay() == false) {
+                
+                $manager->remove($booking);
+                $manager->flush();
+
+                unset($booking);
+            }
+            if (isset($booking)) {
+                $newBookings[] = $booking;
+            }
+        }
 
         return $this->render('booking/get_all_booking_for_user.html.twig', [
-            'bookings' => $bookings,
+            // 'bookings' => $bookings,
+            'bookings' => $newBookings
         ]);
     }
 
@@ -163,6 +196,6 @@ class BookingController extends AbstractController
             $this->addFlash('success',"Votre réservation a été supprimé !");
         }
 
-        return $this->redirectToRoute('storage_space_all');
+        return $this->redirectToRoute('booking_for_user');
     }
 }

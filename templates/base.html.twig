@@ -12,6 +12,10 @@
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
+
+        {% block javascrpit2 %}
+            <script src="https://js.stripe.com/v3/"></script>
+        {% endblock %}
     </head>
     <body>
         <header>
@@ -38,5 +42,6 @@
         </header>
 
         {% block body %}{% endblock %}
+        {% block script %}{% endblock %}
     </body>
 </html>

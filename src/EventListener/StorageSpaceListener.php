@@ -36,6 +36,6 @@ class StorageSpaceListener {
      */
     public function processStorage(RequestEvent $event)
     {
-        $this->storageSpaceService->emitStorageCheckDate($event->getRequest(), $this->storageSpaceRepository, $this->bookingRepository, $this->manager);
+        $this->storageSpaceService->emitStorageCheckDateEndAt($event->getRequest(), $this->storageSpaceRepository, $this->bookingRepository, $this->manager);
     }
 }

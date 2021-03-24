@@ -3,16 +3,30 @@
 {% block title 'Créer un espace de stockage' %}
 
 
+{% block javascrpit2 %}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
 
-{% block stylesheets %}
+{# {% block stylesheets %}
 
     {{ parent() }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-{% endblock %}
+{% endblock %} #}
 {% block body %}
 <div class="form_container">
 
+
     <h1>Faire une réservation</h1>
+
+    <div class="product">
+        {# <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" /> #}
+
+        <div class="description">
+            <h3>{{storageSpace.title }}</h3>
+            <h4>{{storageSpace.space }} m2</h4>
+            <h5>{{ storageSpace.price }} €/mois</h5>
+        </div>
+    </div>
 
     {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
 
@@ -35,19 +49,21 @@
             <small>{{ form_errors(formBooking.dateStartAt) }} </small>
 
         </div>
+        <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
 
-        <button type="submit" class="btn_submit">Réserver</button>
+        {# type="submit" id="checkout-button" #}
+        <button type='submit' class="btn_submit" >Reserver </button>
 
     {{ form_end(formBooking) }}
 </div>
 {% endblock body %}
 
-{% block javascripts %}
+{# {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script>
-    /*
+    <script> #}
+   {#  /*
     $(document).ready(function(){
         // var datesDisabled = $('.js-datepicker').attr('data-ates-disabled')
         //var datesDisabled = $('.js-datepicker').val()
@@ -58,7 +74,50 @@
             datesDisabled: ['16/03/2021', '17/03/2021','18/03/2021','19/03/2021','20/03/2021','21/03/2021','22/03/2021']
         });
     });
-    */
+    */ #}
+{#     </script>
+{% endblock %} #}
+
+{% block script %}
+    <script type="text/javascript">
+    
+        var storage = document.getElementById("storage");
+        console.log(storage.value);
+        // Create an instance of the Stripe object with your publishable API key
+        {# var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx"); #}
+        var stripe = Stripe("pk_test_51IWMatFt4LI0nktGFU4LeoUDWwAX14vyTzFYMWPd11q7ohJjoeFOoSCe6FeSVa5QigzkorWp5dqTe9VqjswDRwll00c5dMrO46");
+        var checkoutButton = document.getElementById("checkout-button");
+        checkoutButton.addEventListener("click", function () {
+            fetch("/commande/create-session/"+ storage.value , {
+                method: "POST",
+            })
+            .then(function (response) {
+                return response.json();
+                //console.log(response.text());
+            })
+            .then(function (session) {
+                //console.log(session);
+                if(session.error == 'not_storage'){
+                    window.location.replace(' {{ path("storage_space_all") }} ')
+                }else{
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                }
+                
+            })
+            .then(function (result) {
+                // If redirectToCheckout fails due to a browser or network
+                // error, you should display the localized error message to your
+                // customer using error.message.
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.error("Error:", error);
+            });
+        });
     </script>
+
 {% endblock %}
 
