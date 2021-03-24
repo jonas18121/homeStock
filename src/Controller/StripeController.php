@@ -51,8 +51,6 @@ class StripeController extends AbstractController
             'quantity' => 1,
         ];
 
-        
-
         //initialiser stripe
         Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
       
