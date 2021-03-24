@@ -67,9 +67,9 @@
                             <td ><button id="checkout-button">payer la reservation</button></td>
                         {% endif %} #}
 
-                        {% if booking.pay == false and booking.storageSpace.available == true %}
+                        {# {% if booking.pay == false and booking.storageSpace.available == true %}
                             <td ><button ><a href="{{ path('booking_one_for_user', { 'id' : booking.id }) }}" >Allé payer la reservation</a></button></td>
-                        {% endif %}
+                        {% endif %} #}
                         
                         {% if booking.dateEndAt is null %}
                             <td><a href="{{ path('booking_finish', { 'id' : booking.id }) }}">Mettre fin à la réservation</td>
@@ -97,7 +97,7 @@
                                 </td>
                             {% endif %}
                         {% else %}
-                            <td>Indisponible</td>
+                            {# <td>Indisponible</td> #}
                         {% endif %}
 
                         

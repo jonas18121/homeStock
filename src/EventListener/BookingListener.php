@@ -36,9 +36,4 @@ class BookingListener {
     {
         $this->bookingService->emitBookingPaymentOk($event->getRequest(), $this->repoBooking, $this->repoStorage, $this->manager);
     }
-
-    public function processBookingPayementNo(ResponseEvent $event)
-    {
-        $this->bookingService->emitBookingPaymentNo($event->getResponse(), $this->repoBooking, $this->repoStorage, $this->manager);
-    }
 }
