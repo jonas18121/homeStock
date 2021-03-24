@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class PayementSuccessController extends AbstractController
+class PayementCancelController extends AbstractController
 {
     private $entityManager;
 
@@ -16,9 +16,9 @@ class PayementSuccessController extends AbstractController
     {
         $this->entityManager = $manager;
     }
-
+    
     /**
-     * @Route("/commande/success/{stripeSessionId}", name="payement_success")
+     * @Route("/commande/erreur/{stripeSessionId}", name="payement_cancel")
      */
     public function index($stripeSessionId): Response
     {
@@ -28,12 +28,10 @@ class PayementSuccessController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $booking->setPay(true);
-        $this->entityManager->persist($booking);
+        $this->entityManager->remove($booking);
         $this->entityManager->flush();
-        
-        return $this->render('payement_success/success.html.twig', [
-            'booking' => $booking,
-        ]);
+
+
+        return $this->render('payement_cancel/cancel.html.twig');
     }
 }
