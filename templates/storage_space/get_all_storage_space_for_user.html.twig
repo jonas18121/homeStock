@@ -9,10 +9,6 @@
     <section>
         <h1>Voir tous mes espaces de stockage</h1>
 
-        <pre>
-            {{ dump(storageSpaces) }}
-        </pre>
-
         <table class="table">
             <thead>
                 <tr>
@@ -27,10 +23,12 @@
                 </tr>
             </thead>
 
-            
-
             <tbody>
                 {% for storageSpace in storageSpaces %}
+
+                <pre>
+                    {{ dump(storageSpace.bookings) }}
+                </pre>
                     <tr>
                         <td>{{ storageSpace.title }}</td>
                         <td>
@@ -45,8 +43,8 @@
                             {{ storageSpace.owner.lastName }}
                         </td>
                         <td>{{ storageSpace.price }}€/mois</td>
-                        {# <td>{{ dateCreatedAt | date('d/m/Y H:i') }}</td> #}
-                        {# <td>{{ dateStartAt | date('d/m/Y') }}</td> #}
+                        <td>{{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }}</td>
+                        {# <td>{{ storageSpace.bookings.dateStartAt | date('d/m/Y') }}</td> #}
                     </tr>
                 {% endfor %}
             </tbody>
