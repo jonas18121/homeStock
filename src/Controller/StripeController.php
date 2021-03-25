@@ -42,7 +42,7 @@ class StripeController extends AbstractController
         $storage_for_stripe[] = [
             'price_data' => [
                 'currency' => 'eur',
-                'unit_amount' => $storageSpace->getPrice()*100,
+                'unit_amount' => $storageSpace->getPriceByMonth()*100,
                 'product_data' => [
                     'name' => $storageSpace->getTitle(),
                     'images' => [ $YOUR_DOMAIN . "/images/storageSpace/" . $storageSpace->getImages() ],
