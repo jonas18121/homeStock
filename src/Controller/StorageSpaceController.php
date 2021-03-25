@@ -54,9 +54,7 @@ class StorageSpaceController extends AbstractController
     {
         $storageSpace = $repo->find($id);
 
-
         // Partie commentaire
-
         $comment = new Comment();
 
         $formComment = $this->createForm(CommentType::class, $comment);
@@ -97,6 +95,22 @@ class StorageSpaceController extends AbstractController
     }
 
     /**
+     * calcule le prix par mois
+     */
+    public function price_by_month(StorageSpace $storageSpace)
+    {
+        $firstDayOfThisMonth = new DateTime('first day of this month');
+        $lastDayOfThisMonth = new DateTime('last day of this month');
+
+        $nbDays = $firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a') ;
+        $nbDays += '1';
+
+        $priceByMonth = $storageSpace->getPriceByDays() * $nbDays;
+
+        return $priceByMonth;
+    }
+
+    /**
      * @Route("/storageSpace/add", name="storage_space_add")
      */
     public function create_storage_space(Request $request, EntityManagerInterface $manager)
@@ -113,9 +127,12 @@ class StorageSpaceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
+            $priceByMonth = $this->price_by_month($storageSpace);
+
             $storageSpace->setDateCreatedAt(new \DateTime())
                 ->setOwner($this->getUser())
                 ->setAvailable(true)
+                ->setPriceByMonth($priceByMonth)
             ;
 
             $manager->persist($storageSpace);
@@ -144,6 +161,13 @@ class StorageSpaceController extends AbstractController
 
         
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $priceByMonth = $this->price_by_month($storageSpace);
+
+            if($storageSpace->getPriceByMonth() != $priceByMonth)
+            {
+                $storageSpace->setPriceByMonth($priceByMonth);
+            } 
             
             $manager->persist($storageSpace);
             $manager->flush();

@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class StorageSpaceType extends AbstractType
@@ -50,9 +51,9 @@ class StorageSpaceType extends AbstractType
                     'placeholder' => 'Espace en m2 '
                 ]
             ])
-            ->add('price', IntegerType::class, [
+            ->add('priceByDays', MoneyType::class, [
                 'attr' => [
-                    'placeholder' => 'Prix '
+                    'placeholder' => 'Prix par jours'
                 ]
             ])
             ->add('images')

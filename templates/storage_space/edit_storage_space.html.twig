@@ -117,16 +117,16 @@
         <div class="form_group">
 
             <div class="form-error">
-                {{ form_errors(formStorageSpace.price) }}
+                {{ form_errors(formStorageSpace.priceByDays) }}
             </div>
 
-            <label for="inputPrice">Price : </label>
+            <label for="inputPrice">Prix par jours : </label>
 
             <div>
-                {{ form_widget(formStorageSpace.price, {attr : {class : 'form_control' }} ) }}
+                {{ form_widget(formStorageSpace.priceByDays, {attr : {class : 'form_control' }} ) }}
             </div>
             
-            <small>{{ form_errors(formStorageSpace.price) }} </small>
+            <small>{{ form_errors(formStorageSpace.priceByDays) }} </small>
         </div>
 
         <div class="form_group">
