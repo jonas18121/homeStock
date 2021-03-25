@@ -18,6 +18,10 @@
 
             {% for storageSpace in storageSpaces %}
 
+            <pre>
+                {{ dump(storageSpace) }}
+            </pre>
+
                 {% if storageSpace.available == true %}
 
                     <ul>
@@ -36,7 +40,8 @@
                             </li>
                             <li> {{ storageSpace.type }} </li>
                             <li> {{ storageSpace.space }} m2</li>
-                            <li> {{ storageSpace.price }} € / mois</li>
+                            <li> {{ storageSpace.priceByDays | number_format(2, '.', ' ') }} € / jours</li>
+                            <li> {{ storageSpace.priceByMonth | number_format(2, '.', ' ') }} € / mois</li>
                             <li>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
                         </a>
                     </ul>
