@@ -24,6 +24,7 @@
                     <li><a href='{{ path('storage_space_all') }}' >Accueil</a></li>
 
                     {% if app.user %}
+                        <li><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></li>
                         <li>
                             Tableau de bord
                             <ul>

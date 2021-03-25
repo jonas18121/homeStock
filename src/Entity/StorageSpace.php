@@ -45,9 +45,9 @@ class StorageSpace
     private $space;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
-    private $price;
+    private $priceByDays;
 
     /**
      * @ORM\Column(type="datetime")
@@ -90,6 +90,11 @@ class StorageSpace
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="storageSpace", orphanRemoval=true)
      */
     private $bookings;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $priceByMonth;
 
     public function __construct()
     {
@@ -162,14 +167,14 @@ class StorageSpace
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPriceByDays(): ?float
     {
-        return $this->price;
+        return $this->priceByDays;
     }
 
-    public function setPrice(int $price): self
+    public function setPriceByDays(float $priceByDays): self
     {
-        $this->price = $price;
+        $this->priceByDays = $priceByDays;
 
         return $this;
     }
@@ -302,6 +307,18 @@ class StorageSpace
                 $booking->setStorageSpace(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPriceByMonth(): ?float
+    {
+        return $this->priceByMonth;
+    }
+
+    public function setPriceByMonth(?float $priceByMonth): self
+    {
+        $this->priceByMonth = $priceByMonth;
 
         return $this;
     }
