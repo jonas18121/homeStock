@@ -54,7 +54,7 @@
     const manageBillingForm = document.querySelector('#manage-billing-form');
     manageBillingForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    fetch('/customer-portal', {
+    fetch('/customer/portal', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',

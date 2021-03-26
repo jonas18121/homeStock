@@ -5,11 +5,13 @@ namespace App\Controller;
 use Stripe\Price;
 use Stripe\Stripe;
 use Stripe\Product;
+use Stripe\Customer;
 use App\Entity\Booking;
 use App\Entity\StorageSpace;
 use Stripe\Checkout\Session;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +24,8 @@ class StripeController extends AbstractController
      */
     public function index($id_storage, $id_booking, EntityManagerInterface $manager)
     {
+        $user = $this->getUser();
+
         $storageSpace = $manager->getRepository(StorageSpace::class)->findOneBy([ 'id' => $id_storage]);
         $booking = $manager->getRepository(Booking::class)->findOneBy([ 'id' => $id_booking]);
           
@@ -32,25 +36,27 @@ class StripeController extends AbstractController
         
 
         $storage_for_subscription = [];
-        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+
         //quand on passera en production stripe ira chercher les images dans la vrai adresse
         // https:www/homestock.com/public/images/
+        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
 
         
-
-        
-
         //initialiser stripe
         Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
       
-        // header('Content-Type: application/json');
+        // création du client
+        $customer = Customer::create([ 'email' => $user->getEmail() ]);
+        $user->setCustomerId($customer->id);
+        // dd($customer);
 
+        // création du produit
         $stripe_product = Product::create([
             'name' => $storageSpace->getTitle(),
             'type' => 'service',
-          ]);
-        //    dd($stripe_product->id);
-
+        ]);
+          
+        // création du prix
         $stripe_price =  Price::create([
             'nickname' => 'prélèvement tous les mois',
             'product' => $stripe_product->id,
@@ -69,9 +75,11 @@ class StripeController extends AbstractController
         ];
           
 
-        // afficher les info qu'on veut monterer à l'user
+        // afficher les info qu'on veut montrer à l'user
+        // création de la session
         $checkout_session = Session::create([
-            'customer_email' => $this->getUser()->getEmail(),
+            // 'customer_email' => $this->getUser()->getEmail(),
+            'customer' => $customer->id,
             'payment_method_types' => ['card'],
             'line_items' => [
                 $storage_for_subscription
@@ -80,11 +88,6 @@ class StripeController extends AbstractController
             'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
-
-        // dd($storageSpace);
-
-
-
         
         $booking->setStripeSessionId($checkout_session->id);
         $manager->persist($booking);
@@ -97,7 +100,20 @@ class StripeController extends AbstractController
         return $response;
     }
 
-    
+    /**
+     * @Route("/customer/portal", name="/customer_portal")
+     */
+    public function customer_portal(Request $request)
+    {
+        $user = $this->getUser();
+        //initialiser stripe
+        Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
+        
+        $checkout_session = Session::retrieve($user->getCustomerId());
+        $stripe_customer_id = $checkout_session->customer;
+        dd($checkout_session);
+
+    }
 
 
 

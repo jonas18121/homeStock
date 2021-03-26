@@ -79,6 +79,11 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $customerId;
+
     public function __construct()
     {
         $this->storageSpaces = new ArrayCollection();
@@ -333,6 +338,18 @@ class User implements UserInterface
     public function setConfirmPassword($confirm_password)
     {
         $this->confirm_password = $confirm_password;
+
+        return $this;
+    }
+
+    public function getCustomerId(): ?string
+    {
+        return $this->customerId;
+    }
+
+    public function setCustomerId(?string $customerId): self
+    {
+        $this->customerId = $customerId;
 
         return $this;
     }
