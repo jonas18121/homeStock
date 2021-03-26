@@ -103,16 +103,32 @@ class StripeController extends AbstractController
     /**
      * @Route("/customer/portal", name="/customer_portal")
      */
-    public function customer_portal(Request $request)
+    public function customer_portal(EntityManagerInterface $manager)
     {
         $user = $this->getUser();
+
+        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+
         //initialiser stripe
         Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
         
-        $checkout_session = Session::retrieve($user->getCustomerId());
-        $stripe_customer_id = $checkout_session->customer;
-        dd($checkout_session);
+        $customer = Customer::retrieve($user->getCustomerId());
+        $customer->save();
 
+        $booking = $manager->getRepository(Booking::class)->findOneBy([ 'lodger' => $user->getId() ]);
+
+        $checkout_session = Session::retrieve($booking->getStripeSessionId());
+        $stripe_customer_id = $checkout_session->customer;
+        
+
+        $session = \Stripe\BillingPortal\Session::create([
+            'customer' => $stripe_customer_id,
+            'return_url' => $YOUR_DOMAIN,
+        ]);
+        // dd($session);
+
+        $response = new JsonResponse(['id' => $session->id]);
+        return $response;
     }
 
 
