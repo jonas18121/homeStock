@@ -11,6 +11,7 @@ use App\Entity\StorageSpace;
 use Stripe\Checkout\Session;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Plan;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,11 +51,22 @@ class StripeController extends AbstractController
         $user->setCustomerId($customer->id);
         // dd($customer);
 
+        
+
         // création du produit
         $stripe_product = Product::create([
             'name' => $storageSpace->getTitle(),
             'type' => 'service',
         ]);
+
+        // créer un plan
+        /* $stripe_plan = Plan::create([
+            'amount' => $storageSpace->getPriceByMonth()*100,
+            'currency' => 'eur',
+            'interval' => 'month',
+            'product' => $stripe_product->id,
+        ]); */
+
           
         // création du prix
         $stripe_price =  Price::create([
@@ -73,6 +85,23 @@ class StripeController extends AbstractController
             'price' => $stripe_price->id,
             'quantity' => 1,
         ];
+
+         // creer un abonnement
+         /* $subscription = \Stripe\Subscription::create([
+            'customer' => $customer->id,
+            'items' => [[
+              'price_data' => [
+                'unit_amount' => $storageSpace->getPriceByMonth()*100,
+                'currency' => 'eur',
+                'product' => $stripe_product->id,
+                'recurring' => [
+                  'interval' => 'month',
+                ],
+              ],
+            ]],
+          ]); */
+
+        //   dd($subscription);
           
 
         // afficher les info qu'on veut montrer à l'user
@@ -88,6 +117,8 @@ class StripeController extends AbstractController
             'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
+
+       
         
         $booking->setStripeSessionId($checkout_session->id);
         $manager->persist($booking);
@@ -119,15 +150,33 @@ class StripeController extends AbstractController
 
         $checkout_session = Session::retrieve($booking->getStripeSessionId());
         $stripe_customer_id = $checkout_session->customer;
+
+        // configuré le portal
+        $configuration = \Stripe\BillingPortal\Configuration::create([
+            'business_profile' => [
+                'privacy_policy_url' => 'https://example.com/privacy',
+                'terms_of_service_url' => 'https://example.com/terms',
+              ],
+            'features' => [
+              'invoice_history' => ['enabled' => true],
+              'subscription_cancel' => [
+                    'enabled' => true,
+                    "mode" => "at_period_end",
+              ]
+            ],
+            
+        ]);
+        // dd($configuration);
         
 
         $session = \Stripe\BillingPortal\Session::create([
+            // 'configuration' => $configuration,
             'customer' => $stripe_customer_id,
             'return_url' => $YOUR_DOMAIN,
         ]);
-        // dd($session);
+        //  dump($session);
 
-        $response = new JsonResponse(['id' => $session->id]);
+        $response = new JsonResponse(['url' => $session->url]);
         return $response;
     }
 
