@@ -10,8 +10,8 @@
 <div>
     <pre></pre>
 
-    <form id="manage-billing-form">
-        <button>Gérer la facturation</button>
+    <form id="manage-billing-form" method='POST'>
+        <button type='submit'>Gérer la facturation</button>
     </form>
 </div>
 
@@ -29,27 +29,28 @@
     let customerId;
 
     if (sessionId) {
-    fetch("/checkout-session?sessionId=" + sessionId)
-        .then(function(result){
-        return result.json()
-        })
-        .then(function(session){
-        // We store the customer ID here so that we can pass to the
-        // server and redirect to customer portal. Note that, in practice
-        // this ID should be stored in your database when you receive
-        // the checkout.session.completed event. This demo does not have
-        // a database, so this is the workaround. This is *not* secure.
-        // You should use the Stripe Customer ID from the authenticated
-        // user on the server.
-        customerId = session.customer;
+        fetch("/checkout-session?sessionId=" + sessionId)
+            .then(function(result){
+            return result.json()
+            })
+            .then(function(session){
+            // We store the customer ID here so that we can pass to the
+            // server and redirect to customer portal. Note that, in practice
+            // this ID should be stored in your database when you receive
+            // the checkout.session.completed event. This demo does not have
+            // a database, so this is the workaround. This is *not* secure.
+            // You should use the Stripe Customer ID from the authenticated
+            // user on the server.
+            customerId = session.customer;
 
-        var sessionJSON = JSON.stringify(session, null, 2);
-        document.querySelector("pre").textContent = sessionJSON;
-        })
-        .catch(function(err){
-            console.log('Error when fetching Checkout session', err);
-        });
-    }
+            var sessionJSON = JSON.stringify(session, null, 2);
+            document.querySelector("pre").textContent = sessionJSON;
+            })
+            .catch(function(err){
+                console.log('Error when fetching Checkout session', err);
+            })
+        ;
+    } 
 
     const manageBillingForm = document.querySelector('#manage-billing-form');
     manageBillingForm.addEventListener('submit', function(e) {
@@ -65,7 +66,7 @@
     })
         .then((response) => response.json())
         .then((data) => {
-        window.location.href = data.url;
+            window.location.href = data.url;
         })
         .catch((error) => {
         console.error('Error:', error);
