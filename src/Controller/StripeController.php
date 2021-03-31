@@ -12,6 +12,7 @@ use Stripe\Checkout\Session;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Plan;
+use Stripe\Subscription;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,14 +35,11 @@ class StripeController extends AbstractController
             new JsonResponse(['error' => 'not_storage']);
         }
 
-        
-
         $storage_for_subscription = [];
 
         //quand on passera en production stripe ira chercher les images dans la vrai adresse
         // https:www/homestock.com/public/images/
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
-
         
         //initialiser stripe
         Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
@@ -49,9 +47,6 @@ class StripeController extends AbstractController
         // création du client
         $customer = Customer::create([ 'email' => $user->getEmail() ]);
         $user->setCustomerId($customer->id);
-        // dd($customer);
-
-        
 
         // création du produit
         $stripe_product = Product::create([
@@ -66,7 +61,6 @@ class StripeController extends AbstractController
             'interval' => 'month',
             'product' => $stripe_product->id,
         ]); */
-
           
         // création du prix
         $stripe_price =  Price::create([
@@ -100,8 +94,6 @@ class StripeController extends AbstractController
               ],
             ]],
           ]); */
-
-        //   dd($subscription);
           
 
         // afficher les info qu'on veut montrer à l'user
@@ -118,14 +110,10 @@ class StripeController extends AbstractController
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
 
-       
-        
         $booking->setStripeSessionId($checkout_session->id);
         $manager->persist($booking);
         $manager->flush();
-        
-        
-
+    
         // echo json_encode(['id' => $checkout_session->id]);
         $response = new JsonResponse(['id' => $checkout_session->id]);
         return $response;
@@ -145,53 +133,60 @@ class StripeController extends AbstractController
         
         $customer = Customer::retrieve($user->getCustomerId());
         $customer->save();
-
         
         $booking = $manager->getRepository(Booking::class)->findOneBy([ 'lodger' => $user->getId() ], ['id' => 'DESC']);
-        // dd($booking);
 
         $checkout_session = Session::retrieve($booking->getStripeSessionId());
         $stripe_customer_id = $checkout_session->customer;
 
-        // configuré le portal
-        /* $configuration = \Stripe\BillingPortal\Configuration::create([
-            'business_profile' => [
-                'privacy_policy_url' => 'https://example.com/privacy',
-                'terms_of_service_url' => 'https://example.com/terms',
-              ],
-            'features' => [
-              'invoice_history' => ['enabled' => true],
-              'subscription_cancel' => [
-                    'enabled' => true,
-                    "mode" => "immediately",
-              ],
-              'subscription_pause' => [
-                "enabled" => false
-              ]
-            ],
-            
-        ]); */
-        // dd($configuration);
-        
-
         $session = \Stripe\BillingPortal\Session::create([
-            // 'configuration' => $configuration,
             'customer' => $stripe_customer_id,
-            'return_url' => $YOUR_DOMAIN,
+            'return_url' => $YOUR_DOMAIN . '/commande/return/' . $checkout_session->subscription . '/' . $booking->getId(),
         ]);
-        //  dump($session);
 
         $response = new JsonResponse(['url' => $session->url]);
         return $response;
     }
 
 
+    /**
+     * @Route("/commande/return/{stripeSubscriptionId}/{bookingId}", name="payement_return")
+     */
+    public function returnSubscription($stripeSubscriptionId, $bookingId, EntityManagerInterface $manager): Response
+    {
+        //initialiser stripe
+        Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
+        
+        $stripe_plan = Subscription::retrieve($stripeSubscriptionId);
+
+        if($stripe_plan->cancel_at_period_end === true){
+            $booking = $manager->getRepository(Booking::class)->findOneBy([ 'id' => $bookingId ]);
+            $product = $manager->getRepository(StorageSpace::class)->findOneBy([ 'id' => $booking->getStorageSpace()->getId() ]);
+            
+            $date = new \DateTime();
+            $date->setTimestamp($stripe_plan->cancel_at);
+
+            $product->setAvailable(true);
+            $manager->persist($product);
+
+            $booking->setDateEndAt($date);
+            $booking->setFinish(true);
+            $manager->persist($booking);
+
+            $manager->flush();
+        }
+        else{
+            return $this->redirectToRoute('storage_space_all');
+        }
+
+        return $this->render('payement_return/return.html.twig'); 
+    }
+
 
     
 
 
 
-// _JD531jupzieQsxnAmcpps7XK7zXwi9j
 
 
 
