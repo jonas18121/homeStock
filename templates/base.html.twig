@@ -28,6 +28,12 @@
                         <li>
                             Tableau de bord
                             <ul>
+                                <li>
+                                    <form id="manage-billing-form" method='POST'>
+                                        <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
+                                        <button type='submit'>Gérer mon abonnement actuel</button>
+                                    </form>
+                                </li>
                                 <li><a href="{{ path('booking_for_user') }}">Mes payements</a></li>
                                 <li><a href="{{ path('storage_space_for_user') }}">Mes annonces d'espace de stockage</a></li>
                             </ul>
@@ -44,5 +50,37 @@
 
         {% block body %}{% endblock %}
         {% block script %}{% endblock %}
+        {% block stripe_success %}{% endblock %}
     </body>
+    {% block script_facture %}
+
+        <script>
+            let sessionId = document.getElementById('session_id').value;
+
+            const manageBillingForm = document.querySelector('#manage-billing-form');
+            manageBillingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('/customer/portal', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sessionId: sessionId
+                }),
+            })
+                .then((response) => {
+                    
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                    window.location.href = data.url;
+                })
+                .catch((error) => {
+                console.error('Error:', error);
+                });
+            });
+        </script>
+    {% endblock %}
 </html>
