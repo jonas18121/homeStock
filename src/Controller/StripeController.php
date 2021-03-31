@@ -114,7 +114,7 @@ class StripeController extends AbstractController
                 $storage_for_subscription
             ],
             'mode' => 'subscription',
-            'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
+            'success_url' => $YOUR_DOMAIN . '/commande/success/stripeSessionId={CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
 
@@ -146,13 +146,15 @@ class StripeController extends AbstractController
         $customer = Customer::retrieve($user->getCustomerId());
         $customer->save();
 
-        $booking = $manager->getRepository(Booking::class)->findOneBy([ 'lodger' => $user->getId() ]);
+        
+        $booking = $manager->getRepository(Booking::class)->findOneBy([ 'lodger' => $user->getId() ], ['id' => 'DESC']);
+        // dd($booking);
 
         $checkout_session = Session::retrieve($booking->getStripeSessionId());
         $stripe_customer_id = $checkout_session->customer;
 
         // configuré le portal
-        $configuration = \Stripe\BillingPortal\Configuration::create([
+        /* $configuration = \Stripe\BillingPortal\Configuration::create([
             'business_profile' => [
                 'privacy_policy_url' => 'https://example.com/privacy',
                 'terms_of_service_url' => 'https://example.com/terms',
@@ -161,11 +163,14 @@ class StripeController extends AbstractController
               'invoice_history' => ['enabled' => true],
               'subscription_cancel' => [
                     'enabled' => true,
-                    "mode" => "at_period_end",
+                    "mode" => "immediately",
+              ],
+              'subscription_pause' => [
+                "enabled" => false
               ]
             ],
             
-        ]);
+        ]); */
         // dd($configuration);
         
 
@@ -182,7 +187,11 @@ class StripeController extends AbstractController
 
 
 
+    
 
+
+
+// _JD531jupzieQsxnAmcpps7XK7zXwi9j
 
 
 
