@@ -10,7 +10,12 @@
 <div>
     <pre></pre>
 
+    {# <pre>
+        {{ dump(app.request.get('stripeSessionId')) }}
+    </pre> #}
+
     <form id="manage-billing-form" method='POST'>
+        <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
         <button type='submit'>Gérer la facturation</button>
     </form>
 </div>
@@ -24,11 +29,13 @@
     //Transmettez l'ID de session de vérification à un point de terminaison 
     //de backend qui récupère la session de vérification et obtient l'ID client à partir de la réponse:
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get("session_id")
+    let sessionId = document.getElementById('session_id').value;
+    {# const urlParams = new URLSearchParams(window.location.search); #}
+    {# const sessionId = urlParams.has('stripeSessionId'); #}
+    console.log(sessionId )
     let customerId;
 
-    if (sessionId) {
+    {# if (sessionId) {
         fetch("/checkout-session?sessionId=" + sessionId)
             .then(function(result){
             return result.json()
@@ -50,7 +57,8 @@
                 console.log('Error when fetching Checkout session', err);
             })
         ;
-    } 
+        
+    }  #}
 
     const manageBillingForm = document.querySelector('#manage-billing-form');
     manageBillingForm.addEventListener('submit', function(e) {
@@ -61,11 +69,15 @@
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-        sessionId: sessionId
+            sessionId: sessionId
         }),
     })
-        .then((response) => response.json())
+        .then((response) => {
+            
+            return response.json()
+        })
         .then((data) => {
+            console.log(data)
             window.location.href = data.url;
         })
         .catch((error) => {

@@ -18,7 +18,7 @@ class PayementSuccessController extends AbstractController
     }
 
     /**
-     * @Route("/commande/success/{stripeSessionId}", name="payement_success")
+     * @Route("/commande/success/stripeSessionId={stripeSessionId}", name="payement_success")
      */
     public function index($stripeSessionId): Response
     {
@@ -36,4 +36,5 @@ class PayementSuccessController extends AbstractController
             'booking' => $booking,
         ]);
     }
+    
 }
