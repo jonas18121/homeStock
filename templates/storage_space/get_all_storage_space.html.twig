@@ -14,13 +14,7 @@
     <section>
         <article>
 
-        
-
             {% for storageSpace in storageSpaces %}
-
-            <pre>
-                {{ dump(storageSpace) }}
-            </pre>
 
                 {% if storageSpace.available == true %}
 
@@ -47,7 +41,6 @@
                     </ul>
                 {% else %}
                 {% endif %}
-
 
             {% endfor %}
         </article>
