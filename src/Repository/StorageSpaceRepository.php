@@ -66,7 +66,19 @@ class StorageSpaceRepository extends ServiceEntityRepository
             ->andWhere('b.id IN (:id)')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult();
+            ->getSingleResult();
+        ;
+    }
+
+    public function find_one_storage($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s, b')
+            ->leftJoin('s.bookings', 'b')
+            ->andWhere('s.id IN (:id)')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult();
         ;
     }
 

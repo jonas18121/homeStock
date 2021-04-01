@@ -14,7 +14,7 @@
         {{ dump(app.request.get('stripeSessionId')) }}
     </pre> #}
 
-    <form id="manage-billing-form" method='POST'>
+    <form id="manage-billing-form-ok" method='POST'>
         <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
         <button type='submit'>Gérer la facturation</button>
     </form>
@@ -29,10 +29,10 @@
     //Transmettez l'ID de session de vérification à un point de terminaison 
     //de backend qui récupère la session de vérification et obtient l'ID client à partir de la réponse:
 
-    let sessionId = document.getElementById('session_id').value;
+    //let sessionId = document.getElementById('session_id').value;
     {# const urlParams = new URLSearchParams(window.location.search); #}
     {# const sessionId = urlParams.has('stripeSessionId'); #}
-    console.log(sessionId )
+    
     let customerId;
 
     {# if (sessionId) {
@@ -60,8 +60,10 @@
         
     }  #}
 
-    const manageBillingForm = document.querySelector('#manage-billing-form');
-    manageBillingForm.addEventListener('submit', function(e) {
+    let sessionIdOk = document.getElementById('session_id').value;
+
+    const manageBillingFormOk = document.querySelector('#manage-billing-form-ok');
+    manageBillingFormOk.addEventListener('submit', function(e) {
     e.preventDefault();
     fetch('/customer/portal', {
         method: 'POST',
@@ -69,7 +71,7 @@
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            sessionId: sessionId
+            sessionId: sessionIdOk
         }),
     })
         .then((response) => {
