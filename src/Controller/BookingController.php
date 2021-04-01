@@ -71,20 +71,7 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $userCurrent =  $repoUser->findUser($this->getUser()->getId());
-        
-        $tabBooking = [];
-
-        foreach ($userCurrent->getBookings() as $bookingOfUser) {
-            $tabBooking[] = $bookingOfUser->getFinish() == false && $bookingOfUser->getCheckForPayement() == true;
-        }
-
-
-        if (in_array(true,$tabBooking)) {
-            $oneBookingTrue = true;
-        }else{
-            $oneBookingTrue = false;
-        }
+        $oneBookingTrue = $this->verifBookingTrue($repoUser);
 
         $booking = new Booking;
 
@@ -118,6 +105,30 @@ class BookingController extends AbstractController
             'oneBookingTrue' => $oneBookingTrue
         ]);
     }
+
+    /**
+     * vérifier s'il y a une réservation qui est en cours avec l'user courant
+     * afin de l'empéché de souscrire à un autre abonnement 
+     * plus tard dans le code
+     */
+    public function verifBookingTrue(UserRepository $repoUser)
+    {
+        $userCurrent =  $repoUser->findUser($this->getUser()->getId());
+        
+        $tabBooking = [];
+
+        foreach ($userCurrent->getBookings() as $bookingOfUser) {
+            $tabBooking[] = $bookingOfUser->getFinish() == false && $bookingOfUser->getCheckForPayement() == true;
+        }
+
+
+        if (in_array(true,$tabBooking)) {
+            return $oneBookingTrue = true;
+        }else{
+            return $oneBookingTrue = false;
+        } 
+    }
+
 
     /**
      * @Route("/booking/user", name="booking_for_user")
