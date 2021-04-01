@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
+use App\Entity\User;
 use App\Entity\Booking;
 use App\Form\BookingType;
 use Stripe\Checkout\Session;
@@ -10,6 +11,7 @@ use App\Form\BookingFinishType;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +21,12 @@ class BookingController extends AbstractController
 {
 
     protected $booking_trouves;
+    protected EntityManagerInterface $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
 
     /**
      * @Route("/booking", name="booking_all")
@@ -51,18 +59,36 @@ class BookingController extends AbstractController
      * 
      * @Route("/booking/add/storageSpace/{id}", name="booking_add")
      */
-    public function create_booking($id, StorageSpaceRepository $repo, Request $request, EntityManagerInterface $manager)
+    public function create_booking(
+        $id, 
+        StorageSpaceRepository $repo, 
+        Request $request, 
+        EntityManagerInterface $manager,
+        UserRepository $repoUser
+    )
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
 
+        $userCurrent =  $repoUser->findUser($this->getUser()->getId());
+        
+        $tabBooking = [];
+
+        foreach ($userCurrent->getBookings() as $bookingOfUser) {
+            $tabBooking[] = $bookingOfUser->getFinish() == false && $bookingOfUser->getCheckForPayement() == true;
+        }
+
+
+        if (in_array(true,$tabBooking)) {
+            $oneBookingTrue = true;
+        }else{
+            $oneBookingTrue = false;
+        }
 
         $booking = new Booking;
 
-        $storageSpace = $repo->find($id);
-
-        // $booking->setStorageSpace($storageSpace);
+        $storageSpace = $repo->find_one_storage($id);
 
         $formBooking = $this->createForm(BookingType::class, $booking);
 
@@ -84,12 +110,12 @@ class BookingController extends AbstractController
             $manager->flush();
 
             return $this->redirectToRoute('booking_one_for_user', ['id' => $booking->getId()]);
-           
         }
 
         return $this->render('booking/create_booking.html.twig', [
             'formBooking' => $formBooking->createView(),
-            'storageSpace' => $storageSpace
+            'storageSpace' => $storageSpace,
+            'oneBookingTrue' => $oneBookingTrue
         ]);
     }
 
