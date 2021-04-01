@@ -7,16 +7,15 @@
     <script src="https://js.stripe.com/v3/"></script>
 {% endblock %}
 
-{# {% block stylesheets %}
-
-    {{ parent() }}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-{% endblock %} #}
 {% block body %}
 <div class="form_container">
 
-
     <h1>Faire une réservation</h1>
+
+    {% if oneBookingTrue == true %}
+        <p>Il est possible de souscrire qu'à un seul abonnement </p>
+        <p>Vous avez un abonnement déjà en cours</p>
+    {% endif %}
 
     <div class="product">
         {# <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" /> #}
@@ -28,96 +27,35 @@
         </div>
     </div>
 
-    {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
+    {% if oneBookingTrue != true %}
 
-        <div class="form_group">
+        {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
 
-            <div class="form-error">
-                {{ form_errors(formBooking.dateStartAt) }}
+            <div class="form_group">
+
+                <div class="form-error">
+                    {{ form_errors(formBooking.dateStartAt) }}
+                </div>
+
+                <label for="inputTitle">Date de réservation : </label>
+
+                <div>
+                    {{ form_widget(formBooking.dateStartAt, {attr : 
+                        {
+                            class : 'form_control js-datepicker',
+
+                        }} ) }}
+                </div>
+                
+                <small>{{ form_errors(formBooking.dateStartAt) }} </small>
+
             </div>
+            <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
 
-            <label for="inputTitle">Date de réservation : </label>
+            <button type='submit' class="btn_submit" >Reserver </button>
+        
+        {{ form_end(formBooking) }}
 
-            <div>
-                {{ form_widget(formBooking.dateStartAt, {attr : 
-                    {
-                        class : 'form_control js-datepicker',
-
-                    }} ) }}
-            </div>
-            
-            <small>{{ form_errors(formBooking.dateStartAt) }} </small>
-
-        </div>
-        <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
-
-        {# type="submit" id="checkout-button" #}
-        <button type='submit' class="btn_submit" >Reserver </button>
-
-    {{ form_end(formBooking) }}
+    {% endif %}
 </div>
 {% endblock body %}
-
-{# {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script> #}
-   {#  /*
-    $(document).ready(function(){
-        // var datesDisabled = $('.js-datepicker').attr('data-ates-disabled')
-        //var datesDisabled = $('.js-datepicker').val()
-        console.log(datesDisabled);
-        $('.js-datepicker').datepicker({
-            format: 'dd/mm/yyyy',
-            todayHighlight: true,
-            datesDisabled: ['16/03/2021', '17/03/2021','18/03/2021','19/03/2021','20/03/2021','21/03/2021','22/03/2021']
-        });
-    });
-    */ #}
-{#     </script>
-{% endblock %} #}
-
-{% block script %}
-    <script type="text/javascript">
-    
-        var storage = document.getElementById("storage");
-        console.log(storage.value);
-        // Create an instance of the Stripe object with your publishable API key
-        {# var stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx"); #}
-        var stripe = Stripe("pk_test_51IWMatFt4LI0nktGFU4LeoUDWwAX14vyTzFYMWPd11q7ohJjoeFOoSCe6FeSVa5QigzkorWp5dqTe9VqjswDRwll00c5dMrO46");
-        var checkoutButton = document.getElementById("checkout-button");
-        checkoutButton.addEventListener("click", function () {
-            fetch("/commande/create-session/"+ storage.value , {
-                method: "POST",
-            })
-            .then(function (response) {
-                return response.json();
-                //console.log(response.text());
-            })
-            .then(function (session) {
-                //console.log(session);
-                if(session.error == 'not_storage'){
-                    window.location.replace(' {{ path("storage_space_all") }} ')
-                }else{
-                    return stripe.redirectToCheckout({ sessionId: session.id });
-                }
-                
-            })
-            .then(function (result) {
-                // If redirectToCheckout fails due to a browser or network
-                // error, you should display the localized error message to your
-                // customer using error.message.
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-                console.error("Error:", error);
-            });
-        });
-    </script>
-
-{% endblock %}
-
