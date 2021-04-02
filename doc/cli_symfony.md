@@ -60,7 +60,7 @@ puis on tape la commande
 
     - php bin/console server:run
 
-## installer la toolbar ( la barre d'outils )
+## Installer la toolbar ( la barre d'outils )
 
 La toolbar, la barre d'outils qui contient les bundles
 
@@ -74,7 +74,7 @@ La toolbar, la barre d'outils qui contient les bundles
 
     - composer require symfony/debug-pack --dev
 
-## installer le moteur de templating Twig
+## Installer le moteur de templating Twig
 
     - composer require symfony/twig-bundle
 
@@ -218,7 +218,7 @@ on lance les script de migrations afin de mettre à jour la base de données
 
 répondre `yes` à la question pour mettre a jour la base de données
 
-### les Fixtures
+### Les Fixtures
 
 Les fixtures vont servir à avoir un jeux de fausses données
 on installe le composant doctrine/doctrine-fixtures-bundle
@@ -301,7 +301,7 @@ pour débuger un validator :
     - php bin/console debug:validator namespace_de_class
 
 
-## supprimer les caches
+## Supprimer les caches
 
     - php bin/console cache:clear
 
@@ -349,7 +349,7 @@ puis faire la migration
     - php bin/console doctrine:migrations:migrate
 
 
-### créer un formulaire de connexion 
+### Créer un formulaire de connexion 
 
 puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form_login_setup.html
 
@@ -399,7 +399,7 @@ puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut a
 
 A partir de la 25 èmes min : https://www.youtube.com/watch?v=iB4gvCsjVXQ
 
-Pour configurer VichUploaderBundle, on va dans les fichier :
+Pour configurer VichUploaderBundle, on va dans les fichiers :
 
 - vich_uploader.yaml 
 et
@@ -407,29 +407,29 @@ et
 
 puis on va dans les entités qui pourrons avoir des images 
 
-#### dans services.yaml
+#### Dans services.yaml
 
 parameters:
     app.path.images: /uploads/images
 
-##### definition:
+##### Definition:
 app.path.images est une constante qui contiendra le chemin, dans lequel les images seront stocké
 
 
-#### dans vich_uploader.yaml 
+#### Dans vich_uploader.yaml 
 
-##### definition:
+##### Definition:
 dans ce fichier on utilise des mappings, 
 un mappings c'est dire à vich_uploader, ce qu'il doit faire avec les images/fichiers, 
-on lui dit , ou il doit stocké les images/fichiers, commment les nommées 
+on lui dit , ou il doit stocké les images/fichiers, comment les nommées 
 
-uri_prefix: c'est le chemin dans lequel on veut aller, on a mis la constantes app.path.images qu'on a créer dans services.yaml.
+- uri_prefix: c'est le chemin dans lequel on veut aller, on a mis la constantes app.path.images qu'on a créer dans services.yaml.
 
-upload_destination: c'est l'endroit ou on va stockée les images/fichiers 
+- upload_destination: c'est l'endroit ou on va stockée les images/fichiers 
 
 la constante %kernel.project_dir% , permet d'accéder à la racine du projet
 
-namer: Vich\UploaderBundler\Naming\UniqidNamer, sert à renommer les images/fichiers de façon unique
+- namer: Vich\UploaderBundler\Naming\UniqidNamer, sert à renommer les images/fichiers de façon unique
 
 
 
@@ -438,13 +438,13 @@ namer: Vich\UploaderBundler\Naming\UniqidNamer, sert à renommer les images/fich
 
 EasyAdmin crée de superbes backends d'administration pour vos applications Symfony. C'est gratuit, rapide et entièrement documenté.
 
-### installation 
+### Installation 
 
     - composer require easycorp/easyadmin-bundle
     ou
     - composer require admin
 
-### créer un Dashboard
+### Créer un Dashboard
 
 on crée notre dashboard représenté sous forme de controlleur
 
@@ -460,7 +460,7 @@ Exemple yield MenuItem::linkToCrud('Espace de stokage', 'fas fa-list', StorageSp
 ps : il y aura une erreur, car il faudra créer le controlleur associer a l'entité StorageSpace,
 le controlleur aura pour nom StorageSpaceCrudController par exemple
 
-### créer les controlleurs assiocée aux entités à manager
+### Créer les controlleurs assiocée aux entités à manager
 
     - symfony console make:admin:crud
     ou
