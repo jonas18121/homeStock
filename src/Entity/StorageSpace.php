@@ -69,7 +69,7 @@ class StorageSpace
     private $images;
 
     /**
-     * @Vich\UploadableField(mapping="images_in_vich_uploader", fileNameProperty="images")
+     * @Vich\UploadableField(mapping="images_in_vich_uploade", fileNameProperty="images")
      * @var File
      */
     private $imageFile;
