@@ -378,6 +378,7 @@ puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form
 
 ## Upload un fichier (dont une image, Upload image)
 
+
 on installe VichUploaderBundle 
 https://github.com/dustin10/VichUploaderBundle/blob/master/docs/installation.md
 
@@ -392,3 +393,41 @@ puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut a
     inject_on_load: false
     delete_on_update: true
     delete_on_remove: true
+
+
+### Avec cette vidéo 
+
+A partir de la 25 èmes min : https://www.youtube.com/watch?v=iB4gvCsjVXQ
+
+Pour configurer VichUploaderBundle, on va dans les fichier :
+
+- vich_uploader.yaml 
+et
+- services.yaml
+
+puis on va dans les entités qui pourrons avoir des images 
+
+#### dans services.yaml
+
+parameters:
+    app.path.images: /uploads/images
+
+##### definition:
+app.path.images est une constante qui contiendra le chemin, dans lequel les images seront stocké
+
+
+#### dans vich_uploader.yaml 
+
+
+##### definition:
+dans ce fichier on utiliser des mappings, 
+un mappings c'est dire à vich_uploader, ce qu'il doit faire avec les images/fichiers, 
+on lui dit , ou il doit stocké les images/fichiers, commment les nommées 
+
+uri_prefix: c'est le chemin dans lequel on veut aller, on a mis la constantes app.path.images qu'on a créer dans services.yaml.
+
+upload_destination: c'est l'endroit ou on va stockée les images/fichiers 
+
+la constante %kernel.project_dir% , permet d'accéder à la racine du projet
+
+namer: Vich\UploaderBundler\Naming\UniqidNamer, sert à renommer les images/fichiers de façon unique

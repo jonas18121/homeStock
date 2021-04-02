@@ -10,8 +10,12 @@
 {% block body %}
 <div class="form_container">
 
-
     <h1>Faire une réservation</h1>
+
+    {% if oneBookingTrue == true %}
+        <p>Il est possible de souscrire qu'à un seul abonnement </p>
+        <p>Vous avez un abonnement déjà en cours</p>
+    {% endif %}
 
     <div class="product">
         {# <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" /> #}
@@ -23,32 +27,35 @@
         </div>
     </div>
 
-    {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
+    {% if oneBookingTrue != true %}
 
-        <div class="form_group">
+        {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
 
-            <div class="form-error">
-                {{ form_errors(formBooking.dateStartAt) }}
+            <div class="form_group">
+
+                <div class="form-error">
+                    {{ form_errors(formBooking.dateStartAt) }}
+                </div>
+
+                <label for="inputTitle">Date de réservation : </label>
+
+                <div>
+                    {{ form_widget(formBooking.dateStartAt, {attr : 
+                        {
+                            class : 'form_control js-datepicker',
+
+                        }} ) }}
+                </div>
+                
+                <small>{{ form_errors(formBooking.dateStartAt) }} </small>
+
             </div>
+            <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
 
-            <label for="inputTitle">Date de réservation : </label>
+            <button type='submit' class="btn_submit" >Reserver </button>
+        
+        {{ form_end(formBooking) }}
 
-            <div>
-                {{ form_widget(formBooking.dateStartAt, {attr : 
-                    {
-                        class : 'form_control js-datepicker',
-
-                    }} ) }}
-            </div>
-            
-            <small>{{ form_errors(formBooking.dateStartAt) }} </small>
-
-        </div>
-        <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
-
-        {# type="submit" id="checkout-button" #}
-        <button type='submit' class="btn_submit" >Reserver </button>
-
-    {{ form_end(formBooking) }}
+    {% endif %}
 </div>
 {% endblock body %}

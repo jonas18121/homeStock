@@ -32,18 +32,17 @@ class BookingService
 
             if ($booking->getPay() == true && $booking->getFinish() == false && $booking->getCheckForPayement() == false) {
 
-                $storageSpaces = $repoStorage->find_one_booking_in_storage($booking->getId());
+                $storageSpace = $repoStorage->find_one_booking_in_storage($booking->getId());
 
-                foreach ($storageSpaces as $key => $storageSpace) {
-        
-                    $storageSpace->setAvailable(false);
-                    $manager->persist($storageSpace);
+                //foreach ($storageSpaces as $key => $storageSpace) {
+                $storageSpace->setAvailable(false);
+                $manager->persist($storageSpace);
 
-                    $booking->setCheckForPayement(true);
-                    $manager->persist($booking);
+                $booking->setCheckForPayement(true);
+                $manager->persist($booking);
 
-                    $manager->flush();
-                }
+                $manager->flush();
+                //}
 
             }
         }
