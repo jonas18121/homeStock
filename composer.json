@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
+        "easycorp/easyadmin-bundle": "^3.2",
         "sensio/framework-extra-bundle": "^6.1",
         "stripe/stripe-php": "^7.75",
         "symfony/console": "4.4.*",
@@ -21,7 +22,8 @@
         "symfony/security-bundle": "4.4.*",
         "symfony/security-csrf": "4.4.*",
         "symfony/twig-bundle": "4.4.*",
-        "symfony/yaml": "4.4.*"
+        "symfony/yaml": "4.4.*",
+        "vich/uploader-bundle": "^1.17"
     },
     "require-dev": {
         "symfony/debug-bundle": "^4.4",
