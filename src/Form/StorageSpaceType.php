@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\StorageSpace;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,10 +43,12 @@ class StorageSpaceType extends AbstractType
                     'placeholder' => 'Ville '
                 ]
             ])
-            ->add('type', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Type d\'espace '
-                ]
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'label' => 'Type d\'espace ',
+                'required' => true
             ])
             ->add('space', TextType::class, [
                 'attr' => [

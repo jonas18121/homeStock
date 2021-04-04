@@ -26,6 +26,8 @@
         "vich/uploader-bundle": "^1.17"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.9",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/debug-bundle": "^4.4",
         "symfony/maker-bundle": "^1.29",
         "symfony/monolog-bundle": "^3.0",

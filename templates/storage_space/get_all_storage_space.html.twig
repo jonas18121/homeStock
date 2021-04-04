@@ -32,7 +32,7 @@
                                 <span> {{ storageSpace.postalCode }} </span> 
                                 <span> {{ storageSpace.city }} </span>
                             </li>
-                            <li> {{ storageSpace.type }} </li>
+                            <li> {{ storageSpace.category.name }} </li>
                             <li> {{ storageSpace.space }} m2</li>
                             <li> {{ storageSpace.priceByDays | number_format(2, '.', ' ') }} € / jours</li>
                             <li> {{ storageSpace.priceByMonth | number_format(2, '.', ' ') }} € / mois</li>
