@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
 use App\Entity\StorageSpace;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -28,6 +29,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Espace de stokage', 'fas fa-list', StorageSpace::class);
+        yield MenuItem::linkToCrud('Espace de stokage', 'fas fa-warehouse', StorageSpace::class);
+        yield MenuItem::linkToCrud('Catégorie', 'fas fa-list', Category::class);
     }
 }
