@@ -22,7 +22,9 @@ class StorageSpaceController extends AbstractController
      */
     public function get_all_storage_space(StorageSpaceRepository $repo): Response
     {
-        $storageSpaces = $repo->findAll();
+        $storageSpaces = $repo->find_All_storage();
+
+        // dd($storageSpaces);
 
         return $this->render('storage_space/get_all_storage_space.html.twig', [
             'storageSpaces' => $storageSpaces,
