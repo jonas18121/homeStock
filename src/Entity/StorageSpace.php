@@ -37,10 +37,7 @@ class StorageSpace
      */
     private $adresse;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
+    
 
     /**
      * @ORM\Column(type="integer")
@@ -105,6 +102,12 @@ class StorageSpace
      */
     private $priceByMonth;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="storageSpaces")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -148,18 +151,6 @@ class StorageSpace
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -346,6 +337,18 @@ class StorageSpace
     public function setPriceByMonth(?float $priceByMonth): self
     {
         $this->priceByMonth = $priceByMonth;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

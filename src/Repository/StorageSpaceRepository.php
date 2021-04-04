@@ -51,8 +51,9 @@ class StorageSpaceRepository extends ServiceEntityRepository
     public function find_All_storage()
     {
         return $this->createQueryBuilder('s')
-            ->select('s, b')
+            ->select('s, b, c')
             ->leftJoin('s.bookings', 'b')
+            ->leftJoin('s.category', 'c')
             ->getQuery()
             ->getResult();
         ;
