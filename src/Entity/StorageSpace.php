@@ -37,8 +37,6 @@ class StorageSpace
      */
     private $adresse;
 
-    
-
     /**
      * @ORM\Column(type="integer")
      */
