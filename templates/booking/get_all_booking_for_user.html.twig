@@ -41,7 +41,7 @@
                             {{ booking.storageSpace.owner.firstName }}
                             {{ booking.storageSpace.owner.lastName }}
                         </td>
-                        <td>{{ booking.storageSpace.priceByMonth }}€/mois</td>
+                        <td>{{ booking.storageSpace.priceByMonth  / 100 | number_format(2, '.', ' ') }} €/mois</td>
                         <td>{{ booking.dateCreatedAt | date('d/m/Y H:i') }}</td>
                         <td>{{ booking.dateStartAt | date('d/m/Y') }}</td>
 
