@@ -33,16 +33,13 @@ services:
 
     #  doctrine.orm.entity_listener
 
-    storage.space.repository:
-        class: App\Repository\StorageSpaceRepository
-
-    storage.space.check.date:
+    storage.space.service:
         class: App\Service\StorageSpaceService
 
     storage.space.check.date.listener:
         class: App\EventListener\StorageSpaceListener
         arguments: 
-            - "@storage.space.check.date"
+            - "@storage.space.service"
             # - "@storage.space.repository"
         tags:
             - {
@@ -51,7 +48,18 @@ services:
                 method: processStorage
             }
 
-          
+
+    storage.space.calcul.price.month:
+        class: App\EventListener\StorageSpaceListener
+        arguments: 
+            - "@storage.space.service"
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: kernel.request,
+                method: calculPriceByMonth
+            }
+
     booking.service:
         class: App\Service\BookingService
 

@@ -21,7 +21,7 @@ class StorageSpaceService
      * on met la propriété available de l'entité StorageSpace en true , pour qu'il soit disponible aux autres user
      */
     public function emitStorageCheckDateEndAt(
-        Request $response, 
+        Request $request, 
         StorageSpaceRepository $repoStorage, 
         BookingRepository $repoBooking,
         EntityManagerInterface $manager
@@ -71,12 +71,45 @@ class StorageSpaceService
     }
 
     /**
-     * Si la date d'aujourd'hui est plus grand que la date de début de la réservation 
-     * et que la date de début de la réservation, n'est toujour pas payé. 
-     * alors, on supprime la réservation 
+     * calcule le prix par mois de chaque espace de stockage 
+     * après sa création ou sa modification, 
+     * que ce soit dans EasyAdmin ou dans l'interface normale 
      */
-    public function emitStorageCheckDateStartAt()
+    public function emitStorageCalculPriceByMonth(
+        Request $request,
+        StorageSpaceRepository $repoStorage,
+        EntityManagerInterface $manager
+    )
     {
+        $storageSpaces = $repoStorage->findAll();
 
+        foreach ($storageSpaces as $storageSpace) {
+
+            $priceByMonth = $this->price_by_month($storageSpace);
+            
+            if ($storageSpace->getPriceByMonth() === null || $priceByMonth != $storageSpace->getPriceByMonth()) {
+                
+                $storageSpace->setPriceByMonth($priceByMonth);
+                
+                $manager->persist($storageSpace);
+                $manager->flush();
+            }
+        }
+    }
+
+    /**
+     * calcule le prix par mois
+     */
+    public function price_by_month(StorageSpace $storageSpace)
+    {
+        $firstDayOfThisMonth = new \DateTime('first day of this month');
+        $lastDayOfThisMonth = new \DateTime('last day of this month');
+
+        $nbDays = $firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a') ;
+        $nbDays += '1';
+
+        $priceByMonth = $storageSpace->getPriceByDays() * $nbDays;
+
+        return $priceByMonth;
     }
 }
