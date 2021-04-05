@@ -38,4 +38,13 @@ class StorageSpaceListener {
     {
         $this->storageSpaceService->emitStorageCheckDateEndAt($event->getRequest(), $this->storageSpaceRepository, $this->bookingRepository, $this->manager);
     }
+
+    /**
+     * Pour réagir à une reponse ResponseEvent $event
+     * Pour réagir à une request RequestEvent $event
+     */
+    public function calculPriceByMonth(RequestEvent $event)
+    {
+        $this->storageSpaceService->emitStorageCalculPriceByMonth($event->getRequest(), $this->storageSpaceRepository, $this->manager);
+    }
 }
