@@ -30,7 +30,7 @@ class StorageSpaceCrudController extends AbstractCrudController
             TextField::new('title', 'Titre'),
             TextEditorField::new('description'),
             IntegerField::new('space', 'Espace en m2'),
-            MoneyField::new('priceByDays', 'Prix par jours')->setCurrency('EUR'),
+            MoneyField::new('priceByMonth', 'Prix par Mois')->setCurrency('EUR'),
             AssociationField::new('category', 'Categorie')->setRequired(true),
             TextField::new('adresse', 'Adresse'),
             TextField::new('postalCode', 'Code postal'),
