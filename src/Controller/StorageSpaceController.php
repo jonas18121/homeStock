@@ -129,12 +129,12 @@ class StorageSpaceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $priceByMonth = $this->price_by_month($storageSpace);
+            // $priceByMonth = $this->price_by_month($storageSpace);
 
             $storageSpace->setDateCreatedAt(new \DateTime())
                 ->setOwner($this->getUser())
                 ->setAvailable(true)
-                ->setPriceByMonth($priceByMonth)
+                // ->setPriceByMonth($priceByMonth)
             ;
 
             $manager->persist($storageSpace);
@@ -164,12 +164,12 @@ class StorageSpaceController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $priceByMonth = $this->price_by_month($storageSpace);
+            /* $priceByMonth = $this->price_by_month($storageSpace);
 
             if($storageSpace->getPriceByMonth() != $priceByMonth)
             {
                 $storageSpace->setPriceByMonth($priceByMonth);
-            } 
+            }  */
             
             $manager->persist($storageSpace);
             $manager->flush();
