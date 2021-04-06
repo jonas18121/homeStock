@@ -39,7 +39,11 @@ class StorageSpaceCrudController extends AbstractCrudController
             BooleanField::new('available'),
             DateTimeField::new('dateCreatedAt', 'date de création'),
             AssociationField::new('owner', 'Propriétaire de cette espace de stokage')->setRequired(true),
-            ImageField::new('images', 'Charger une image')->setUploadDir('public/uploads/images')
+            ImageField::new('images', 'Image')
+                ->setBasePath('uploads/images')
+                ->setUploadDir('public/uploads/images')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false)
         ]; 
     } 
     
