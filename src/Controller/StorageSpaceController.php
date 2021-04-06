@@ -56,6 +56,10 @@ class StorageSpaceController extends AbstractController
     {
         $storageSpace = $repo->find($id);
 
+        if (!$storageSpace) {
+            return $this->redirectToRoute('storage_space_all');
+        }
+
         // Partie commentaire
         $comment = new Comment();
 
