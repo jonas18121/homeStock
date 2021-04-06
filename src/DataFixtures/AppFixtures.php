@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
                 ->setCity($faker->city())
                 ->setPostalCode($faker->postCode())
                 ->setSpace($faker->randomDigit())
-                ->setPriceByDays($faker->numberBetween(0.4, 1.5))
+                ->setPriceByDays($faker->numberBetween(1, 3) * 100)
                 ->setPriceByMonth($faker->numberBetween(20, 50))
                 ->setCategory($category2)
                 ->setDateCreatedAt($faker->dateTime())
