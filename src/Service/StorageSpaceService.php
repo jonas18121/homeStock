@@ -72,7 +72,7 @@ class StorageSpaceService
 
     /**
      * calcule le prix par mois de chaque espace de stockage 
-     * après sa création ou sa modification, 
+     * après chaque création ou chaque modification, 
      * que ce soit dans EasyAdmin ou dans l'interface normale 
      */
     public function emitStorageCalculPriceByMonth(
