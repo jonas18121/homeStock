@@ -133,10 +133,10 @@
             <label for="inputImage">Photo de l'espace de stockage (Facultatif)</label>
 
             <div>
-                {{ form_widget(formStorageSpace.images, {attr : {class : 'form_control'} } ) }}
+                {{ form_widget(formStorageSpace.imageFile, {attr : {class : 'form_control'} } ) }}
             </div>
 
-            <small>{{ form_errors(formStorageSpace.images) }}</small>
+            <small>{{ form_errors(formStorageSpace.imageFile) }}</small>
         </div>
 
         <button type="submit" class="btn_submit">Modifier</button>
