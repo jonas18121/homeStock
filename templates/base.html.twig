@@ -78,7 +78,8 @@
                     window.location.href = data.url;
                 })
                 .catch((error) => {
-                console.error('Error:', error);
+                    console.error('Error:', error);
+                    alert('Vous n\'avez pas encore souscrit à un abonnement.');
                 });
             });
         </script>
