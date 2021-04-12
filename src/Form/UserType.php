@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,6 +15,9 @@ class UserType extends AbstractType
         $builder
             ->add('lastName')
             ->add('firstName')
+            ->add('phoneNumber', TelType::class, [
+                'label' => 'Tel'
+            ])
             ->add('email')
             ->add('images')
         ;
