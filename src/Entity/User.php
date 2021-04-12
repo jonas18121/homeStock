@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $customerId;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $phoneNumber;
+
     public function __construct()
     {
         $this->storageSpaces = new ArrayCollection();
@@ -355,6 +360,18 @@ class User implements UserInterface
     public function setCustomerId(?string $customerId): self
     {
         $this->customerId = $customerId;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?int
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(int $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }

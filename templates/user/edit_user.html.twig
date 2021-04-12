@@ -41,6 +41,17 @@
 
         <div class="form_group">
 
+            <label for="inputPhoneNumber">{{ form_label(formUser.phoneNumber) }}</label>
+
+            <div>
+                {{ form_widget(formUser.phoneNumber, {attr : {class : 'form_control' }} ) }}
+            </div>
+            
+            <small>{{ form_errors(formUser.phoneNumber) }} </small>
+        </div>
+
+        <div class="form_group">
+
             <label for="inputEmail">{{ form_label(formUser.email) }}</label>
 
             <div>
