@@ -74,8 +74,10 @@ class StorageSpaceRepository extends ServiceEntityRepository
     public function find_one_storage($id)
     {
         return $this->createQueryBuilder('s')
-            ->select('s, b')
+            ->select('s, b, u, c')
             ->leftJoin('s.bookings', 'b')
+            ->leftJoin('s.owner', 'u')
+            ->leftJoin('s.category', 'c')
             ->andWhere('s.id IN (:id)')
             ->setParameter('id', $id)
             ->getQuery()

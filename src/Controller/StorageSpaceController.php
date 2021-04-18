@@ -54,7 +54,7 @@ class StorageSpaceController extends AbstractController
      */
     public function get_one_product($id, StorageSpaceRepository $repo, Request $request)
     {
-        $storageSpace = $repo->find($id);
+        $storageSpace = $repo->find_one_storage($id);
 
         if (!$storageSpace) {
             return $this->redirectToRoute('storage_space_all');
