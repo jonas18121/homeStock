@@ -112,6 +112,11 @@ class StorageSpace
         $this->bookings = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getTitle() . ', ' . $this->getAdresse()  . ' ' . $this->getCity();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

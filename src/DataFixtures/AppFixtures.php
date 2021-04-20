@@ -35,8 +35,8 @@ class AppFixtures extends Fixture
             ->setRoles(["ROLE_USER"])
             ->setLastName('mulan')
             ->setFirstName('mulan')
+            ->setPhoneNumber(0745023072)
             ->setDateCreatedAt($faker->dateTime())
-
         ;
         $manager->persist($user);
 
