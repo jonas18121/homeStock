@@ -223,10 +223,10 @@ class StorageSpace
         return $this->imageFile;
     }
 
-    public function setImageFile(File $image = null)
+    public function setImageFile(?File $image)
     {
         $this->imageFile = $image;
-
+        
         // VERY IMPORTANT:
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost

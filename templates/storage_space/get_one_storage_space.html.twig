@@ -12,6 +12,9 @@
 
             <ul>
                 <div>
+                <pre>
+                    {{ dump(storageSpace.images) }}
+                </pre>
                     {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
                     <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" >
                 </div>
