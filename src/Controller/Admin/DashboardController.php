@@ -2,8 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Booking;
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\StorageSpace;
+use App\Entity\User;
 use App\Repository\BookingRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
@@ -67,7 +70,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToUrl('Revenir à l\'accueil','fas fa-arrow-circle-left', 'http://localhost:8000');
 
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToCrud('Utilisateur', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Espace de stokage', 'fas fa-warehouse', StorageSpace::class);
-        yield MenuItem::linkToCrud('Catégorie', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Catégorie', 'fas fa-layer-group', Category::class);
+        yield MenuItem::linkToCrud('Réservation', 'fas fa-book-open', Booking::class);
+        yield MenuItem::linkToCrud('Commentaire', 'fas fa-comment', Comment::class);
     }
 }

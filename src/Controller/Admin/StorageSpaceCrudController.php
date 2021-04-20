@@ -9,11 +9,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\HiddenField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class StorageSpaceCrudController extends AbstractCrudController
 {
@@ -28,7 +29,7 @@ class StorageSpaceCrudController extends AbstractCrudController
         return [
             // IdField::new('id'),
             TextField::new('title', 'Titre'),
-            TextEditorField::new('description'),
+            TextareaField::new('description'),
             IntegerField::new('space', 'Espace en m2'),
             MoneyField::new('priceByDays', 'Prix par jours')->setCurrency('EUR'),
             MoneyField::new('priceByMonth', 'Prix par mois')->setCurrency('EUR'),
