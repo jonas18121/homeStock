@@ -112,6 +112,11 @@ class StorageSpace
         $this->bookings = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getTitle() . ', ' . $this->getAdresse()  . ' ' . $this->getCity();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -218,10 +223,10 @@ class StorageSpace
         return $this->imageFile;
     }
 
-    public function setImageFile(File $image = null)
+    public function setImageFile(?File $image)
     {
         $this->imageFile = $image;
-
+        
         // VERY IMPORTANT:
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost
