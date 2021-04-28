@@ -17,8 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StorageSpaceController extends AbstractController
 {
+     /**
+     * @Route("/", name="home")
+     */
+    public function index(StorageSpaceRepository $repo)
+    {
+        return $this->get_all_storage_space($repo);
+    }
+
     /**
-     * @Route("/", name="storage_space_all")
+     * @Route("/storageSpace", name="storage_space_all")
      */
     public function get_all_storage_space(StorageSpaceRepository $repo): Response
     {
