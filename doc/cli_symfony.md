@@ -60,6 +60,22 @@ puis on tape la commande
 
     - php bin/console server:run
 
+## Créer une application Symfony 5 et supérieur
+
+A partir de Symfony 5, la commande `php bin/console server:run` n'est plus prise en compte.
+Symfony 5 n'implémente pas le bundle `symfony/web-server-bundle` et on ne peut pas l'installer dessus.
+
+Dans le passé, `les projets Symfony` étaient crées avec `Composer` qui est un gestionnaire de dépendance pour les applications PHP.
+Cependant, la recommandation actuelle est d'utiliser l'installateur de `Symfony` qui doit être lui-même installé avant de créer votre projet.
+
+A la place on peut utiliser cette commande :
+
+    > php -S 127.0.0.1:8000 -t public
+
+Ou utiliser directement la commande `Symfony` pour lancer son server
+
+    > Symfony serve
+
 ## Installer la toolbar ( la barre d'outils )
 
 La toolbar, la barre d'outils qui contient les bundles
