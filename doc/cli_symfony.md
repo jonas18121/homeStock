@@ -481,3 +481,9 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
     - symfony console make:admin:crud
     ou
     - php bin/console make:admin:crud
+
+
+
+## API Plateforme
+
+    > composer require api
