@@ -255,6 +255,10 @@ et pour executé notre fixtures
 
     - php bin/console doctrine:fixtures:load
 
+## fzaninotto/faker
+
+    > composer require fzaninotto/faker
+
 ## ParamConverter
 
 pour pouvoir utiliser le ParmConverter, il faut s'assuré d'avoir le bundle sensio/framework-extra-bundle
@@ -487,3 +491,18 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 ## API Plateforme
 
     > composer require api
+
+## lexik/jwt-authentication-bundle
+
+    > composer require lexik/jwt-authentication-bundle
+
+## test unitaire
+
+### phpunit/phpunit
+
+    > composer require phpunit/phpunit --dev
+
+### test 
+
+    > composer require test --dev
+
