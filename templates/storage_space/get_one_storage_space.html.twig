@@ -12,11 +12,12 @@
 
             <ul>
                 <div>
-                <pre>
-                    {{ dump(storageSpace.images) }}
-                </pre>
+                    <pre>
+                        {{ dump(storageSpace.images) }}
+                    </pre>
                     {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
-                    <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" >
+                    <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" >
+                    {# <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" > #}
                 </div>
 
                 <li> {{ storageSpace.title }} </li>
@@ -97,27 +98,30 @@
             <div id="add-comment">
                 <h2>Ajouter un commentaire</h2>
 
-                {{ form_start(formComment, { 'attr' : { 'class' : 'form' }} ) }}
+                {% if app.user %}
 
-                    <div class="form_group">
+                    {{ form_start(formComment, { 'attr' : { 'class' : 'form' }} ) }}
 
-                        <div class="form-error">
-                            {{ form_errors(formComment.content) }}
+                        <div class="form_group">
+
+                            <div class="form-error">
+                                {{ form_errors(formComment.content) }}
+                            </div>
+
+                            <label for="inputTitle">Commentaire : </label>
+
+                            <div>
+                                {{ form_widget(formComment.content, {attr : {class : 'form_control' }} ) }}
+                            </div>
+                            
+                            <small>{{ form_errors(formComment.content) }} </small>
+
                         </div>
 
-                        <label for="inputTitle">Commentaire : </label>
+                        <button type="submit" class="btn_submit">Ajouter</button>
 
-                        <div>
-                            {{ form_widget(formComment.content, {attr : {class : 'form_control' }} ) }}
-                        </div>
-                        
-                        <small>{{ form_errors(formComment.content) }} </small>
-
-                    </div>
-
-                    <button type="submit" class="btn_submit">Ajouter</button>
-
-                {{ form_end(formComment) }}
+                    {{ form_end(formComment) }}
+                {% endif %}
             </div>
         </article>
     </section>
