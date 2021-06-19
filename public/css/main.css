@@ -1,0 +1,36 @@
+/***********css par défaut mobile ********************/
+
+/* GLOBAL */
+
+*, ::before, ::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+html{
+    font-size: 62.5%;
+    height: 100%;
+}
+
+body{
+    background-color: #333; /* a la fin on mettra #fff */
+    font-size: 1.6rem; 
+    width: 100%;
+    color: #aaa;
+}
+
+img, video, table{
+    max-width: 100%;
+}
+
+a{
+    text-decoration: none;
+    margin: 0.2rem;
+    color: #aaa;
+}
+
+table{
+    width: 100%;
+}
