@@ -66,7 +66,7 @@ class StripeController extends AbstractController
         $stripe_price =  Price::create([
             'nickname' => 'prélèvement tous les mois',
             'product' => $stripe_product->id,
-            'unit_amount' => $storageSpace->getPriceByMonth()*100,
+            'unit_amount' => $storageSpace->getPriceByMonth(),
             'currency' => 'eur',
             'recurring' => [
                 'interval' => 'month',
