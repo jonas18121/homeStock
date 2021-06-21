@@ -22,6 +22,7 @@ body{
 }
 
 img, video, table{
+    width: 100%;
     max-width: 100%;
 }
 
@@ -40,10 +41,7 @@ table{
 
 nav{
     font-size: 5rem;
-    margin-top: 4rem;
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
+    margin: 4rem 2rem;
     text-align: center;
     /* background-color: darkgoldenrod; */
 }
@@ -58,8 +56,7 @@ nav form button {
     height: 5rem;
 }
 
-#menuToggle
-{
+#menuToggle {
     display: block;
     position: relative;
     top: .5rem;
@@ -69,8 +66,7 @@ nav form button {
     user-select: none;
 }
 
-#menuToggle a
-{
+#menuToggle a {
   text-decoration: none;
   color: #232323;
   
@@ -120,42 +116,37 @@ nav form button {
               opacity 0.55s ease;
 }
 
-#menuToggle span:first-child
-{
+#menuToggle span:first-child {
   transform-origin: 0% 0%;
 }
 
-#menuToggle span:nth-last-child(2)
-{
+#menuToggle span:nth-last-child(2) {
   transform-origin: 1rem -1.5rem;
 }
 
 /* 
- * Transform all the slices of hamburger
- * into a crossmark.
- */
- #menuToggle input:checked ~ span
- {
-   opacity: 1;
-   transform: rotate(45deg) translate(-2px, -1px);
-   background: #232323;
- }
+* Transform all the slices of hamburger
+* into a crossmark.
+*/
+#menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
  
- /*
-  * But let's hide the middle one.
-  */
- #menuToggle input:checked ~ span:nth-last-child(3)
- {
-   opacity: 0;
-   transform: rotate(0deg) scale(0.2, 0.2);
- }
+/*
+* But let's hide the middle one.
+*/
+#menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
 
  
 /*
  * Ohyeah and the last one should go the other direction
  */
-#menuToggle input:checked ~ span:nth-last-child(2)
-{
+#menuToggle input:checked ~ span:nth-last-child(2) {
   transform: rotate(-45deg) translate(0, -1px);
 }
 
@@ -163,10 +154,9 @@ nav form button {
  * Make this absolute positioned
  * at the top left of the screen
  */
-#menu
-{
+#menu {
   position: absolute;
-  width: 90rem;
+  width: 105rem;
   margin: -10rem 0 0 -5rem;
   padding: 5.5rem 0;
   /* padding-top: 12.5rem; */
@@ -182,8 +172,7 @@ nav form button {
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
 }
 
-#menu li
-{
+#menu li {
   padding: 1rem 0;
   /* font-size: 2.2rem; */
 }
@@ -191,7 +180,57 @@ nav form button {
 /*
  * And let's slide it in from the left
  */
-#menuToggle input:checked ~ ul
-{
+#menuToggle input:checked ~ ul {
   transform: none;
 }
+
+
+/* /////////// M A I N ////////////// */
+
+.container{
+   /* padding: 4rem; */
+   text-align: center;
+}
+
+h1, h2, h3, 
+.link_for_add,
+.storage_title,
+.storage_description,
+.storage_position,
+.storage_category,
+.storage_space,
+.storage_price_days,
+.storage_price_month,
+.storage_date_create 
+{
+    margin: 2rem;
+}
+
+h1 {
+  font-size: 8rem;
+}
+
+.link_for_add {
+  font-size: 4rem;
+}
+
+/* page_get_all */
+
+.storage {
+    margin: 7rem 0;
+    /* padding: 2rem; */
+}
+
+.storage_title {
+    font-size: 4rem;
+}
+
+.storage_position {
+   display: flex;
+   flex-direction: column;
+}
+
+.storage_position span {
+   font-size: 5rem;
+}
+
