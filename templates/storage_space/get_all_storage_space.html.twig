@@ -8,42 +8,42 @@
     <h1>Tous les espaces de stockage</h1>
 
     {% if app.user %}
-        <p><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></p>
+        <p class='link_for_add'><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></p>
     {% else %}
     {% endif %}
     <section>
-        <article>
+        
 
-            {% for storageSpace in storageSpaces %}
+        {% for storageSpace in storageSpaces %}
 
-                {% if storageSpace.available == true %}
-
+            {% if storageSpace.available == true %}
+                <article class='storage'>
                     <ul>
                         <a href="{{ path('storage_space_one', { 'id' : storageSpace.id } ) }}">
                         
-                            <div>
-                                {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
+                            <div class="img_storage_page_get_all">
+                                 <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
                             </div>
 
-                            <li> {{ storageSpace.title }} </li>
-                            <li> {{ storageSpace.description }} </li>
-                            <li> 
+                            <li class='storage_title'> {{ storageSpace.title }} </li>
+                            <li class='storage_description'> Description : {{ storageSpace.description }} </li>
+                            <li class='storage_position'> 
                                 <span> {{ storageSpace.adresse }}  </span> 
                                 <span> {{ storageSpace.postalCode }} </span> 
                                 <span> {{ storageSpace.city }} </span>
                             </li>
-                            <li> {{ storageSpace.category.name }} </li>
-                            <li> {{ storageSpace.space }} m2</li>
-                            <li> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
-                            <li> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                            <li>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
+                            <li class='storage_category'> Categorie : {{ storageSpace.category.name }} </li>
+                            <li class='storage_space'> {{ storageSpace.space }} m2</li>
+                            <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
+                            <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
+                            <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
                         </a>
                     </ul>
-                {% else %}
-                {% endif %}
+                </article>
+            {% else %}
+            {% endif %}
 
-            {% endfor %}
-        </article>
+        {% endfor %}
     </section>
 </div>
 {% endblock %}
