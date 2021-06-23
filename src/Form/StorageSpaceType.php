@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\StorageSpace;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -66,6 +67,8 @@ class StorageSpaceType extends AbstractType
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'label' => 'Image mise en avant',
+                'allow_delete' => false, // pas obligatoire, sur true par defaut, si on le met sur false le checkbox de suppression disparait
+                'download_uri' => false, // pas obligatoire, sur true par defaut, si on le met sur false le lien de téléchargement disparait
             ])
         ;
     }

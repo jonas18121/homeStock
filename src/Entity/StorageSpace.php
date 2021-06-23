@@ -106,6 +106,11 @@ class StorageSpace
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateUpdatedAt;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -223,17 +228,17 @@ class StorageSpace
         return $this->imageFile;
     }
 
-    public function setImageFile(?File $image)
+    public function setImageFile(File $image = null)
     {
         $this->imageFile = $image;
         
         // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        // if ($image) {
-        //     // if 'updatedAt' is not defined in your entity, use another property
-        //     $this->updated_at = new \DateTime('now');
-        // }
+        // Il est obligatoire qu'au moins un champ change si vous utilisez Doctrine,
+        // sinon les écouteurs d'événement ne seront pas appelés et le fichier est perdu
+        if ($image) {
+            // si 'updatedAt' n'est pas défini dans votre entité, utilisez une autre propriété
+            $this->dateUpdatedAt = new \DateTime('now');
+        }
     }
 
     /**
@@ -352,6 +357,18 @@ class StorageSpace
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getDateUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->dateUpdatedAt;
+    }
+
+    public function setDateUpdatedAt(?\DateTimeInterface $dateUpdatedAt): self
+    {
+        $this->dateUpdatedAt = $dateUpdatedAt;
 
         return $this;
     }

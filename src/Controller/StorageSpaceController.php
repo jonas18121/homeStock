@@ -32,8 +32,6 @@ class StorageSpaceController extends AbstractController
     {
         $storageSpaces = $repo->find_All_storage();
 
-        // dd($storageSpaces);
-
         return $this->render('storage_space/get_all_storage_space.html.twig', [
             'storageSpaces' => $storageSpaces,
         ]);
@@ -146,7 +144,6 @@ class StorageSpaceController extends AbstractController
             $storageSpace->setDateCreatedAt(new \DateTime())
                 ->setOwner($this->getUser())
                 ->setAvailable(true)
-                // ->setPriceByMonth($priceByMonth)
             ;
 
             $manager->persist($storageSpace);
@@ -174,14 +171,8 @@ class StorageSpaceController extends AbstractController
         $form->handleRequest($request);
 
         
+        
         if ($form->isSubmitted() && $form->isValid()) {
-
-            /* $priceByMonth = $this->price_by_month($storageSpace);
-
-            if($storageSpace->getPriceByMonth() != $priceByMonth)
-            {
-                $storageSpace->setPriceByMonth($priceByMonth);
-            }  */
             
             $manager->persist($storageSpace);
             $manager->flush();
