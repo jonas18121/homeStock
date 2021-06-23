@@ -6,3 +6,7 @@ vich_uploader:
             uri_prefix: '%app.path.images%'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
             upload_destination: '%kernel.project_dir%/public%app.path.images%'
+
+            inject_on_load: false
+            delete_on_remove: true # suppression du fichier à la suppression de l’entité
+            delete_on_update: true # suppression du fichier quand un nouveau fichier est envoyé
