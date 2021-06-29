@@ -19,7 +19,7 @@ class UserType extends AbstractType
                 'label' => 'Tel'
             ])
             ->add('email')
-            ->add('images')
+            // ->add('images')
         ;
     }
 

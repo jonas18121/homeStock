@@ -235,16 +235,15 @@ h1 {
 }
 
 .img_storage_page_get_all {
-   height: 60rem;
+   height: 90rem;
 }
 
 
-/* ***** page_login ***** */
+/* ***** page with form ***** */
 
 .container_form {
-   /* background-color: aqua; */
    margin: 5rem auto;
-   width: 70rem;
+   width: 90%;
 }
 
 .div_form {
@@ -255,12 +254,13 @@ h1 {
    display: block;
    text-align: left;
    font-size: 6rem;
+   margin: 2rem 0;
 }
 
 .form_input {
    display: block;
    width: 100%;
-   height: 6rem;
+   height: 8rem;
    font-size: 4rem;
 }
 
@@ -274,4 +274,26 @@ h1 {
 .form_action{
   font-size: 4rem;
   margin: 4rem 0;
+}
+
+/* ***** page_get_one_user ***** */
+
+.profile_one_user {
+  margin: 5rem auto;
+  width: 90%;
+}
+
+.profile_one_user li, .profile_one_user button {
+  font-size: 5.5rem;
+  margin: 2rem;
+}
+
+/* .profile_one_user span form {
+  display: inline;
+} */
+
+.profile_one_user .modif_or_supp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
