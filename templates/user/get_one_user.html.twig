@@ -8,33 +8,33 @@
     <h1>Mon compte</h1>
 
     <section>
-    <article>
-        <ul>
-            <div>
-                {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
-            </div>
-            <li> {{ user.lastName }} </li>
-            <li> {{ user.firstName }} </li>
-            <li> +33{{ user.phoneNumber }} </li>
-            <li> {{ user.email }} </li>
-            <li>Céer le : {{ user.dateCreatedAt | date('d/m/Y H:i') }} </li>
+        <article class="profile_one_user">
+            <ul>
+                <div>
+                    {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
+                </div>
+                <li> {{ user.lastName }} </li>
+                <li> {{ user.firstName }} </li>
+                <li> +33{{ user.phoneNumber }} </li>
+                <li> {{ user.email }} </li>
+                <li>Céer le : {{ user.dateCreatedAt | date('d/m/Y H:i') }} </li>
 
-            <li>
-                <span>
-                    <a href="{{ path('user_edit', { 'id' : user.id } ) }}">Modifier</a>
-                </span>
+                <li class="modif_or_supp">
+                    <span>
+                        <a href="{{ path('user_edit', { 'id' : user.id } ) }}">Modifier</a>
+                    </span>
 
-                <span>
-                    {# <a href="{{ path('user_delete', { 'id' : user.id } ) }}">Supprimer</a> #}
-                    <form method="POST" action="{{ path('user_delete') }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre compte ?')">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                        <button> Supprimer </button>
-                    </form>
-                </span>
-            </li>
-        </ul>
-    </article>
+                    <span>
+                        {# <a href="{{ path('user_delete', { 'id' : user.id } ) }}">Supprimer</a> #}
+                        <form method="POST" action="{{ path('user_delete') }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre compte ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                            <button> Supprimer </button>
+                        </form>
+                    </span>
+                </li>
+            </ul>
+        </article>
 
     </section>
 </div>
