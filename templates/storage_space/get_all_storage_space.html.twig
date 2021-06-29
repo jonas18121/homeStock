@@ -21,9 +21,9 @@
                     <ul>
                         <a href="{{ path('storage_space_one', { 'id' : storageSpace.id } ) }}">
                         
-                            <div class="img_storage_page_get_all">
-                                 <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
-                            </div>
+                            <li >
+                                 <img class="img_storage_page_get_all" src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+                            </li>
 
                             <li class='storage_title'> {{ storageSpace.title }} </li>
                             <li class='storage_description'> Description : {{ storageSpace.description }} </li>

@@ -207,14 +207,14 @@ h1, h2, h3,
 }
 
 h1 {
-  font-size: 8rem;
+  font-size: 10rem;
 }
 
 .link_for_add {
   font-size: 4rem;
 }
 
-/* page_get_all */
+/* ***** page_get_all ***** */
 
 .storage {
     margin: 7rem 0;
@@ -234,3 +234,44 @@ h1 {
    font-size: 5rem;
 }
 
+.img_storage_page_get_all {
+   height: 60rem;
+}
+
+
+/* ***** page_login ***** */
+
+.container_form {
+   /* background-color: aqua; */
+   margin: 5rem auto;
+   width: 70rem;
+}
+
+.div_form {
+  margin: 5rem 0;
+}
+
+.form_label {
+   display: block;
+   text-align: left;
+   font-size: 6rem;
+}
+
+.form_input {
+   display: block;
+   width: 100%;
+   height: 6rem;
+   font-size: 4rem;
+}
+
+.btn_submit {
+   width: 30rem;
+   height: 6rem;
+   font-size: 4rem;
+   margin: 0 0 2rem 0;
+}
+
+.form_action{
+  font-size: 4rem;
+  margin: 4rem 0;
+}
