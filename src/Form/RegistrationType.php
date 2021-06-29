@@ -40,7 +40,7 @@ class RegistrationType extends AbstractType
                     'placeholder' => 'Confirmer votre mot de passe'
                 ]
             ])
-            ->add('images')
+            // ->add('images')
         ;
     }
 
