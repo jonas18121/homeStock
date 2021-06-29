@@ -86,21 +86,6 @@
                 <small>{{ form_errors(formRegistration.confirm_password) }} </small>
             </div>
 
-            <div class="div_form">
-
-                <div class="form-error">
-                    {{ form_errors(formRegistration.confirm_password) }}
-                </div>
-
-                <label for="inputPassword" class="form_label">Confirmer Mot de passe</label>
-
-                <div>
-                    {{ form_widget(formRegistration.confirm_password, {attr : {class : 'form_input' }} ) }}
-                </div>
-                
-                <small>{{ form_errors(formRegistration.confirm_password) }} </small>
-            </div>
-
             {# <div class="form__group">
                 <label for="inputImage">Photo de profil (Facultatif)</label>
                 {{ form_widget(form.image.file, {attr : {class : 'form__control'} } ) }}
