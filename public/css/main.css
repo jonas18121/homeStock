@@ -297,3 +297,52 @@ h1 {
   flex-direction: row;
   justify-content: space-around;
 }
+
+
+/* ***** table responsive ***** */
+
+.table-responsive thead {
+  display: none;
+}
+
+.table-responsive table,
+/* .table-responsive thead, */
+.table-responsive tbody,
+.table-responsive th,
+.table-responsive td,
+.table-responsivetr {
+  display: block;
+}
+
+
+/* on active l'attribut data-title */
+.table-responsive td:before { 
+  content: attr(data-title); 
+}
+
+.table-responsive td {
+  position: relative;
+  border: 0px solid transparent;
+  padding-left: 50% !important;
+  white-space: normal;
+  text-align: right; 
+}
+
+.table-responsive td:before { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%; 
+  padding-right: 1.5rem; 
+  height:100%;
+  white-space: nowrap;
+  text-overflow: ellipsis !important;
+  overflow:hidden !important;
+  text-align:left;
+  background-color:#f8f8f8;
+  padding:2px;
+}
+
+.table-responsive td {
+  font-size: 2.5rem;
+}

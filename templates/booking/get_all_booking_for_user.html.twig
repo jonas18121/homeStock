@@ -9,7 +9,7 @@
     <section>
         <h1>Voir tous mes transactions</h1>
 
-        <table class="table">
+        <table class="table table-responsive">
             <thead>
                 <tr>
                     <th scope="col">Nom du produit</th>
@@ -29,26 +29,26 @@
                 {% for booking in bookings %}
                     
                     <tr>
-                        <td>{{ booking.storageSpace.title }}</td>
-                        <td>
+                        <td data-title="Nom du produit">{{ booking.storageSpace.title }}</td>
+                        <td data-title="Adresse complet du produit">
                             {{ booking.storageSpace.adresse }}
                             {{ booking.storageSpace.postalCode }}
                             {{ booking.storageSpace.city }}
                         </td>
-                        <td>{{ booking.storageSpace.category.name }}</td>
-                        <td>{{ booking.storageSpace.space }} m2</td>
-                        <td>
+                        <td data-title="Type du produit">{{ booking.storageSpace.category.name }}</td>
+                        <td data-title="espace du produit">{{ booking.storageSpace.space }} m2</td>
+                        <td data-title="Propriétaire du produit">
                             {{ booking.storageSpace.owner.firstName }}
                             {{ booking.storageSpace.owner.lastName }}
                         </td>
-                        <td>{{ booking.storageSpace.priceByMonth  / 100 | number_format(2, '.', ' ') }} €/mois</td>
-                        <td>{{ booking.dateCreatedAt | date('d/m/Y H:i') }}</td>
-                        <td>{{ booking.dateStartAt | date('d/m/Y') }}</td>
+                        <td data-title="Prix/mois du produit">{{ booking.storageSpace.priceByMonth  / 100 | number_format(2, '.', ' ') }} €/mois</td>
+                        <td data-title="Date de création de la réservation">{{ booking.dateCreatedAt | date('d/m/Y H:i') }}</td>
+                        <td data-title="Date du début de la réservation">{{ booking.dateStartAt | date('d/m/Y') }}</td>
 
                         {% if booking.dateEndAt %}
-                            <td>{{ booking.dateEndAt | date('d/m/Y') }}</td>
+                            <td data-title="Date de fin de la réservation">{{ booking.dateEndAt | date('d/m/Y') }}</td>
                         {% else %}
-                               <td></td>
+                               <td data-title="Date de fin de la réservation"></td>
                         {% endif %}
                     </tr>
                 {% endfor %}
