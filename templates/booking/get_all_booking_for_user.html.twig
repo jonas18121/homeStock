@@ -27,9 +27,9 @@
 
             <tbody>
                 {% for booking in bookings %}
-                    
+                     
                     <tr>
-                        <td data-title="Nom du produit">{{ booking.storageSpace.title }}</td>
+                        <td data-title="Nom du produit" class="responsive_td_name_produit">{{ booking.storageSpace.title }}</td>
                         <td data-title="Adresse complet du produit">
                             {{ booking.storageSpace.adresse }}
                             {{ booking.storageSpace.postalCode }}
