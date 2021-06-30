@@ -104,7 +104,7 @@ nav form button {
   margin-bottom: 0.5rem;
   position: relative;
   
-  background: #cdcdcd;
+  background: #4c44bb;
   border-radius: .3rem;
   
   z-index: 1;
@@ -131,7 +131,7 @@ nav form button {
 #menuToggle input:checked ~ span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+  background: #4c44bb;
 }
  
 /*
