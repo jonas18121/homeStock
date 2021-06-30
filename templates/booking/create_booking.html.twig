@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="form_container">
+<div class="container">
 
     <h1>Faire une réservation</h1>
 
@@ -29,20 +29,20 @@
 
     {% if oneBookingTrue != true %}
 
-        {{ form_start(formBooking, { 'attr' : { 'class' : 'form' }} ) }}
+        {{ form_start(formBooking, { 'attr' : { 'class' : 'container_form ' }} ) }}
 
-            <div class="form_group">
+            <div class="div_form">
 
                 <div class="form-error">
                     {{ form_errors(formBooking.dateStartAt) }}
                 </div>
 
-                <label for="inputTitle">Date de réservation : </label>
+                <label for="inputTitle"class='form_label'>Date de réservation : </label>
 
                 <div>
                     {{ form_widget(formBooking.dateStartAt, {attr : 
                         {
-                            class : 'form_control js-datepicker',
+                            class : ' js-datepicker form_input',
 
                         }} ) }}
                 </div>
