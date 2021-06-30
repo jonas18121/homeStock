@@ -297,3 +297,62 @@ h1 {
   flex-direction: row;
   justify-content: space-around;
 }
+
+
+/* ***** table responsive ***** */
+
+.table-responsive thead {
+  display: none;
+}
+
+.table-responsive table,
+/* .table-responsive thead, */
+.table-responsive tbody,
+.table-responsive th,
+.table-responsive td,
+.table-responsive tr {
+  display: block;
+}
+
+
+/* on active l'attribut data-title */
+.table-responsive td:before { 
+  content: attr(data-title); 
+}
+
+.table-responsive tr {
+  width: 100%;
+}
+
+.table-responsive td {
+  position: relative;
+  border: 0px solid transparent;
+  padding-left: 50% !important;
+  white-space: normal;
+  text-align: center; 
+  font-size: 2rem;
+  
+}
+
+.table-responsive td:before { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%; 
+  padding-right: 1.5rem; 
+  height:100%;
+  white-space: nowrap;
+  text-overflow: ellipsis !important;
+  overflow:hidden !important;
+  /* text-align:left; */
+  background-color:#f8f8f8;
+  /* padding:2px; */
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.responsive_td_name_produit, 
+.table-responsive td.responsive_td_name_produit:before
+{
+  background-color: #4c44bb;
+}
