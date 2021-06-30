@@ -286,8 +286,11 @@ h3, h4, h5 {
   margin: 4rem 0;
 }
 
-.btn_pay_or_cancel_booking, .success_payment_facturation {
-  width: 30rem;
+.btn_pay_or_cancel_booking, 
+.success_payment_facturation, 
+.btn
+{
+  width: 100%;
   height: 100%;
   font-size: 4rem;
   margin: 0 0 2rem 0;
