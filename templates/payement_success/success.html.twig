@@ -3,21 +3,26 @@
 {% block title %}success{% endblock %}
 
 {% block body %}
-<h1>Payement réussie</h1>
 
-<p>Votre payement a bien été réaliser</p>
+<div class="container">
+    <section>
+        <h1>Payement réussie</h1>
 
-<div>
-    <pre></pre>
+        <p class="success_payment">Votre payement a bien été réaliser</p>
 
-    {# <pre>
-        {{ dump(app.request.get('stripeSessionId')) }}
-    </pre> #}
+        <div>
+            <pre></pre>
 
-    <form id="manage-billing-form-ok" method='POST'>
-        <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
-        <button type='submit'>Gérer la facturation</button>
-    </form>
+            {# <pre>
+                {{ dump(app.request.get('stripeSessionId')) }}
+            </pre> #}
+
+            <form id="manage-billing-form-ok" method='POST'>
+                <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
+                <button type='submit' class="success_payment_facturation" >Gérer la facturation</button>
+            </form>
+        </div>
+    </section>
 </div>
 
 {% endblock %}
