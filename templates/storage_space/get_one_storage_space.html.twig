@@ -40,15 +40,15 @@
 
                         {% if storageSpace.owner.id == app.user.id %}
                             <span>
-                                <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}">Modifier</a>
+                                <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}" class="btn">Modifier</a>
                             </span>
 
                             <span>
-                                <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}">Supprimer</a>
+                                <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}" class="btn">Supprimer</a>
                             </span>
                         {% else %}
                             <span>
-                                <a href="{{ path('booking_add', { 'id' : storageSpace.id } ) }}">Réserver</a>
+                                <a href="{{ path('booking_add', { 'id' : storageSpace.id } ) }}" class="btn">Réserver</a>
                             </span>
                         {% endif %}
                     </li>
@@ -100,25 +100,25 @@
 
                 {% if app.user %}
 
-                    {{ form_start(formComment, { 'attr' : { 'class' : 'form' }} ) }}
+                    {{ form_start(formComment, { 'attr' : { 'class' : 'container_form' }} ) }}
 
-                        <div class="form_group">
+                        <div class="div_form">
 
                             <div class="form-error">
                                 {{ form_errors(formComment.content) }}
                             </div>
 
-                            <label for="inputTitle">Commentaire : </label>
+                            <label for="inputTitle" class='form_label'>Commentaire : </label>
 
                             <div>
-                                {{ form_widget(formComment.content, {attr : {class : 'form_control' }} ) }}
+                                {{ form_widget(formComment.content, {attr : {class : 'form_input' }} ) }}
                             </div>
                             
                             <small>{{ form_errors(formComment.content) }} </small>
 
                         </div>
 
-                        <button type="submit" class="btn_submit">Ajouter</button>
+                        <button type="submit" class="btn">Ajouter</button>
 
                     {{ form_end(formComment) }}
                 {% endif %}
