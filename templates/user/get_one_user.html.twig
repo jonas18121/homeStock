@@ -20,8 +20,8 @@
                 <li>Céer le : {{ user.dateCreatedAt | date('d/m/Y H:i') }} </li>
 
                 <li class="modif_or_supp">
-                    <span>
-                        <a href="{{ path('user_edit', { 'id' : user.id } ) }}">Modifier</a>
+                    <span class="span_modif_get_one_user">
+                        <a href="{{ path('user_edit', { 'id' : user.id } ) }}" class="btn_modif_get_one_user"> Modifier</a>
                     </span>
 
                     <span>
@@ -29,7 +29,7 @@
                         <form method="POST" action="{{ path('user_delete') }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir supprimer votre compte ?')">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                            <button> Supprimer </button>
+                            <button class="btn"> Supprimer </button>
                         </form>
                     </span>
                 </li>
