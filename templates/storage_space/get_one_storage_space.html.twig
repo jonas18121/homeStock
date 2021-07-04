@@ -8,7 +8,7 @@
     <h1>Espaces de stockage</h1>
 
     <section>
-        <article>
+        <article class='storage'>
 
             <ul>
                 <div>
@@ -22,19 +22,19 @@
                     {% endif %}
                 </div>
 
-                <li> {{ storageSpace.title }} </li>
-                <li> {{ storageSpace.description }} </li>
-                <li> 
+                <li class='storage_title'> {{ storageSpace.title }} </li>
+                <li class='storage_description'> {{ storageSpace.description }} </li>
+                <li class='storage_position'> 
                     <span> {{ storageSpace.adresse }}  </span> 
                     <span> {{ storageSpace.postalCode }} </span> 
                     <span> {{ storageSpace.city }} </span>
                 </li>
-                <li> {{ storageSpace.category.name }} </li>
-                <li> {{ storageSpace.space }} m2</li>
-                <li> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
-                <li> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                <li>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
-                <li> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
+                <li class='storage_category'> {{ storageSpace.category.name }} </li>
+                <li class='storage_space'> {{ storageSpace.space }} m2</li>
+                <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
+                <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
+                <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
+                <li class='storage_owner'> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
 
                 {% if app.user %}
                     <li class="one_storage_btn">
@@ -61,7 +61,7 @@
         </article>
 
         <article>
-            <div>
+            <div class="comment">
                 <h2>Liste des commentaires</h2>
 
                 {% for comment in storageSpace.comments %}
