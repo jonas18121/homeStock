@@ -51,7 +51,7 @@ nav li, li {
 }
 
 nav form button {
-    font-size: 4.5rem;
+    font-size: 3.5rem;
     width: 75%;
     height: 5rem;
 }
@@ -69,7 +69,7 @@ nav form button {
 #menuToggle a {
   text-decoration: none;
   color: #232323;
-  
+  font-size: 4rem;
   transition: color 0.3s ease;
 }
 
@@ -201,7 +201,8 @@ h1, h2, h3,
 .storage_space,
 .storage_price_days,
 .storage_price_month,
-.storage_date_create 
+.storage_date_create,
+.storage_owner
 {
   margin: 2rem;
   word-wrap: break-word;
@@ -212,8 +213,12 @@ h1 {
   font-size: 7rem;
 }
 
+h2 {
+  font-size: 4rem;
+}
+
 h3, h4, h5 {
-  font-size: 6rem;
+  font-size: 3rem;
 }
 
 .link_for_add {
@@ -244,6 +249,11 @@ h3, h4, h5 {
    height: 29rem;
 }
 
+/* ***** page_get_one_storage ***** */
+
+.comment p, .comment p span {
+  font-size: 2.5rem;
+}
 
 /* ***** page with form ***** */
 
@@ -335,16 +345,6 @@ a.btn {
   margin: 2rem;
 }
 
-/* .profile_one_user span form {
-  display: inline;
-} */
-
-/* .profile_one_user .modif_or_supp {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-} */
-
 
 /* ***** table responsive ***** */
 
@@ -378,6 +378,7 @@ a.btn {
   white-space: normal;
   text-align: center; 
   font-size: 2rem;
+  padding: 1.5rem 0;
   
 }
 
@@ -393,8 +394,8 @@ a.btn {
   overflow:hidden !important;
   /* text-align:left; */
   background-color:#f8f8f8;
-  /* padding:2px; */
-  font-size: 4rem;
+  padding:1.5rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 
