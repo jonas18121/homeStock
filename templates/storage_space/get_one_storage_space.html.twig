@@ -12,12 +12,14 @@
 
             <ul>
                 <div>
-                    <pre>
-                        {{ dump(storageSpace.images) }}
-                    </pre>
                     {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
-                    <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" >
+                    {# <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > #}
                     {# <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" > #}
+                    {% if storageSpace.images %}
+                        <img class="img_storage_page_get_all" src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+                    {% else %}
+                        <img class="img_storage_page_get_all" src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
+                    {% endif %}
                 </div>
 
                 <li> {{ storageSpace.title }} </li>
@@ -35,7 +37,7 @@
                 <li> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
 
                 {% if app.user %}
-                    <li>
+                    <li class="one_storage_btn">
                         
 
                         {% if storageSpace.owner.id == app.user.id %}

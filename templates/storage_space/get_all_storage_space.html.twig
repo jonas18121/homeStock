@@ -11,18 +11,25 @@
         <p class='link_for_add'><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></p>
     {% else %}
     {% endif %}
+
+    
     <section>
         
 
         {% for storageSpace in storageSpaces %}
 
             {% if storageSpace.available == true %}
+
                 <article class='storage'>
                     <ul>
                         <a href="{{ path('storage_space_one', { 'id' : storageSpace.id } ) }}">
                         
                             <li >
-                                 <img class="img_storage_page_get_all" src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+                                {% if storageSpace.images %}
+                                    <img class="img_storage_page_get_all" src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+                                {% else %}
+                                    <img class="img_storage_page_get_all" src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
+                                {% endif %}
                             </li>
 
                             <li class='storage_title'> {{ storageSpace.title }} </li>
