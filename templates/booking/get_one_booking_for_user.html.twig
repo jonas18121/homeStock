@@ -16,7 +16,7 @@
 
 <div class="container">
     <section>
-        <h1>voir ma réservation</h1>
+        <h1>Voir ma réservation</h1>
 
         <table class="table table-responsive">
             <thead>
@@ -58,7 +58,7 @@
                     {% if booking.dateEndAt %}
                         <td data-title="Date de fin de la réservation">{{ booking.dateEndAt | date('d/m/Y') }}</td>
                     {% else %}
-                            <td data-title="Date de fin de la réservation"></td>
+                            {# <td data-title="Date de fin de la réservation"></td> #}
                     {% endif %}
 
                     {% if booking.pay == false %}
