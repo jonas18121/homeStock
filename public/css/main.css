@@ -51,7 +51,7 @@ nav li, li {
 }
 
 nav form button {
-    font-size: 3.5rem;
+    font-size: 2.2rem;
     width: 75%;
     height: 5rem;
 }
@@ -158,7 +158,7 @@ nav form button {
   position: absolute;
   width: 117%;
   margin: -10rem 0 0 -5rem;
-  padding: 5.5rem 0;
+  padding: 5.5rem .5rem;
   /* padding-top: 12.5rem; */
   
   background: #ededed;
@@ -173,9 +173,17 @@ nav form button {
 }
 
 #menu li {
-  padding: 1rem 0;
-  /* font-size: 2.2rem; */
+  margin: 1rem 0;
+  font-size: 4.2rem;
 }
+
+#menu li a {
+  font-size: 3rem;
+}
+
+/* #menu li button {
+  font-size: 2rem;
+} */
 
 /*
  * And let's slide it in from the left
@@ -210,7 +218,7 @@ h1, h2, h3,
 }
 
 h1 {
-  font-size: 7rem;
+  font-size: 5.5rem;
 }
 
 h2 {
@@ -223,6 +231,7 @@ h3, h4, h5 {
 
 .link_for_add {
   font-size: 4rem;
+  margin: 5rem 0 1rem;
 }
 
 /* ***** page_get_all ***** */
@@ -269,32 +278,33 @@ h3, h4, h5 {
 .form_label {
    display: block;
    text-align: left;
-   font-size: 6rem;
+   font-size: 3rem;
    margin: 2rem 0;
 }
 
 .form_input {
    display: block;
    width: 100%;
-   height: 8rem;
-   font-size: 4rem;
+   height: 5rem;
+   font-size: 2.5rem;
 }
 
 .form_input select {
   height: 100%;
-  font-size: 60px;
-  width: 33%;
+  font-size: 2.5rem;
+  width: 30%;
+  margin: 0.5rem;
 }
 
 .btn_submit {
    width: 30rem;
    height: 6rem;
-   font-size: 4rem;
+   font-size: 3rem;
    margin: 0 0 2rem 0;
 }
 
 .form_action{
-  font-size: 4rem;
+  font-size: 3rem;
   margin: 4rem 0;
 }
 
@@ -414,7 +424,82 @@ a.btn {
 /* **************** css pour TABLETTE *********************** */
 @media only screen and (min-width: 600px) 
 {
+  /* /////////// H E A D E R ////////////// */
+
+  #menu {
+    padding: 2.5rem .5rem;
+    width: 108%;
+  }
+
+
+  #menuToggle span {
+    width: 9rem;
+    height: 1.5rem;
+    transform-origin: 3rem 1.3rem;
+  }
+
+  #menuToggle span:nth-last-child(2) {
+    transform-origin: 1.2rem -1rem;
+  }
+
+  #menu li a {
+    font-size: 4.5rem;
+  }
+
+  #menu li {
+    margin: 2rem 0;
+  }
+
+  nav form button {
+    font-size: 4rem;
+  }
+
+  /* /////////// M A I N ////////////// */
+
+
   .container{
     padding: 4rem;
+  }
+
+
+  /* ***** page_get_all ***** */
+
+  .img_storage_page_get_all {
+    height: 47rem;
+  }
+
+  .storage_title {
+    font-size: 5rem;
+  }
+
+  .storage_description,
+  .storage_position, 
+  .storage_position span, 
+  .storage_category, 
+  .storage_space, 
+  .storage_price_days, 
+  .storage_price_month, 
+  .storage_date_create, 
+  .storage_owne {
+    font-size: 4rem;
+  }
+
+
+  /* ***** table responsive ***** */
+  
+  .table-responsive td {
+    font-size: 3rem;
+  }
+
+  .table-responsive td:before {
+    font-size: 2.5rem;
+  }
+
+
+  /* ***** page_get_one_user ***** */
+  
+  .profile_one_user li, .profile_one_user button {
+    font-size: 4.5rem;
+    margin: 2rem;
   }
 }
