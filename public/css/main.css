@@ -503,3 +503,73 @@ a.btn {
     margin: 2rem;
   }
 }
+
+
+/* **************** css pour Desktop 1025px à 1650px *********************** */
+@media only screen and (min-width: 1025px) 
+{
+  nav {
+    margin: 0;
+  }
+
+  #menuToggle span {
+    display: none;
+    position: initial;
+  }
+
+  #menuToggle {
+    position: initial;
+  }
+
+  #menuToggle input {
+    display: none;
+  }
+
+  #menu {
+    transform: none;
+    position: initial;
+    margin: 0;
+    padding: 1rem 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #4c44bb;
+    
+  }
+
+  .menu_li_dashboard {
+    position: relative;
+
+  }
+
+  #menu li {
+    font-size: 3rem;
+  }
+  
+  #menu li a {
+    color: #aaa;
+    font-size: 3rem;
+  }
+
+  nav form button {
+    color: #aaa;
+    background-color: #4c44bb;
+    width: 88%;
+    font-size: 2.5rem;
+  }
+
+  .sous_menu {
+    display: none;
+  }
+
+  nav li:hover .sous_menu {
+    display: inline-block;
+    position: absolute;
+    top: 4rem;
+    left: -17rem;
+    background-color: #4c44bb;
+    width: 260%;
+  }
+}
