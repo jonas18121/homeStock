@@ -38,9 +38,9 @@
 
                         {% if app.user %}
                             <li><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></li>
-                            <li>
+                            <li class="menu_li_dashboard">
                                 Tableau de bord
-                                <ul>
+                                <ul class="sous_menu">
                                     <li >
                                         <form id="manage-billing-form" method='POST'>
                                             <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
