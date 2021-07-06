@@ -73,9 +73,9 @@ nav form button {
   transition: color 0.3s ease;
 }
 
-#menuToggle a:hover
+#menuToggle li:hover, #menuToggle a:hover
 {
-  color: tomato;
+  color: #FFE4B5;
 }
 
 #menuToggle input
@@ -567,7 +567,7 @@ a.btn {
   nav li:hover .sous_menu {
     display: inline-block;
     position: absolute;
-    top: 4rem;
+    top: 3rem;
     left: -17rem;
     background-color: #4c44bb;
     width: 260%;
