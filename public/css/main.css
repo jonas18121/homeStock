@@ -505,9 +505,13 @@ a.btn {
 }
 
 
-/* **************** css pour Desktop 1025px à 1650px *********************** */
+/* **************** css pour Desktop *********************** */
 @media only screen and (min-width: 1025px) 
 {
+
+  /* /////////// H E A D E R ////////////// */
+
+
   nav {
     margin: 0;
   }
@@ -571,5 +575,80 @@ a.btn {
     left: -17rem;
     background-color: #4c44bb;
     width: 260%;
+  }
+
+
+  
+  /* /////////// M A I N ////////////// */
+
+  /* ***** table responsive ***** */
+
+  /* .table-responsive thead {
+    display: table;
+  } */
+
+  /* revenir a une structure de tableau de base*/
+  .table-responsive table,
+  .table-responsive thead,
+  .table-responsive tbody,
+  .table-responsive th,
+  .table-responsive td,
+  .table-responsive tr {
+    display: revert;
+  }
+
+  /* on désactive l'attribut data-title */
+  .table-responsive td:before { 
+    content: ""; 
+  }
+
+  .table-responsive td:before { 
+    position: none;
+    top: 0;
+    left: 0;
+    width: 0; 
+    padding-right: 0; 
+    height:0;
+    background-color: none;
+    padding:0;
+    font-size: 0;
+    font-weight: bold;
+  }
+
+  .table-responsive td {
+    position: none;
+    /* border: .1rem solid black; */
+    padding-left: 0% !important;
+    white-space: normal;
+    text-align: center; 
+    font-size: 2rem;
+    padding: 0;
+    
+  }
+
+  .table, .table-responsive th, .table-responsive td  {
+    border: .1rem solid rgb(80, 76, 76);
+    border-collapse: collapse;
+    padding: 1rem;
+  }
+
+  .responsive_td_name_produit, 
+  .table-responsive td.responsive_td_name_produit:before
+  {
+    background-color: transparent;
+  }
+
+  .table-responsive th {
+    background-color: #4c44bb;
+  }
+
+  .table-responsive tr:nth-child(even) {
+    background-color: #7c7878;
+    color: #111;
+  }
+
+  .table-responsive tr:hover {
+    background-color: rgb(70, 71, 66);
+    color: #aaa;
   }
 }

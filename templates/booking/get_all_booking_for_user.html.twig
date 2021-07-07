@@ -21,7 +21,7 @@
                     <th scope="col">Date de création de la réservation</th>
                     <th scope="col">Date du début de la réservation</th>
                     <th scope="col">Date de fin de la réservation</th>
-                    <th></th>
+                    {# <th></th> #}
                 </tr>
             </thead>
 
@@ -48,7 +48,7 @@
                         {% if booking.dateEndAt %}
                             <td data-title="Date de fin de la réservation">{{ booking.dateEndAt | date('d/m/Y') }}</td>
                         {% else %}
-                               <td data-title="Date de fin de la réservation"></td>
+                               {# <td data-title="Date de fin de la réservation"></td> #}
                         {% endif %}
                     </tr>
                 {% endfor %}
