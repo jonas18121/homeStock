@@ -13,7 +13,7 @@
     {% endif %}
 
     
-    <section>
+    <section class="get_all_storage_space">
         
 
         {% for storageSpace in storageSpaces %}
@@ -33,17 +33,17 @@
                             </li>
 
                             <li class='storage_title'> {{ storageSpace.title }} </li>
-                            <li class='storage_description'> Description : {{ storageSpace.description }} </li>
-                            <li class='storage_position'> Adresse :
+                            {# <li class='storage_description'> Description : {{ storageSpace.description }} </li> #}
+                            <li class='storage_category'> Categorie : {{ storageSpace.category.name }} </li>
+                            <li class='storage_position'>
                                 <span> {{ storageSpace.adresse }}  </span> 
                                 <span> {{ storageSpace.postalCode }} </span> 
                                 <span> {{ storageSpace.city }} </span>
                             </li>
-                            <li class='storage_category'> Categorie : {{ storageSpace.category.name }} </li>
                             <li class='storage_space'> {{ storageSpace.space }} m2</li>
                             <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
                             <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                            <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
+                            {# <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li> #}
                         </a>
                     </ul>
                 </article>
