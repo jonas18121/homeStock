@@ -28,7 +28,6 @@ img, video, table{
 
 a{
     text-decoration: none;
-    margin: 0.2rem;
     color: #aaa;
 }
 
@@ -212,9 +211,10 @@ h1, h2, h3,
 .storage_date_create,
 .storage_owner
 {
-  margin: 2rem;
+  /* margin: 2rem; */
   word-wrap: break-word;
   font-size: x-large;
+  color: #444;
 }
 
 h1 {
@@ -236,9 +236,14 @@ h3, h4, h5 {
 
 /* ***** page_get_all ***** */
 
+.get_all_storage_space .storage {
+  background-color: #fff;
+  border-radius: 2rem;
+}
+
 .storage {
     margin: 7rem 0;
-    /* padding: 2rem; */
+    padding: 0 0 2rem 0;
 }
 
 .storage_title {
@@ -246,8 +251,8 @@ h3, h4, h5 {
 }
 
 .storage_position {
-   display: flex;
-   flex-direction: column;
+   /* display: flex;
+   flex-direction: column; */
 }
 
 .storage_position span {
@@ -255,13 +260,23 @@ h3, h4, h5 {
 }
 
 .img_storage_page_get_all {
-   height: 29rem;
+  height: 29rem;
+  border-radius: 2rem;
+}
+
+.storage_price_month {
+  color: #4c44bb;
 }
 
 /* ***** page_get_one_storage ***** */
 
 .comment p, .comment p span {
   font-size: 2.5rem;
+}
+
+.one_storage_space {
+  background-color: #fff;
+  border-radius: 2rem;
 }
 
 /* ***** page with form ***** */
@@ -462,7 +477,7 @@ a.btn {
   }
 
 
-  /* ***** page_get_all ***** */
+  /* ***** page_get_all_storage_space ***** */
 
   .img_storage_page_get_all {
     height: 47rem;
@@ -481,7 +496,8 @@ a.btn {
   .storage_price_month, 
   .storage_date_create, 
   .storage_owne {
-    font-size: 4rem;
+    font-size: 2.5rem;
+    padding: 0.5rem;
   }
 
 
@@ -650,5 +666,82 @@ a.btn {
   .table-responsive tr:hover {
     background-color: rgb(70, 71, 66);
     color: #aaa;
+  }
+
+  /************ page_get_all_storage_space ************/
+
+  .get_all_storage_space {
+    display: flex;
+    flex-wrap: wrap; /* mettre des items à la ligne */
+    justify-content: space-between;
+  }
+
+  .get_all_storage_space .storage {
+    width: 23%;
+    /* background-color: #fff;
+    border-radius: 2rem; */
+  }
+
+  .img_storage_page_get_all {
+    height: 35rem;
+    /* border-radius: 2rem; */
+  }
+
+  .storage_title {
+    font-size: 3.5rem;
+    color: #444;
+  }
+
+  .storage_description,
+  .storage_position, 
+  .storage_position span, 
+  .storage_category, 
+  .storage_space, 
+  .storage_price_days, 
+  .storage_price_month, 
+  .storage_date_create, 
+  .storage_owne {
+    font-size: 2.5rem;
+  }
+
+  /* .storage_position {
+    display: revert;
+  } */
+
+  
+  /************ page_get_one_storage_space ************/
+
+  .img_storage_page_get_one {
+    height: 70rem;
+    /* border-radius: 2rem; */
+  }
+
+  .one_storage_space {
+    width: calc(100% - 25%) ;
+    margin: 7rem auto;
+  }
+
+  /* .storage {
+    margin:  0;
+  } */
+
+}
+
+
+/* **************** css pour Desktop *********************** */
+@media only screen and (min-width: 2500px) 
+{
+  /* /////////// M A I N ////////////// */
+
+  /************ page_get_one_storage_space ************/
+
+  .img_storage_page_get_all_2500 {
+    height: 100rem;
+    /* border-radius: 2rem; */
+  }
+
+  .one_storage_space {
+    width: calc(100% - 35%) ;
+    margin: 7rem auto;
   }
 }

@@ -7,125 +7,129 @@
 <div class="container">
     <h1>Espaces de stockage</h1>
 
-    <section>
-        <article class='storage'>
+    <section class="section_one_storage_space ">
+        <section class="one_storage_space">
+            <article class='storage'>
 
-            <ul>
-                <div>
-                    {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
-                    {# <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > #}
-                    {# <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" > #}
-                    {% if storageSpace.images %}
-                        <img class="img_storage_page_get_all" src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
-                    {% else %}
-                        <img class="img_storage_page_get_all" src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
-                    {% endif %}
-                </div>
-
-                <li class='storage_title'> {{ storageSpace.title }} </li>
-                <li class='storage_description'> {{ storageSpace.description }} </li>
-                <li class='storage_position'> 
-                    <span> {{ storageSpace.adresse }}  </span> 
-                    <span> {{ storageSpace.postalCode }} </span> 
-                    <span> {{ storageSpace.city }} </span>
-                </li>
-                <li class='storage_category'> {{ storageSpace.category.name }} </li>
-                <li class='storage_space'> {{ storageSpace.space }} m2</li>
-                <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
-                <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
-                <li class='storage_owner'> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
-
-                {% if app.user %}
-                    <li class="one_storage_btn">
-                        
-
-                        {% if storageSpace.owner.id == app.user.id %}
-                            <span>
-                                <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}" class="btn">Modifier</a>
-                            </span>
-
-                            <span>
-                                <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}" class="btn">Supprimer</a>
-                            </span>
+                <ul>
+                    <div>
+                        {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
+                        {# <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > #}
+                        {# <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" > #}
+                        {% if storageSpace.images %}
+                            <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
                         {% else %}
-                            <span>
-                                <a href="{{ path('booking_add', { 'id' : storageSpace.id } ) }}" class="btn">Réserver</a>
-                            </span>
+                            <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
                         {% endif %}
+                    </div>
+
+                    <li class='storage_title'> {{ storageSpace.title }} </li>
+                    <li class='storage_description'> {{ storageSpace.description }} </li>
+                    <li class='storage_position'> 
+                        <span> {{ storageSpace.adresse }}  </span> 
+                        <span> {{ storageSpace.postalCode }} </span> 
+                        <span> {{ storageSpace.city }} </span>
                     </li>
-                {% else %}
-                {% endif %}
+                    <li class='storage_category'> {{ storageSpace.category.name }} </li>
+                    <li class='storage_space'> {{ storageSpace.space }} m2</li>
+                    <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
+                    <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
+                    <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
+                    <li class='storage_owner'> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
 
-            </ul>
-        </article>
+                    {% if app.user %}
+                        <li class="one_storage_btn">
+                            
 
-        <article>
-            <div class="comment">
-                <h2>Liste des commentaires</h2>
-
-                {% for comment in storageSpace.comments %}
-
-                    {% if comment.parent == null %}
-                    
-                        <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
-                        <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
-                            <span>
-                                <a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>
-                            </span>
-                        </p>
-                        <p>{{ comment.content }}</P>
-                        <p><a href="#add-comment" data-reply data-id="{{ comment.id }}">Répondre</a></p>
-                        {# dataset https://developer.mozilla.org/fr/docs/Web/API/HTMLOrForeignElement/dataset #}
-
-                        {# on affiche les réponses #}
-                        {% for reply in comment.replies %}
-                            <p>
-                                Réponse publié par 
-                                <strong> 
-                                    {{ reply.owner.lastName }} 
-                                    {{ reply.owner.firstName }} 
-                                </strong> 
-                                le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
+                            {% if storageSpace.owner.id == app.user.id %}
                                 <span>
-                                    <a href="{{ path('comment_delete', { 'id' : reply.id } ) }}">supprimer</a>
+                                    <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}" class="btn">Modifier</a>
+                                </span>
+
+                                <span>
+                                    <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}" class="btn">Supprimer</a>
+                                </span>
+                            {% else %}
+                                <span>
+                                    <a href="{{ path('booking_add', { 'id' : storageSpace.id } ) }}" class="btn">Réserver</a>
+                                </span>
+                            {% endif %}
+                        </li>
+                    {% else %}
+                    {% endif %}
+
+                </ul>
+            </article>
+        </section>
+
+        <section class="one_storage_space">
+            <article>
+                <div class="comment">
+                    <h2>Liste des commentaires</h2>
+
+                    {% for comment in storageSpace.comments %}
+
+                        {% if comment.parent == null %}
+                        
+                            <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
+                            <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
+                                <span>
+                                    <a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>
                                 </span>
                             </p>
-                            <p>{{ reply.content }}</P>
-                        {% endfor %}
+                            <p>{{ comment.content }}</P>
+                            <p><a href="#add-comment" data-reply data-id="{{ comment.id }}">Répondre</a></p>
+                            {# dataset https://developer.mozilla.org/fr/docs/Web/API/HTMLOrForeignElement/dataset #}
+
+                            {# on affiche les réponses #}
+                            {% for reply in comment.replies %}
+                                <p>
+                                    Réponse publié par 
+                                    <strong> 
+                                        {{ reply.owner.lastName }} 
+                                        {{ reply.owner.firstName }} 
+                                    </strong> 
+                                    le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
+                                    <span>
+                                        <a href="{{ path('comment_delete', { 'id' : reply.id } ) }}">supprimer</a>
+                                    </span>
+                                </p>
+                                <p>{{ reply.content }}</P>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div id="add-comment">
+                    <h2>Ajouter un commentaire</h2>
+
+                    {% if app.user %}
+
+                        {{ form_start(formComment, { 'attr' : { 'class' : 'container_form' }} ) }}
+
+                            <div class="div_form">
+
+                                <div class="form-error">
+                                    {{ form_errors(formComment.content) }}
+                                </div>
+
+                                <label for="inputTitle" class='form_label'>Commentaire : </label>
+
+                                <div>
+                                    {{ form_widget(formComment.content, {attr : {class : 'form_input' }} ) }}
+                                </div>
+                                
+                                <small>{{ form_errors(formComment.content) }} </small>
+
+                            </div>
+
+                            <button type="submit" class="btn">Ajouter</button>
+
+                        {{ form_end(formComment) }}
                     {% endif %}
-                {% endfor %}
-            </div>
-
-            <div id="add-comment">
-                <h2>Ajouter un commentaire</h2>
-
-                {% if app.user %}
-
-                    {{ form_start(formComment, { 'attr' : { 'class' : 'container_form' }} ) }}
-
-                        <div class="div_form">
-
-                            <div class="form-error">
-                                {{ form_errors(formComment.content) }}
-                            </div>
-
-                            <label for="inputTitle" class='form_label'>Commentaire : </label>
-
-                            <div>
-                                {{ form_widget(formComment.content, {attr : {class : 'form_input' }} ) }}
-                            </div>
-                            
-                            <small>{{ form_errors(formComment.content) }} </small>
-
-                        </div>
-
-                        <button type="submit" class="btn">Ajouter</button>
-
-                    {{ form_end(formComment) }}
-                {% endif %}
-            </div>
-        </article>
+                </div>
+            </article>
+        </section>
     </section>
 </div>
 {% endblock %}
