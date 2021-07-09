@@ -358,6 +358,12 @@ a.btn {
   
 }
 
+.error_form_login {
+  font-size: 3rem;
+  background-color: red;
+  padding: 2rem;
+}
+
 /* ***** page_get_one_user ***** */
 
 .profile_one_user {
