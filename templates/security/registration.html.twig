@@ -14,9 +14,9 @@
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formRegistration.lastName) }}
-                </div>
+                </div> #}
 
                 <label for="inputUsername" class="form_label">Nom d'utilisateur</label>
 
@@ -24,42 +24,44 @@
                     {{ form_widget(formRegistration.lastName, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formRegistration.lastName) }} </small>
+                <small class="error_input_small">{{ form_errors(formRegistration.lastName) }} </small>
+                
 
             </div>
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formRegistration.firstName) }}
-                </div>
+                </div> #}
 
                 <label for="inputUsername" class="form_label">Prénom d'utilisateur</label>
-
+                
                 <div>
                     {{ form_widget(formRegistration.firstName, {attr : {class : 'form_input' }} ) }}
                 </div>
+
+                <small class="error_input_small">{{ form_errors(formRegistration.firstName) }} </small>
                 
-                <small>{{ form_errors(formRegistration.firstName) }} </small>
 
             </div>
 
             <div class="div_form">
 
                 <label for="inputEmail" class="form_label">{{ form_label(formRegistration.email) }}</label>
-
+                
                 <div>
                     {{ form_widget(formRegistration.email, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formRegistration.email) }} </small>
+                <small class="error_input_small">{{ form_errors(formRegistration.email) }} </small>
             </div>
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formRegistration.password) }}
-                </div>
+                </div> #}
 
                 <label for="inputPassword" class="form_label">Mot de passe</label>
 
@@ -67,15 +69,15 @@
                     {{ form_widget(formRegistration.password, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formRegistration.password) }} </small>
+                <small class="error_input_small">{{ form_errors(formRegistration.password) }} </small>
 
             </div>
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formRegistration.confirm_password) }}
-                </div>
+                </div> #}
 
                 <label for="inputPassword" class="form_label">Confirmer Mot de passe</label>
 
@@ -83,7 +85,7 @@
                     {{ form_widget(formRegistration.confirm_password, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formRegistration.confirm_password) }} </small>
+                <small class="error_input_small">{{ form_errors(formRegistration.confirm_password) }} </small>
             </div>
 
             {# <div class="form__group">

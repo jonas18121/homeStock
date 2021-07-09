@@ -360,8 +360,14 @@ a.btn {
 
 .error_form_login {
   font-size: 3rem;
-  background-color: red;
+  background-color: rgb(88, 27, 27);
   padding: 2rem;
+}
+
+.error_input_small {
+  font-size: 2.5rem;
+  color: rgb(150, 26, 26);
+  padding: 1rem;
 }
 
 /* ***** page_get_one_user ***** */
