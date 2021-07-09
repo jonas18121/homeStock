@@ -25,8 +25,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank
-     * @Assert\Regex(
-     *      pattern  = "/^[a-zA-Z0-9_]+@[a-z]{4,7}.[a-z]{2,3}$/"
+     * @Assert\Email(
+     *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx"
      * )
      */
     private $email;
@@ -37,29 +37,62 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * exemple : -aA1poiuy
+     * 
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern= "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
+     *      message="Votre mot de passe doit avoir minimum huit, maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial : @ $ ! % * ? & - _" 
+     * )
      */
     private $password;
 
+    /**
+     * @var string
+     * @Assert\NotBlank
+     * @Assert\EqualTo(
+     *      propertyPath="password", 
+     *      message="Les 2 mots de passe doîvent être identiques"
+     * )
+     */
     private $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min=2,
+     *      max=70,
+     *      minMessage="Votre nom '{{ value }}' doit comporter au moins {{ limit }} caractères",
+     *      maxMessage="Votre nom '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *      pattern= "/^[a-zA-Z]+$/",
+     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres"
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min=2,
+     *      max=70,
+     *      minMessage="Votre prénom '{{ value }}' doit comporter au moins {{ limit }} caractères",
+     *      maxMessage="Votre prénom '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *      pattern= "/^[a-zA-Z]+$/",
+     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres"
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank
      */
     private $dateCreatedAt;
 
@@ -95,7 +128,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\NotBlank
      */
     private $phoneNumber;
 
@@ -386,3 +418,25 @@ class User implements UserInterface
         return $this;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+* @Assert\Regex(
+     *      pattern  = "/^[a-zA-Z0-9_]+@[a-z]{4,7}.[a-z]{2,3}$/",
+     *      message="Votre email n'est pas valide, voici un exemple : xxxx@xxxx.xxx"
+     * )
+
+
+*/
