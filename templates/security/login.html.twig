@@ -10,6 +10,16 @@
 
     <div class="container_form">
 
+        {% if error %}
+
+        <pre>
+            {{ dump(error) }}
+        </pre>
+            <div class='error_form_login'>
+                Email ou mot de passe incorrect(s)
+            </div>
+        {% endif %}
+
         <form method="post">
 
             {% if app.user %}
