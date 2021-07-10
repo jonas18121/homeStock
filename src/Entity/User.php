@@ -44,7 +44,7 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @Assert\Regex(
      *      pattern= "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
-     *      message="Votre mot de passe doit avoir minimum huit, maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial : @ $ ! % * ? & - _" 
+     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial : @ $ ! % * ? & - _" 
      * )
      */
     private $password;
