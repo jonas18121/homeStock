@@ -32,12 +32,20 @@ class StorageSpace
      *      minMessage="Le titre de votre espace de stockage '{{ value }}' doit comporter au moins {{ limit }} caractères",
      *      maxMessage="Le titre de votre espace de stockage '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
      * )
+     * @Assert\Regex(
+     *      pattern="/^[^<>]+$/",
+     *      message="Le titre '{{ value }}' de votre espace de stockage n'accepte pas les caractères < et >"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern="/^[^<>]+$/",
+     *      message="Le champ description '{{ value }}' de votre espace de stockage n'accepte pas les caractères < et > "
+     * )
      */
     private $description;
 
@@ -106,7 +114,7 @@ class StorageSpace
      * @Assert\NotBlank
      * @Assert\Regex(
      *      pattern= "/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
-     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et une fois ce caractère : - "
+     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et une fois ce caractère pour les mots composés : - "
      * )
      */
     private $city;

@@ -70,7 +70,7 @@ class User implements UserInterface
      * )
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
-     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère : - "
+     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - "
      * )
      */
     private $lastName;
@@ -86,7 +86,7 @@ class User implements UserInterface
      * )
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
-     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère : - "
+     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - "
      * )
      */
     private $firstName;
