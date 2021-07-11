@@ -155,9 +155,9 @@ nav form button {
  */
 #menu {
   position: absolute;
-  width: 117%;
+  width: 119%;
   margin: -10rem 0 0 -5rem;
-  padding: 5.5rem .5rem;
+  padding: 5.5rem .5rem 5.5rem 2rem;
   /* padding-top: 12.5rem; */
   
   background: #ededed;
@@ -177,7 +177,7 @@ nav form button {
 }
 
 #menu li a {
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 /* #menu li button {
@@ -378,12 +378,16 @@ a.btn {
 
 .profile_one_user {
   margin: 5rem auto;
-  width: 90%;
+  width: 100%;
+  background-color: rgba(76, 68, 187, 0.3); 
+  padding: 1rem 0;
+  border-radius: 2rem;
 }
 
 .profile_one_user li, .profile_one_user button {
-  font-size: 5.5rem;
-  margin: 2rem;
+  font-size: 3.5rem;
+  margin: 2rem 0;
+  padding: 0 0.5rem;
 }
 
 
