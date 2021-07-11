@@ -53,7 +53,7 @@ class StorageSpaceType extends AbstractType
                 'label' => 'Type d\'espace ',
                 'required' => true
             ])
-            ->add('space', TextType::class, [
+            ->add('space', IntegerType::class, [
                 'attr' => [
                     'placeholder' => 'Espace en m2 '
                 ]

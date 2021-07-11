@@ -71,31 +71,36 @@
 
                         {% if comment.parent == null %}
                         
-                            <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
-                            <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
-                                <span>
-                                    <a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>
-                                </span>
-                            </p>
-                            <p>{{ comment.content }}</P>
-                            <p><a href="#add-comment" data-reply data-id="{{ comment.id }}">Répondre</a></p>
-                            {# dataset https://developer.mozilla.org/fr/docs/Web/API/HTMLOrForeignElement/dataset #}
-
-                            {# on affiche les réponses #}
-                            {% for reply in comment.replies %}
-                                <p>
-                                    Réponse publié par 
-                                    <strong> 
-                                        {{ reply.owner.lastName }} 
-                                        {{ reply.owner.firstName }} 
-                                    </strong> 
-                                    le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
-                                    <span>
-                                        <a href="{{ path('comment_delete', { 'id' : reply.id } ) }}">supprimer</a>
+                            <div class="get_comment">
+                                <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
+                                <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
+                                    <span class="comment_delete">
+                                        (<a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>)
                                     </span>
                                 </p>
-                                <p>{{ reply.content }}</P>
-                            {% endfor %}
+                                <p>{{ comment.content }}</P>
+                                <p><a href="#add-comment" data-reply data-id="{{ comment.id }}">Répondre</a></p>
+                                {# dataset https://develop er.mozilla.org/fr/docs/Web/API/HTMLOrForeignElement/dataset #}
+
+                                {# on affiche les réponses #}
+                                {% for reply in comment.replies %}
+
+                                    <div class="get_comment_response">
+                                        <p>
+                                            Réponse publié par 
+                                            <strong> 
+                                                {{ reply.owner.lastName }} 
+                                                {{ reply.owner.firstName }} 
+                                            </strong> 
+                                            le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
+                                            <span class="comment_delete">
+                                                (<a href="{{ path('comment_delete', { 'id' : reply.id } ) }}"> supprimer</a>)
+                                            </span>
+                                        </p>
+                                        <p>{{ reply.content }}</P>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -109,17 +114,13 @@
 
                             <div class="div_form">
 
-                                <div class="form-error">
-                                    {{ form_errors(formComment.content) }}
-                                </div>
-
                                 <label for="inputTitle" class='form_label'>Commentaire : </label>
 
                                 <div>
                                     {{ form_widget(formComment.content, {attr : {class : 'form_input' }} ) }}
                                 </div>
                                 
-                                <small>{{ form_errors(formComment.content) }} </small>
+                                <small class="error_input_small">{{ form_errors(formComment.content) }} </small>
 
                             </div>
 

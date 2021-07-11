@@ -20,8 +20,9 @@
                 <li>Céer le : {{ user.dateCreatedAt | date('d/m/Y H:i') }} </li>
 
                 <li class="modif_or_supp">
-                    <span class="span_modif_get_one_user">
-                        <a href="{{ path('user_edit', { 'id' : user.id } ) }}" class="btn_modif_get_one_user"> Modifier</a>
+                {# class="span_modif_get_one_user" #}
+                    <span >
+                        <button class="btn"><a href="{{ path('user_edit', { 'id' : user.id } ) }}" > Modifier</a></button>
                     </span>
 
                     <span>

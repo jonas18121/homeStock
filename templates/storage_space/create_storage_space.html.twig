@@ -13,9 +13,9 @@
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formStorageSpace.title) }}
-                </div>
+                </div> #}
 
                 <label for="inputTitle" class="form_label">Titre : </label>
 
@@ -23,15 +23,15 @@
                     {{ form_widget(formStorageSpace.title, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formStorageSpace.title) }} </small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.title) }} </small>
 
             </div>
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formStorageSpace.description) }}
-                </div>
+                </div> #}
 
                 <label for="inputDescription" class="form_label">Description : </label>
 
@@ -39,7 +39,7 @@
                     {{ form_widget(formStorageSpace.description, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formStorageSpace.description) }} </small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.description) }} </small>
 
             </div>
 
@@ -51,13 +51,13 @@
                     {{ form_widget(formStorageSpace.adresse, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formStorageSpace.adresse) }} </small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.adresse) }} </small>
             </div>
 
             <div class="div_form">
 
                 <span>
-                    {# <div class="form-error"> #}
+                    {# <div class="form-error"> 
                         {{ form_errors(formStorageSpace.postalCode) }}
                     {# </div> #}
 
@@ -67,11 +67,11 @@
                         {{ form_widget(formStorageSpace.postalCode, {attr : {class : 'form_input' }} ) }}
                     {# </div> #}
                     
-                    <small>{{ form_errors(formStorageSpace.postalCode) }} </small>
+                    <small class="error_input_small">{{ form_errors(formStorageSpace.postalCode) }} </small>
                 </span>
 
                 <span>
-                    {# <div class="form-error"> #}
+                    {# <div class="form-error"> 
                         {{ form_errors(formStorageSpace.city) }}
                     {# </div> #}
 
@@ -81,7 +81,7 @@
                         {{ form_widget(formStorageSpace.city, {attr : {class : 'form_input' }} ) }}
                     {# </div> #}
                     
-                    <small>{{ form_errors(formStorageSpace.city) }} </small>
+                    <small class="error_input_small">{{ form_errors(formStorageSpace.city) }} </small>
                 </span>
             </div>
 
@@ -97,7 +97,7 @@
                     {{ form_widget(formStorageSpace.category, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formStorageSpace.category) }} </small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.category) }} </small>
 
             </div>
 
@@ -113,14 +113,14 @@
                     {{ form_widget(formStorageSpace.space, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formStorageSpace.space) }} </small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.space) }} </small>
             </div>
 
             <div class="div_form">
 
-                <div class="form-error">
+                {# <div class="form-error">
                     {{ form_errors(formStorageSpace.priceByDays) }}
-                </div>
+                </div> #}
 
                 <label for="inputPrice" class="form_label">Prix par jour : </label>
 
@@ -128,7 +128,7 @@
                     {{ form_widget(formStorageSpace.priceByDays, {attr : {class : 'form_input' }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formStorageSpace.priceByDays) }} </small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.priceByDays) }} </small>
             </div>
 
             <div class="div_form">
@@ -138,7 +138,7 @@
                     {{ form_widget(formStorageSpace.imageFile, {attr : {class : 'form_input'} } ) }}
                 </div>
 
-                <small>{{ form_errors(formStorageSpace.imageFile) }}</small>
+                <small class="error_input_small">{{ form_errors(formStorageSpace.imageFile) }}</small>
             </div>
 
             <button type="submit" class="btn">Céer</button>
