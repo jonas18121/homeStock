@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=StorageSpaceRepository::class)
@@ -24,26 +25,46 @@ class StorageSpace
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min=2,
+     *      max=70,
+     *      minMessage="Le titre de votre espace de stockage '{{ value }}' doit comporter au moins {{ limit }} caractères",
+     *      maxMessage="Le titre de votre espace de stockage '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern="/^[a-zA-Z0-9 ]+$/",
+     *      message="L'adresse de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et des chiffres, exemple : 1 rue du Faubourg Saint-Honoré "
+     * )
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $space;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern="/^[0-9.,]+$/",
+     *      htmlPattern="[0-9.,]+",
+     *      message="Le prix par jour de votre espace de stockage doit contenir uniquement des nombres entier ou des nombres décimaux"
+     * )
      */
     private $priceByDays;
 
@@ -82,11 +103,27 @@ class StorageSpace
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern= "/^[a-zA-Z]+$/",
+     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres"
+     * )
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min=5,
+     *      max=5,
+     *      minMessage="Le numéro de code postale '{{ value }}' doit comporter au moins {{ limit }} chiffres, exemple : 22000",
+     *      maxMessage="Le numéro de code postale '{{ value }}' ne peut pas dépasser {{ limit }} chiffres, exemple : 22000"
+     * )
+     * @Assert\Regex(
+     *      pattern= "/^[0-9]+$/",
+     *      message="Le numéro de code postale '{{ value }}' de votre espace de stockage doit contenir uniquement des chiffres et pas d'espace entre les chiffres"
+     * )
      */
     private $postalCode;
 
@@ -103,6 +140,7 @@ class StorageSpace
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="storageSpaces")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $category;
 
