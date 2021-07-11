@@ -3,66 +3,67 @@
 /* GLOBAL */
 
 *, ::before, ::after {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    outline: none;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
 }
 
 html{
-    font-size: 62.5%;
-    height: 100%;
+  font-size: 62.5%;
+  height: 100%;
 }
 
 body{
-    background-color: #333; /* a la fin on mettra #fff */
-    font-size: 1.6rem; 
-    width: 100%;
-    color: #aaa;
+  background-color: #333; /* a la fin on mettra rgba(193, 193, 206, 1) */
+  font-size: 1.6rem; 
+  width: 100%;
+  color: #aaa;
 }
 
 img, video, table{
-    width: 100%;
-    max-width: 100%;
+  width: 100%;
+  max-width: 100%;
 }
 
 a{
-    text-decoration: none;
-    color: #aaa;
+  text-decoration: none;
+  color: #aaa;
 }
 
 table{
-    width: 100%;
+  width: 100%;
 }
 
 
 /* /////////// H E A D E R ////////////// */
 
 nav{
-    font-size: 5rem;
-    margin: 4rem 2rem;
-    text-align: center;
-    /* background-color: darkgoldenrod; */
+  font-size: 5rem;
+  margin: 4rem 2rem;
+  text-align: center;
+  /* background-color: darkgoldenrod; */
 }
 
 nav li, li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 nav form button {
-    font-size: 2.2rem;
-    width: 75%;
-    height: 5rem;
+  font-size: 2.2rem;
+  width: 75%;
+  height: 5rem;
+  border: none;
 }
 
 #menuToggle {
-    display: block;
-    position: relative;
-    top: .5rem;
-    left: .5rem;
-    z-index: 1;
-    -webkit-user-select: none;
-    user-select: none;
+  display: block;
+  position: relative;
+  top: .5rem;
+  left: .5rem;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #menuToggle a {
@@ -237,7 +238,7 @@ h3, h4, h5 {
 /* ***** page_get_all ***** */
 
 .get_all_storage_space .storage {
-  background-color: #fff;
+  background-color: #fff; 
   border-radius: 2rem;
 }
 
@@ -270,8 +271,29 @@ h3, h4, h5 {
 
 /* ***** page_get_one_storage ***** */
 
+.comment {
+  margin: 4rem 0;
+  padding: 2rem 0 0;
+}
+
 .comment p, .comment p span {
   font-size: 2.5rem;
+}
+
+.comment .get_comment {
+  margin: 2rem;
+}
+
+#add-comment {
+  padding: 0 0 2rem;
+}
+
+.get_comment_response {
+  margin: 2rem;
+}
+
+.comment_delete a {
+  color: rgb(88, 27, 27);
 }
 
 .one_storage_space {
@@ -536,7 +558,7 @@ a.btn {
   
   .profile_one_user li, .profile_one_user button {
     font-size: 4.5rem;
-    margin: 2rem;
+    margin: 2rem 0;
   }
 
   /* ***** page with form ***** */
@@ -763,6 +785,12 @@ a.btn {
     width: 70%;
   }
 
+  /* ***** page_get_one_user ***** */
+
+  .profile_one_user {
+    width: 70%;
+  }
+
 }
 
 
@@ -787,5 +815,11 @@ a.btn {
 
   .container_form {
     width: 50%;
+  }
+
+   /* ***** page_get_one_user ***** */
+
+   .profile_one_user {
+    width: calc(100% - 35%) ;
   }
 }
