@@ -3,78 +3,81 @@
 {% block title 'Modifier un user' %}
 
 {% block body %}
-<div class="form_container">
 
-    <h1>Modifier mon compte</h1>
+<div class="container">
+    <div class="container_from">
 
-    <div class="container_form">
+        <h1>Modifier mon compte</h1>
 
-        {{ form_start(formUser, { 'attr' : { 'class' : 'form' }} ) }}
+        <div class="container_form">
 
-            <div class="div_form">
+            {{ form_start(formUser, { 'attr' : { 'class' : 'form' }} ) }}
 
-                <div class="form-error">
-                    {{ form_errors(formUser.lastName) }}
+                <div class="div_form">
+
+                    {# <div class="form-error">
+                        {{ form_errors(formUser.lastName) }}
+                    </div> #}
+
+                    <label for="inputUsername" class="form_label">Nom d'utilisateur</label>
+
+                    <div>
+                        {{ form_widget(formUser.lastName, {attr : {class : 'form_input' }} ) }}
+                    </div>
+                    
+                    <small class="error_input_small">{{ form_errors(formUser.lastName) }} </small>
+
                 </div>
 
-                <label for="inputUsername" class="form_label">Nom d'utilisateur</label>
+                <div class="div_form">
 
-                <div>
-                    {{ form_widget(formUser.lastName, {attr : {class : 'form_input' }} ) }}
+                    {# <div class="form-error">
+                        {{ form_errors(formUser.firstName) }}
+                    </div> #}
+
+                    <label for="inputUsername" class="form_label">Prénom d'utilisateur</label>
+
+                    <div>
+                        {{ form_widget(formUser.firstName, {attr : {class : 'form_input' }} ) }}
+                    </div>
+                    
+                    <small class="error_input_small">{{ form_errors(formUser.firstName) }} </small>
+
                 </div>
-                
-                <small>{{ form_errors(formUser.lastName) }} </small>
 
-            </div>
+                <div class="div_form">
 
-            <div class="div_form">
+                    <label for="inputPhoneNumber" class="form_label">{{ form_label(formUser.phoneNumber) }}</label>
 
-                <div class="form-error">
-                    {{ form_errors(formUser.firstName) }}
+                    <div>
+                        {{ form_widget(formUser.phoneNumber, {attr : {class : 'form_input' }} ) }}
+                    </div>
+                    
+                    <small class="error_input_small">{{ form_errors(formUser.phoneNumber) }} </small>
                 </div>
 
-                <label for="inputUsername" class="form_label">Prénom d'utilisateur</label>
+                <div class="div_form">
 
-                <div>
-                    {{ form_widget(formUser.firstName, {attr : {class : 'form_input' }} ) }}
+                    <label for="inputEmail" class="form_label">{{ form_label(formUser.email) }}</label>
+
+                    <div>
+                        {{ form_widget(formUser.email, {attr : {class : 'form_input' }} ) }}
+                    </div>
+                    
+                    <small class="error_input_small">{{ form_errors(formUser.email) }} </small>
                 </div>
-                
-                <small>{{ form_errors(formUser.firstName) }} </small>
 
-            </div>
+                {# <div class="div_form">
+                    <label for="inputImage">Photo de profil (Facultatif)</label>
+                    {{ form_widget(form.image.file, {attr : {class : 'form_input'} } ) }}
+                    {{ form_errors(form.image.file) }}
+                </div> #}
 
-            <div class="div_form">
+                <button type="submit" class="btn">Modifier</button>
 
-                <label for="inputPhoneNumber" class="form_label">{{ form_label(formUser.phoneNumber) }}</label>
+            {{ form_end(formUser) }}
 
-                <div>
-                    {{ form_widget(formUser.phoneNumber, {attr : {class : 'form_input' }} ) }}
-                </div>
-                
-                <small>{{ form_errors(formUser.phoneNumber) }} </small>
-            </div>
-
-            <div class="div_form">
-
-                <label for="inputEmail" class="form_label">{{ form_label(formUser.email) }}</label>
-
-                <div>
-                    {{ form_widget(formUser.email, {attr : {class : 'form_input' }} ) }}
-                </div>
-                
-                <small>{{ form_errors(formUser.email) }} </small>
-            </div>
-
-            {# <div class="div_form">
-                <label for="inputImage">Photo de profil (Facultatif)</label>
-                {{ form_widget(form.image.file, {attr : {class : 'form_input'} } ) }}
-                {{ form_errors(form.image.file) }}
-            </div> #}
-
-            <button type="submit" class="btn">Modifier</button>
-
-        {{ form_end(formUser) }}
-
-    </div/
+        </div>
+    </div>
 </div>
 {% endblock body %}

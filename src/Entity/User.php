@@ -44,7 +44,7 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @Assert\Regex(
      *      pattern= "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
-     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial : @ $ ! % * ? & - _" 
+     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _" 
      * )
      */
     private $password;
@@ -127,7 +127,18 @@ class User implements UserInterface
     private $customerId;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(
+     *      min=9,
+     *      max=10,
+     *      minMessage="Votre numéro de téléphone '{{ value }}' doit comporter au moins {{ limit }} chiffres, exemple : 690223344",
+     *      maxMessage="Votre numéro de téléphone '{{ value }}' ne peut pas dépasser {{ limit }} chiffres, exemple : 0690223344"
+     * )
+     * @Assert\Regex(
+     *      pattern= "/^[0-9]+$/",
+     *      message="Votre numéro de téléphone '{{ value }}' doit contenir uniquement des chiffres et pas d'espace entre les chiffres"
+     * )
+     * 
      */
     private $phoneNumber;
 
@@ -406,12 +417,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phoneNumber): self
+    public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
