@@ -75,7 +75,8 @@ class StorageSpaceController extends AbstractController
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
 
-            $comment->setDateCreatedAt(new DateTime())
+            $comment->setContent(strip_tags(trim($comment->getContent())))
+                ->setDateCreatedAt(new DateTime())
                 ->setStorageSpace($storageSpace)
                 ->setOwner($this->getUser())
             ;
@@ -140,6 +141,7 @@ class StorageSpaceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             // $priceByMonth = $this->price_by_month($storageSpace);
+            // dd($storageSpace);
 
             $storageSpace->setDateCreatedAt(new \DateTime())
                 ->setOwner($this->getUser())
@@ -169,6 +171,11 @@ class StorageSpaceController extends AbstractController
         $form = $this->createForm(StorageSpaceType::class, $storageSpace, [ 'method' => 'PUT' ]);
 
         $form->handleRequest($request);
+        
+        //faire les voter https://symfony.com/doc/current/security/voters.html
+        if($this->getUser()->getId() !== $form->getViewData()->getOwner()->getId()){
+            return $this->redirectToRoute('storage_space_all');
+        }
 
         
         
@@ -190,7 +197,7 @@ class StorageSpaceController extends AbstractController
      */
     public function delete_storage_space(StorageSpace $storageSpace, EntityManagerInterface $manager)
     {
-        if (!$this->getUser()) {
+        if (!$this->getUser() || $this->getUser()->getId() !== $storageSpace->getOwner()->getId()) {
             return $this->redirectToRoute('storage_space_all');
         }
         
