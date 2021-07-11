@@ -69,8 +69,8 @@ class User implements UserInterface
      *      maxMessage="Votre nom '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
      * )
      * @Assert\Regex(
-     *      pattern= "/^[a-zA-Z]+$/",
-     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres"
+     *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
+     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère : - "
      * )
      */
     private $lastName;
@@ -85,8 +85,8 @@ class User implements UserInterface
      *      maxMessage="Votre prénom '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
      * )
      * @Assert\Regex(
-     *      pattern= "/^[a-zA-Z]+$/",
-     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres"
+     *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
+     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère : - "
      * )
      */
     private $firstName;

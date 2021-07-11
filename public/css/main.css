@@ -288,6 +288,10 @@ h3, h4, h5 {
   padding: 0 0 2rem;
 }
 
+#add-comment textarea {
+  height: 20rem;
+}
+
 .get_comment_response {
   margin: 2rem;
 }
@@ -295,6 +299,8 @@ h3, h4, h5 {
 .comment_delete a {
   color: rgb(88, 27, 27);
 }
+
+
 
 .one_storage_space {
   background-color: #fff;
@@ -565,6 +571,10 @@ a.btn {
 
   .container_form {
     padding: 2rem;
+  }
+
+  #add-comment {
+    padding: 0 2rem 2rem;
   }
 
   

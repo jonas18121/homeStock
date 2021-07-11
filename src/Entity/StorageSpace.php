@@ -105,8 +105,8 @@ class StorageSpace
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Assert\Regex(
-     *      pattern= "/^[a-zA-Z]+$/",
-     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres"
+     *      pattern= "/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
+     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et une fois ce caractère : - "
      * )
      */
     private $city;

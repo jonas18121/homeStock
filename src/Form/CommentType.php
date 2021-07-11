@@ -25,7 +25,7 @@ class CommentType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Commentaire',
                 'attr' => [
-                    'placeholder' => 'Commentaire '
+                    'placeholder' => 'Commentaire ',
                 ]
             ])
             ->add('parentid', HiddenType::class, [

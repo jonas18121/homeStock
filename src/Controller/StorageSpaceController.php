@@ -75,7 +75,8 @@ class StorageSpaceController extends AbstractController
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
 
-            $comment->setDateCreatedAt(new DateTime())
+            $comment->setContent(strip_tags(trim($comment->getContent())))
+                ->setDateCreatedAt(new DateTime())
                 ->setStorageSpace($storageSpace)
                 ->setOwner($this->getUser())
             ;
@@ -140,6 +141,7 @@ class StorageSpaceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             // $priceByMonth = $this->price_by_month($storageSpace);
+            dd($storageSpace);
 
             $storageSpace->setDateCreatedAt(new \DateTime())
                 ->setOwner($this->getUser())
