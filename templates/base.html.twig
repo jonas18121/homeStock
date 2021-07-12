@@ -72,17 +72,20 @@
             let sessionId = document.getElementById('session_id').value;
 
             const manageBillingForm = document.querySelector('#manage-billing-form');
+            
             manageBillingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            fetch('/customer/portal', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    sessionId: sessionId
-                }),
-            })
+
+                e.preventDefault();
+
+                fetch('/customer/portal', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sessionId: sessionId
+                    }),
+                })
                 .then((response) => {
                     
                     return response.json()
