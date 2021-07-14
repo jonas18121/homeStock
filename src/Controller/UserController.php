@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\UserAcountType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +29,10 @@ class UserController extends AbstractController
     }
 
     /**
+     * On utilise le groupe de validation 'validation_groups' => ['update_user'], 
+     * pour pouvoir modifier le user sans le mot de passe
+     * uniquement les champs qui sont dans UserAcountType seront pris en compte 
+     * 
      * @Route("/user/edit/{id}", name="user_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
      */
     public function edit_user(User $user, Request $request,  EntityManagerInterface $manager){
@@ -39,10 +43,12 @@ class UserController extends AbstractController
 
         $this->denyAccessUnlessGranted('edit', $user);
 
-        $formUser = $this->createForm(UserType::class, $user, [ 'method' => 'PUT' ]);
+        $formUser = $this->createForm(UserAcountType::class, $user, [ 'method' => 'PUT', 'validation_groups' => ['update_user']]);
 
         $formUser->handleRequest($request);
+       
 
+        // dd($formUser);
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             
             $manager->persist($user);
