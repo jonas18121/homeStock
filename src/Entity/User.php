@@ -66,11 +66,13 @@ class User implements UserInterface
      *      min=2,
      *      max=70,
      *      minMessage="Votre nom '{{ value }}' doit comporter au moins {{ limit }} caractères",
-     *      maxMessage="Votre nom '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
+     *      maxMessage="Votre nom '{{ value }}' ne peut pas dépasser {{ limit }} caractères",
+     *      groups={"update_user"}
      * )
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
-     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - "
+     *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - ",
+     *      groups={"update_user"}
      * )
      */
     private $lastName;
@@ -82,11 +84,13 @@ class User implements UserInterface
      *      min=2,
      *      max=70,
      *      minMessage="Votre prénom '{{ value }}' doit comporter au moins {{ limit }} caractères",
-     *      maxMessage="Votre prénom '{{ value }}' ne peut pas dépasser {{ limit }} caractères"
+     *      maxMessage="Votre prénom '{{ value }}' ne peut pas dépasser {{ limit }} caractères",
+     *      groups={"update_user"}
      * )
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
-     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - "
+     *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - ",
+     *      groups={"update_user"}
      * )
      */
     private $firstName;
@@ -132,11 +136,13 @@ class User implements UserInterface
      *      min=9,
      *      max=10,
      *      minMessage="Votre numéro de téléphone '{{ value }}' doit comporter au moins {{ limit }} chiffres, exemple : 690223344",
-     *      maxMessage="Votre numéro de téléphone '{{ value }}' ne peut pas dépasser {{ limit }} chiffres, exemple : 0690223344"
+     *      maxMessage="Votre numéro de téléphone '{{ value }}' ne peut pas dépasser {{ limit }} chiffres, exemple : 0690223344",
+     *      groups={"update_user"}
      * )
      * @Assert\Regex(
-     *      pattern= "/^[0-9]+$/",
-     *      message="Votre numéro de téléphone '{{ value }}' doit contenir uniquement des chiffres et pas d'espace entre les chiffres"
+     *      pattern= "/^([0-9]{9,10})$/",
+     *      message="Votre numéro de téléphone '{{ value }}' doit contenir uniquement des chiffres et pas d'espace entre les chiffres",
+     *      groups={"update_user"}
      * )
      * 
      */

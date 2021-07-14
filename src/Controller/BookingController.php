@@ -49,6 +49,8 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
+        $this->denyAccessUnlessGranted('edit', $booking);
+
         return $this->render('booking/get_one_booking_for_user.html.twig', [
             'booking' => $booking
         ]);
@@ -171,6 +173,8 @@ class BookingController extends AbstractController
     }
 
     /**
+     * n'est pas utiliser
+     * 
      * @Route("/booking/form/finish/{id}", name="booking_finish")
      */
     public function get_form_booking_finish(Booking $booking, Request $request, EntityManagerInterface $manager)
@@ -178,6 +182,8 @@ class BookingController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
+
+        $this->denyAccessUnlessGranted('show', $booking);
 
 
         // $booking = new Booking;
@@ -220,8 +226,10 @@ class BookingController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
-
+        
         $booking = $repoBooking->find_one_storage_in_booking($id);
+
+        $this->denyAccessUnlessGranted('delete', $booking);
         
         if($this->isCsrfTokenValid('delete', $request->get('_token'))){
 
