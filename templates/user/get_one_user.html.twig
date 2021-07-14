@@ -15,7 +15,13 @@
                 </div>
                 <li> {{ user.lastName }} </li>
                 <li> {{ user.firstName }} </li>
-                <li> +33{{ user.phoneNumber }} </li>
+
+                {% if user.phoneNumber %}
+                    <li> +33{{ user.phoneNumber }} </li>
+                {% else %}
+                    <li> Téléphone: ... </li>
+                {% endif %}
+                
                 <li> {{ user.email }} </li>
                 <li>Céer le : {{ user.dateCreatedAt | date('d/m/Y H:i') }} </li>
 
