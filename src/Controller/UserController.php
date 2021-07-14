@@ -21,6 +21,8 @@ class UserController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
+        $this->denyAccessUnlessGranted('show', $user);
+
         return $this->render('user/get_one_user.html.twig', [
             'user' => $user,
         ]);
@@ -34,6 +36,8 @@ class UserController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
+
+        $this->denyAccessUnlessGranted('edit', $user);
 
         $formUser = $this->createForm(UserType::class, $user, [ 'method' => 'PUT' ]);
 
@@ -63,6 +67,8 @@ class UserController extends AbstractController
         }
         
         $user = $this->getUser();
+
+        $this->denyAccessUnlessGranted('delete', $user);
 
         if($this->isCsrfTokenValid('delete', $request->get('_token'))){
 
