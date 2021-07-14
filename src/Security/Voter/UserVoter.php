@@ -6,55 +6,54 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class StorageSpaceVoter extends Voter
+class UserVoter extends Voter
 {
     const SHOW      = 'show';
     const EDIT      = 'edit';
     const DELETE    = 'delete';
 
-    protected function supports($attribute, $storageSpace)
+    protected function supports($attribute, $myUser)
     {
         return in_array($attribute, [self::SHOW, self::EDIT, self::DELETE])
-            && $storageSpace instanceof \App\Entity\StorageSpace;
+            && $myUser instanceof \App\Entity\User;
     }
 
-    protected function voteOnAttribute($attribute, $storageSpace, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $myUser, TokenInterface $token)
     {
         $user = $token->getUser();
-        
         // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             return false;
         }
 
-        if($storageSpace->getOwner() === null){
+        if($myUser === null){
             return false;
         }
 
+        // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
 
             case self::SHOW:
-                return $this->isAccess($storageSpace, $user);
+                return $this->isAccess($myUser, $user);
                 break;
 
             case self::EDIT:
-                return $this->isAccess($storageSpace, $user);
+                return $this->isAccess($myUser, $user);
                 break;
 
             case self::DELETE:
-                return $this->isAccess($storageSpace, $user);
+                return $this->isAccess($myUser, $user);
                 break;
         }
 
         return false;
     }
 
-
     /**
-    * Verifier si l'user est bien le propriétaire de l'espace de stockage
+    * Verifier si c'est bien le même user 
     */
-    protected function isAccess($storageSpace, $user): bool
+    protected function isAccess($myUser, $user): bool
     {
-        return $storageSpace->getOwner() === $user;
+        return $myUser === $user;
     }
 }
