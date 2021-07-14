@@ -168,14 +168,17 @@ class StorageSpaceController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
+        $this->denyAccessUnlessGranted('edit', $storageSpace);
+
         $form = $this->createForm(StorageSpaceType::class, $storageSpace, [ 'method' => 'PUT' ]);
 
         $form->handleRequest($request);
         
         //faire les voter https://symfony.com/doc/current/security/voters.html
-        if($this->getUser()->getId() !== $form->getViewData()->getOwner()->getId()){
-            return $this->redirectToRoute('storage_space_all');
-        }
+        // if($this->getUser()->getId() !== $form->getViewData()->getOwner()->getId()){
+        //     // return $this->redirectToRoute('storage_space_all');
+        //     throw $this->createAccessDeniedException();
+        // }
 
         
         
@@ -197,9 +200,15 @@ class StorageSpaceController extends AbstractController
      */
     public function delete_storage_space(StorageSpace $storageSpace, EntityManagerInterface $manager)
     {
-        if (!$this->getUser() || $this->getUser()->getId() !== $storageSpace->getOwner()->getId()) {
+        // if (!$this->getUser() || $this->getUser()->getId() !== $storageSpace->getOwner()->getId()) {
+        //     return $this->redirectToRoute('storage_space_all');
+        // }
+
+        if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
+
+        $this->denyAccessUnlessGranted('delete', $storageSpace);
         
         $manager->remove($storageSpace);
         $manager->flush();
