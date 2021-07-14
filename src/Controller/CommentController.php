@@ -19,7 +19,11 @@ class CommentController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
-        
+
+        $user = $this->getUser();
+
+        $this->denyAccessUnlessGranted('delete', $comment);
+
         $manager->remove($comment);
         $manager->flush();
 

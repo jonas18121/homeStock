@@ -182,7 +182,7 @@ class StripeController extends AbstractController
         return $this->render('payement_return/return.html.twig'); 
     }
 
-
+}
     
 
 
@@ -264,4 +264,4 @@ class StripeController extends AbstractController
     } 
     
     */
-}
+
