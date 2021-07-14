@@ -74,9 +74,12 @@
                             <div class="get_comment">
                                 <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
                                 <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
-                                    <span class="comment_delete">
-                                        (<a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>)
-                                    </span>
+
+                                    {% if comment.owner.id == app.user.id %}
+                                        <span class="comment_delete">
+                                            (<a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>)
+                                        </span>
+                                    {% endif %}
                                 </p>
                                 <p>{{ comment.content }}</P>
                                 <p><a href="#add-comment" data-reply data-id="{{ comment.id }}">Répondre</a></p>
@@ -93,9 +96,12 @@
                                                 {{ reply.owner.firstName }} 
                                             </strong> 
                                             le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
-                                            <span class="comment_delete">
-                                                (<a href="{{ path('comment_delete', { 'id' : reply.id } ) }}"> supprimer</a>)
-                                            </span>
+
+                                            {% if reply.owner.id == app.user.id %}
+                                                <span class="comment_delete">
+                                                    (<a href="{{ path('comment_delete', { 'id' : reply.id } ) }}"> supprimer</a>)
+                                                </span>
+                                            {% endif %}
                                         </p>
                                         <p>{{ reply.content }}</P>
                                     </div>
