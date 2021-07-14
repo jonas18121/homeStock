@@ -6,42 +6,43 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserVoter extends Voter
+class CommentVoter extends Voter
 {
     const SHOW      = 'show';
     const EDIT      = 'edit';
     const DELETE    = 'delete';
 
-    protected function supports($attribute, $myUser)
+    protected function supports($attribute, $comment)
     {
         return in_array($attribute, [self::SHOW, self::EDIT, self::DELETE])
-            && $myUser instanceof \App\Entity\User;
+            && $comment instanceof \App\Entity\Comment;
     }
 
-    protected function voteOnAttribute($attribute, $myUser, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $comment, TokenInterface $token)
     {
         $user = $token->getUser();
+
         // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             return false;
         }
 
-        if($myUser === null){
+        if($comment->getOwner() === null){
             return false;
         }
 
         switch ($attribute) {
 
             case self::SHOW:
-                return $this->isAccess($myUser, $user);
+                return $this->isAccess($comment, $user);
                 break;
 
             case self::EDIT:
-                return $this->isAccess($myUser, $user);
+                return $this->isAccess($comment, $user);
                 break;
 
             case self::DELETE:
-                return $this->isAccess($myUser, $user);
+                return $this->isAccess($comment, $user);
                 break;
         }
 
@@ -49,10 +50,10 @@ class UserVoter extends Voter
     }
 
     /**
-    * Verifier si c'est bien le même user 
+    * erifier si l'user est bien le propriétaire du commentaire 
     */
-    protected function isAccess($myUser, $user): bool
+    protected function isAccess($comment, $user): bool
     {
-        return $myUser === $user;
+        return $comment->getOwner() === $user;
     }
 }
