@@ -17,8 +17,13 @@
         <p>Vous avez un abonnement déjà en cours</p>
     {% endif %}
 
-    <div class="product">
-        {# <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" /> #}
+    <div class="one_storage_space">
+
+        {% if storageSpace.images %}
+            <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+        {% else %}
+            <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
+        {% endif %}
 
         <div class="description">
             <h3>{{storageSpace.title }}</h3>
@@ -33,10 +38,6 @@
 
             <div class="div_form">
 
-                <div class="form-error">
-                    {{ form_errors(formBooking.dateStartAt) }}
-                </div>
-
                 <label for="inputTitle"class='form_label'>Date de réservation : </label>
 
                 <div>
@@ -47,7 +48,7 @@
                         }} ) }}
                 </div>
                 
-                <small>{{ form_errors(formBooking.dateStartAt) }} </small>
+                <small class="error_input_small">{{ form_errors(formBooking.dateStartAt) }} </small>
 
             </div>
             <input type='hidden' name='storage' value="{{ storageSpace.id }}" id='storage'>
