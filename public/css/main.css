@@ -220,6 +220,8 @@ h1, h2, h3,
 
 h1 {
   font-size: 5.5rem;
+  color: #fff;
+  margin: 0 0 8rem;
 }
 
 h2 {
