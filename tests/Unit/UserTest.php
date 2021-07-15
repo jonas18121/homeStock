@@ -126,13 +126,13 @@ class UserTest extends TestCase
     }
 
     /**
-     * Ajouter un storageSpace
-     * Afficher un StorageSpace
-     * supprimer un storageSpace
+     * Ajouter un espace de stockage
+     * Afficher un espace de stockage
+     * Supprimer un espace de stockage
      *
      * @return void
      */
-    public function testGetStorageSpace(): void
+    public function testStorageSpace(): void
     {
         $value = new StorageSpace();
 
@@ -153,13 +153,13 @@ class UserTest extends TestCase
     }
 
     /**
-     * Ajouter plusieurs storageSpaces
-     * Afficher plusieurs StorageSpaces
-     * supprimer plusieurs storageSpaces
+     * Ajouter plusieurs espaces de stockage
+     * Afficher plusieurs espaces de stockage
+     * Supprimer plusieurs espaces de stockage
      *
      * @return void
      */
-    public function testGetStorageSpaces(): void
+    public function testStorageSpaces(): void
     {
         $value = new StorageSpace();
         $value1 = new StorageSpace();
@@ -187,11 +187,11 @@ class UserTest extends TestCase
     /**
      * Ajouter un Commentaire
      * Afficher un Commentaire
-     * supprimer un Commentaire
+     * Supprimer un Commentaire
      *
      * @return void
      */
-    public function testGetComment(): void
+    public function testComment(): void
     {
         $value = new Comment();
 
@@ -218,7 +218,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testGetComments(): void
+    public function testComments(): void
     {
         $value = new Comment();
         $value1 = new Comment();
@@ -250,7 +250,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testGetBooking(): void
+    public function testBooking(): void
     {
         $value = new Booking();
 
@@ -277,7 +277,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testGetBookings(): void
+    public function testBookings(): void
     {
         $value = new Booking();
         $value1 = new Booking();
