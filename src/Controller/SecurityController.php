@@ -15,6 +15,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
     /**
+     * On utilise le groupe de validation 'validation_groups' => ['register_user'], 
+     * pour pouvoir crée un user avec le mot de passe
+     * les champs qui ont groups={"register_user"} seront utiliser uniquement dans ce chemin /registration
+     * 
+     * 
      *@Route("/registration", name="app_registration")
      */
     public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder): Response
@@ -25,7 +30,7 @@ class SecurityController extends AbstractController
 
         $user = new User();
 
-        $form = $this->createForm(RegistrationType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user /* , [ 'validation_groups' => ['register_user']]*/);
 
         $form->handleRequest($request);
 

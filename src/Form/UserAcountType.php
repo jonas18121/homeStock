@@ -31,7 +31,10 @@ class UserAcountType extends AbstractType
      * https://symfony.com/doc/4.4/validation/groups.html
      * On cree un groupe de validation 'validation_groups' => ['update_user'], 
      * pour pouvoir modifier le user sans le mot de passe
-     * uniquement les champs qui sont dans UserAcountType seront pris en compte 
+     * uniquement les champs qui sont dans UserAcountType seront pris en compte
+     * 
+     * Si on enlève 'validation_groups' => ['update_user'], 
+     * il ce peut que le mot de passe soit appeler 
      *
      * @param OptionsResolver $resolver
      * @return void
