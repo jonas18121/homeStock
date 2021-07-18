@@ -44,10 +44,21 @@ class RegistrationType extends AbstractType
         ;
     }
 
+    /**
+     * https://symfony.com/doc/current/form/validation_groups.html
+     * https://symfony.com/doc/4.4/validation/groups.html
+     * On cree un groupe de validation 'validation_groups' => ['register_user'], 
+     * pour pouvoir créer un user avec le mot de passe
+     * les champs qui ont groups={"register_user"} seront utiliser uniquement dans ce chemin /registration
+     *
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            // 'validation_groups' => ['register_user'],
         ]);
     }
 }

@@ -43,7 +43,7 @@ class UserController extends AbstractController
 
         $this->denyAccessUnlessGranted('edit', $user);
 
-        $formUser = $this->createForm(UserAcountType::class, $user, [ 'method' => 'PUT', 'validation_groups' => ['update_user']]);
+        $formUser = $this->createForm(UserAcountType::class, $user, [ 'method' => 'PUT', 'validation_groups' => ['update_user'],]);
 
         $formUser->handleRequest($request);
        
