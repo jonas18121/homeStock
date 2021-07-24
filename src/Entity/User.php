@@ -24,9 +24,15 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(groups={"update_user"})
      * @Assert\Email(
-     *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx"
+     *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
+     *      groups={"update_user"}
+     * )
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
      * )
      */
     private $email;
@@ -43,8 +49,13 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      * @Assert\Regex(
-     *      pattern= "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
-     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _" 
+     *      pattern= "/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
+     *      htmlPattern= "(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}",
+     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, 
+     *          au moins une lettre majuscule, 
+     *          au moins une lettre minuscule, 
+     *          au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _", 
+     *      
      * )
      */
     private $password;
@@ -54,7 +65,8 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @Assert\EqualTo(
      *      propertyPath="password", 
-     *      message="Les 2 mots de passe doîvent être identiques"
+     *      message="Les 2 mots de passe doîvent être identiques",
+     *      
      * )
      */
     private $confirm_password;
@@ -67,7 +79,7 @@ class User implements UserInterface
      *      max=70,
      *      minMessage="Votre nom '{{ value }}' doit comporter au moins {{ limit }} caractères",
      *      maxMessage="Votre nom '{{ value }}' ne peut pas dépasser {{ limit }} caractères",
-     *      groups={"update_user"}
+     *      
      * )
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
@@ -85,7 +97,7 @@ class User implements UserInterface
      *      max=70,
      *      minMessage="Votre prénom '{{ value }}' doit comporter au moins {{ limit }} caractères",
      *      maxMessage="Votre prénom '{{ value }}' ne peut pas dépasser {{ limit }} caractères",
-     *      groups={"update_user"}
+     *      
      * )
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
@@ -138,6 +150,7 @@ class User implements UserInterface
      *      minMessage="Votre numéro de téléphone '{{ value }}' doit comporter au moins {{ limit }} chiffres, exemple : 690223344",
      *      maxMessage="Votre numéro de téléphone '{{ value }}' ne peut pas dépasser {{ limit }} chiffres, exemple : 0690223344",
      *      groups={"update_user"}
+
      * )
      * @Assert\Regex(
      *      pattern= "/^([0-9]{9,10})$/",
