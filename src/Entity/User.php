@@ -30,7 +30,7 @@ class User implements UserInterface
      *      groups={"update_user"}
      * )
      * 
-     * @Assert\NotBlank(groups={"update_user"})
+     * @Assert\NotBlank()
      * @Assert\Email(
      *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
      * )
@@ -51,7 +51,10 @@ class User implements UserInterface
      * @Assert\Regex(
      *      pattern= "/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
      *      htmlPattern= "(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}",
-     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _", 
+     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, 
+     *          au moins une lettre majuscule, 
+     *          au moins une lettre minuscule, 
+     *          au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _", 
      *      
      * )
      */

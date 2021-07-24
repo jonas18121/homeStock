@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    const DEFAULT_USER = ['email' => 'dd@gmail.com', 'password' => 'dd'];
 
     private $passwordEncoder;
 
