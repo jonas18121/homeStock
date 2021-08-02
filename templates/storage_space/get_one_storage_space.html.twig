@@ -75,10 +75,12 @@
                                 <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
                                 <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
 
-                                    {% if comment.owner.id == app.user.id %}
-                                        <span class="comment_delete">
-                                            (<a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>)
-                                        </span>
+                                    {% if app.user != null %}    
+                                        {% if comment.owner.id == app.user.id %}
+                                            <span class="comment_delete">
+                                                (<a href="{{ path('comment_delete', { 'id' : comment.id } ) }}">supprimer</a>)
+                                            </span>
+                                        {% endif %}
                                     {% endif %}
                                 </p>
                                 <p>{{ comment.content }}</P>
@@ -97,10 +99,12 @@
                                             </strong> 
                                             le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
 
-                                            {% if reply.owner.id == app.user.id %}
-                                                <span class="comment_delete">
-                                                    (<a href="{{ path('comment_delete', { 'id' : reply.id } ) }}"> supprimer</a>)
-                                                </span>
+                                            {% if app.user != null %}
+                                                {% if reply.owner.id == app.user.id %}
+                                                    <span class="comment_delete">
+                                                        (<a href="{{ path('comment_delete', { 'id' : reply.id } ) }}"> supprimer</a>)
+                                                    </span>
+                                                {% endif %}
                                             {% endif %}
                                         </p>
                                         <p>{{ reply.content }}</P>
