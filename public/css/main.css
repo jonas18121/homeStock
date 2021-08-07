@@ -16,7 +16,7 @@ html{
 }
 
 body{
-  background-color: #333; /* a la fin on mettra rgba(193, 193, 206, 1) */
+  background-color: #333;
   font-size: 1.6rem; 
   width: 100%;
   color: #aaa;
