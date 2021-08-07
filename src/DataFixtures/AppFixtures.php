@@ -11,7 +11,29 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    const DEFAULT_USER = ['email' => 'dd@gmail.com', 'password' => 'dd'];
+    const DEFAULT_ADMIN = [
+        'id' => 2,
+        'email' => 'dd@gmail.com', 
+        'password' => 'dd',
+        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$Q3BxbXRzaXRhLlBTWnhpdA$RETCgLoDjJK/SBVi5ItW4ylib3TqzRJelnaBuJdpdRY',
+        'lastName' => 'dd',
+        'firstName' => 'dd',
+        'phoneNumber' => '690112233',
+        // 'dateCreatedAt' => new \DateTime('2021-07-18 21:12:18'),
+        'roles_admin' => ["ROLE_ADMIN"]
+    ];
+
+    const DEFAULT_USER = [
+        'id' => 1,
+        'email' => 'mulan@gmail.com', 
+        'password' => 'mulan',
+        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$dzlFcjg5dElQaEpZWlpYLw$fINVgJTz9ae0j+Xu3O5pgRFPSJv/W4ck55DT4dmyaZ8',
+        'lastName' => 'mulan',
+        'firstName' => 'mulan',
+        'phoneNumber' => '127149626',
+        // 'dateCreatedAt' => new \DateTime('2021-07-18 21:12:18'),
+        'roles_user' => ["ROLE_USER"]
+    ];
 
     private $passwordEncoder;
 
