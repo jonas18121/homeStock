@@ -23,6 +23,7 @@ abstract class AbstractEndPoint extends WebTestCase
         array $parameter = [],
         bool $withAuthentification = true
     ): Response {
+        
         $client = $this->createAuthentificationClient($withAuthentification);
 
         $client->request(
@@ -37,7 +38,7 @@ abstract class AbstractEndPoint extends WebTestCase
         return $client->getResponse();
     }
 
-    protected function createAuthentificationClient(bool $withAuthentification): KernelBrowser
+    protected function createAuthentificationClient(bool $withAuthentification)
     {
         $client = static::createClient();
 
@@ -55,13 +56,7 @@ abstract class AbstractEndPoint extends WebTestCase
             'password' => AppFixtures::DEFAULT_USER['password']
         ]);
 
-        // sprintf($this->loginPayload, AppFixtures::DEFAULT_USER['email'], AppFixtures::DEFAULT_USER['password'])
-
-        // dd($client);
-
-        // $data = json_decode($client->getResponse()->getContent(), true);
-
-        // $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+        $client->submit($form);
 
         return $client;
     }
