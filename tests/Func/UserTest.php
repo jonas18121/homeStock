@@ -14,6 +14,8 @@ use App\Tests\Func\AbstractEndPoint;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; // tester les controlleurs et l'application en générale
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * https://phpunit.readthedocs.io/fr/latest/textui.html
@@ -22,16 +24,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; // tester les controlleurs 
  */
 class UserTest extends AbstractEndPoint
 {
-
-
-    private string $userPayload = '{"email": "%s", "password": "password"}';
     private  $client;
+    private string $userPayload = '{"email": "%s", "password": "password"}';
 
 
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->client = self::createClient();
     }
 
@@ -42,8 +41,6 @@ class UserTest extends AbstractEndPoint
      */
     public function testGetHomeUserAnonymous() : void
     {
-        // $client = self::createClient();
-
         $this->client->request(Request::METHOD_GET, '/');
 
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -59,8 +56,6 @@ class UserTest extends AbstractEndPoint
      */
     public function testGetOneUserAnonymous() : void
     {
-        // $client = self::createClient();
-
         $this->client->request(Request::METHOD_GET, '/user/2');
 
         self::assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
@@ -115,7 +110,6 @@ class UserTest extends AbstractEndPoint
         $this->client->submit($form);
 
         self::assertResponseRedirects('/storageSpace');
-        $this->client->followRedirect();
     }
 
     /**
@@ -125,10 +119,9 @@ class UserTest extends AbstractEndPoint
      * On récupère le token CSRF du formulaire et on le passe en paramètre avec le email et le password
      * on doit être rediriger vers la page /storageSpace
      * 
-     * 
      * @return void
      */
-    public function testUserControllerLoginSuccess() : void
+    public function testSecurityControllerLoginSuccess() : void
     {
         $csrfToken = $this->client->getContainer()->get('security.csrf.token_manager')->getToken('authenticate');
 
@@ -143,6 +136,129 @@ class UserTest extends AbstractEndPoint
         );
 
         self::assertResponseRedirects('/storageSpace');
+    }
+
+    /**
+     * L'utilisateur connecter accède à son profil 
+     * On vérifie si le status code est 200 pour la page /user/{id}
+     *
+     * @return void
+     */
+    public function testGetOneUserWithUserConnected() : void
+    {
+        $user = $this->createUser();
+
+        $this->userLogin($this->client, $user);
+        
+        $this->client->request(
+            Request::METHOD_GET,
+            "/user/{$user->getId()}"
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    /**
+     * L'utilisateur en role admin accède à la page /amdin 
+     * On vérifie si le status code est 200 pour la page /amdin 
+     *
+     * @return void
+     */
+    public function testGetAdminDasboardWithAdmin() : void
+    {
+        $user = $this->createUserAdmin();
+
+        $this->userLogin($this->client, $user);
+        
+        $this->client->request(
+            Request::METHOD_GET,
+            "/admin"
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+    
+    /**
+     * L'utilisateur non admin accède à la page /amdin 
+     * On vérifie si le status code est 403 pour la page /amdin 
+     *
+     * @return void
+     */
+    public function testGetAdminDasboardWithUserNotAdmin() : void
+    {
+        $user = $this->createUser();
+
+        $this->userLogin($this->client, $user);
+        
+        $this->client->request(
+            Request::METHOD_GET,
+            "/admin"
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * Créer un utilisateur admin
+     *
+     * @return User
+     */
+    private function createUserAdmin() : User
+    {
+        $user = new User();
+        $user->setId(AppFixtures::DEFAULT_ADMIN['id'])
+            ->setEmail(AppFixtures::DEFAULT_ADMIN['email'])
+            ->setPassword(AppFixtures::DEFAULT_ADMIN['password_hash'])
+            ->setLastName(AppFixtures::DEFAULT_ADMIN['lastName'])
+            ->setFirstName(AppFixtures::DEFAULT_ADMIN['firstName'])
+            ->setPhoneNumber(AppFixtures::DEFAULT_ADMIN['phoneNumber'])
+            // ->setDateCreatedAt(AppFixtures::DEFAULT_USER['dateCreatedAt'])
+            ->setRoles(AppFixtures::DEFAULT_ADMIN['roles_admin'])
+        ;
+
+        return $user;
+    }
+
+    /**
+     * Créer un utilisateur
+     *
+     * @return User
+     */
+    private function createUser() : User
+    {
+        $user = new User();
+        $user->setId(AppFixtures::DEFAULT_USER['id'])
+            ->setEmail(AppFixtures::DEFAULT_USER['email'])
+            ->setPassword(AppFixtures::DEFAULT_USER['password_hash'])
+            ->setLastName(AppFixtures::DEFAULT_USER['lastName'])
+            ->setFirstName(AppFixtures::DEFAULT_USER['firstName'])
+            ->setPhoneNumber(AppFixtures::DEFAULT_USER['phoneNumber'])
+            // ->setDateCreatedAt(AppFixtures::DEFAULT_USER['dateCreatedAt'])
+            ->setRoles(AppFixtures::DEFAULT_USER['roles_user'])
+        ;
+
+        return $user;
+    }
+
+    /**
+     * L' utilisateur se conntecte
+     * 
+     * On crée une session pour un utilisateur
+     * puis on fait un cookie qui est lier à la session
+     * @param [User] $user
+     * @return 
+     */
+    private function userLogin($client, $user)
+    {
+        // Creer une session pour un utilisateur
+        $session = $client->getContainer()->get('session'); // acceder au servvice de session
+        $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles()); // généré le token
+        $session->set('_security_main', serialize($token)); // firewall main
+        $session->save();
+
+        // faire un cookie qui est lier à la session
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $client->getCookieJar()->set($cookie);
     }
 
     /**
