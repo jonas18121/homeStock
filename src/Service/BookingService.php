@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingService
 {
-    
     /**
      * Si le payement est ok, le storage devient indisponible 
      * et on confirme que le check de payement pour la réservation a été fait 
@@ -34,7 +33,6 @@ class BookingService
 
                 $storageSpace = $repoStorage->find_one_booking_in_storage($booking->getId());
 
-                //foreach ($storageSpaces as $key => $storageSpace) {
                 $storageSpace->setAvailable(false);
                 $manager->persist($storageSpace);
 
@@ -42,8 +40,6 @@ class BookingService
                 $manager->persist($booking);
 
                 $manager->flush();
-                //}
-
             }
         }
     }

@@ -47,8 +47,6 @@ class UserController extends AbstractController
 
         $formUser->handleRequest($request);
        
-
-        // dd($formUser);
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             
             $manager->persist($user);
