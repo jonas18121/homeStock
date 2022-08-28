@@ -27,12 +27,12 @@ class RegistrationType extends AbstractType
                         if ($text) {
                             $tab_text = str_split($text);
 
-                            if (isset($tab_text[2])) {
-                                if($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2])){
+                            if (isset($tab_text[3])) {
+                                if($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2]) && $this->searchConsonne($tab_text[3])){
                                     $context->addViolation('Vous êtes probablement un robot Consonne');
                                 }
     
-                                if($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2])){
+                                if($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2]) && $this->searchVoyelle($tab_text[3])){
                                     $context->addViolation('Vous êtes probablement un robot Voyelle');
                                 }
                             }
@@ -50,12 +50,12 @@ class RegistrationType extends AbstractType
                         if ($text) {
                             $tab_text = str_split($text);
 
-                            if (isset($tab_text[2])) {
-                                if($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2])){
+                            if (isset($tab_text[3])) {
+                                if($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2]) && $this->searchConsonne($tab_text[3])){
                                     $context->addViolation('Vous êtes probablement un robot Consonne');
                                 }
     
-                                if($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2])){
+                                if($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2]) && $this->searchVoyelle($tab_text[3])){
                                     $context->addViolation('Vous êtes probablement un robot Voyelle');
                                 }
                             }
