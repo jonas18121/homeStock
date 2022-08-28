@@ -5,10 +5,12 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserAcountType extends AbstractType
 {
@@ -19,7 +21,18 @@ class UserAcountType extends AbstractType
             ->add('firstName',      TextType::class)
             ->add('phoneNumber',    TelType::class, [
                 'label' => 'Téléphone',
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Cette valeur ne doit pas être vide.',
+                        'groups' => 'update_user'
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?:(?:\+|00)33|0)[12345679](?:\d{2}){4}$/',
+                        'message' => 'Le format est inccorrecte et pas de numéro commençant par 08 ou +338, format valide : 0701010101 ou +33701010101',
+                        'groups' => 'update_user'
+                    ]),
+                ],
             ])
             ->add('email',          EmailType::class)
             // ->add('images')
