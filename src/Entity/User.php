@@ -144,7 +144,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Length(
+     * 
+     * On n'utilise plus c'est contraintes, aller voir dans UserAccountType.php
+     * 
+     * @ /////// Assert\Length(
      *      min=9,
      *      max=10,
      *      minMessage="Votre numéro de téléphone '{{ value }}' doit comporter au moins {{ limit }} chiffres, exemple : 690223344",
@@ -152,7 +155,7 @@ class User implements UserInterface
      *      groups={"update_user"}
 
      * )
-     * @Assert\Regex(
+     * @ /////// Assert\Regex(
      *      pattern= "/^([0-9]{9,10})$/",
      *      message="Votre numéro de téléphone '{{ value }}' doit contenir uniquement des chiffres et pas d'espace entre les chiffres",
      *      groups={"update_user"}
