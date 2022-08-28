@@ -19,6 +19,8 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @var int
      */
     private $id;
 
@@ -34,6 +36,8 @@ class User implements UserInterface
      * @Assert\Email(
      *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
      * )
+     * 
+     * @var string
      */
     private $email;
 
@@ -86,6 +90,8 @@ class User implements UserInterface
      *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - ",
      *      groups={"update_user"}
      * )
+     * 
+     * @var string
      */
     private $lastName;
 
@@ -104,6 +110,8 @@ class User implements UserInterface
      *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - ",
      *      groups={"update_user"}
      * )
+     * 
+     * @var string
      */
     private $firstName;
 
@@ -145,7 +153,9 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", nullable=true)
      * 
-     * On n'utilise plus c'est contraintes, aller voir dans UserAccountType.php
+     * @var string|null
+     * 
+     * On n'utilise plus ces contraintes mais on les garde pour avoir un exemple, aller voir dans UserAccountType.php
      * 
      * @ /////// Assert\Length(
      *      min=9,
@@ -451,7 +461,7 @@ class User implements UserInterface
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(string $phoneNumber): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
