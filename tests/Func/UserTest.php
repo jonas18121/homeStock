@@ -109,6 +109,7 @@ class UserTest extends AbstractEndPoint
 
         $this->client->submit($form);
 
+        // self::assertResponseRedirects('/login');
         self::assertResponseRedirects('/storageSpace');
     }
 
