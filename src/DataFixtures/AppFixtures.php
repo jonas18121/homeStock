@@ -12,25 +12,25 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppFixtures extends Fixture
 {
     const DEFAULT_ADMIN = [
-        'id' => 2,
-        'email' => 'dd@gmail.com', 
-        'password' => 'dd',
-        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$Q3BxbXRzaXRhLlBTWnhpdA$RETCgLoDjJK/SBVi5ItW4ylib3TqzRJelnaBuJdpdRY',
-        'lastName' => 'dd',
-        'firstName' => 'dd',
-        'phoneNumber' => '690112233',
+        'id' => 1,
+        'email' => 'admin@gmail.com', 
+        'password' => '-aA1poiuy',
+        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$HLiHtmJEJdTU0uZLQ/XH3Q$WZYoQHRCwL0pr2UC4mbSbaJxGYOjJhHAaiQLhDg9ws0',
+        'lastName' => 'admin',
+        'firstName' => 'admin',
+        'phoneNumber' => '0645023072',
         // 'dateCreatedAt' => new \DateTime('2021-07-18 21:12:18'),
         'roles_admin' => ["ROLE_ADMIN"]
     ];
 
     const DEFAULT_USER = [
-        'id' => 1,
+        'id' => 2,
         'email' => 'mulan@gmail.com', 
-        'password' => 'mulan',
-        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$dzlFcjg5dElQaEpZWlpYLw$fINVgJTz9ae0j+Xu3O5pgRFPSJv/W4ck55DT4dmyaZ8',
+        'password' => '-aA1poiuy',
+        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$HLiHtmJEJdTU0uZLQ/XH3Q$WZYoQHRCwL0pr2UC4mbSbaJxGYOjJhHAaiQLhDg9ws0',
         'lastName' => 'mulan',
         'firstName' => 'mulan',
-        'phoneNumber' => '127149626',
+        'phoneNumber' => '0675023072',
         // 'dateCreatedAt' => new \DateTime('2021-07-18 21:12:18'),
         'roles_user' => ["ROLE_USER"]
     ];
@@ -43,26 +43,41 @@ class AppFixtures extends Fixture
     }
     /**
      * faire cette commande pour les envoyers en base de donnée
-     * php bin/console doctrine:fixtures:load
+     * php bin/console doctrine:fixtures:load --env=test
      */
     public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create('fr_FR');
 
 
+        //-------- A D M I N -------//
+
+        $admin = new User();
+        $admin->setEmail('admin@gmail.com')
+            ->setPassword(AppFixtures::DEFAULT_ADMIN['password_hash'])
+            ->setRoles(["ROLE_ADMIN"])
+            ->setLastName('admin')
+            ->setFirstName('admin')
+            ->setPhoneNumber(0675023072)
+            ->setDateCreatedAt($faker->dateTime())
+        ;
+        $manager->persist($admin);
+
+
         //-------- U S E R -------//
 
         $user = new User();
         $user->setEmail('mulan@gmail.com')
-            ->setPassword($this->passwordEncoder->encodePassword($user, 'mulan'))
+            ->setPassword(AppFixtures::DEFAULT_USER['password_hash'])
             ->setRoles(["ROLE_USER"])
             ->setLastName('mulan')
             ->setFirstName('mulan')
-            ->setPhoneNumber(0745023072)
+            ->setPhoneNumber(0645023072)
             ->setDateCreatedAt($faker->dateTime())
         ;
         $manager->persist($user);
 
+        
         //-------- C A T E G O R Y -------//
         $category1 = new Category();
         $category1->setName('Pièces')
@@ -102,15 +117,11 @@ class AppFixtures extends Fixture
                 ->setCategory($category2)
                 ->setDateCreatedAt($faker->dateTime())
                 ->setAvailable(true)
-                ->setOwner($user)
+                ->setOwner($admin)
             ;
 
             $manager->persist($storageSpace);
         }
-
-
-        // $product = new Product();
-        // $manager->persist($product);
 
         $manager->flush();
     }
