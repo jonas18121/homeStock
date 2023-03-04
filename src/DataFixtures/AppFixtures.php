@@ -12,10 +12,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppFixtures extends Fixture
 {
     const DEFAULT_ADMIN = [
-        'id' => 2,
+        'id' => 3,
         'email' => 'dd@gmail.com', 
-        'password' => 'dd',
-        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$Q3BxbXRzaXRhLlBTWnhpdA$RETCgLoDjJK/SBVi5ItW4ylib3TqzRJelnaBuJdpdRY',
+        'password' => '-aA1poiuy',
+        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$HLiHtmJEJdTU0uZLQ/XH3Q$WZYoQHRCwL0pr2UC4mbSbaJxGYOjJhHAaiQLhDg9ws0',
         'lastName' => 'dd',
         'firstName' => 'dd',
         'phoneNumber' => '690112233',
@@ -24,10 +24,10 @@ class AppFixtures extends Fixture
     ];
 
     const DEFAULT_USER = [
-        'id' => 1,
+        'id' => 2,
         'email' => 'mulan@gmail.com', 
-        'password' => 'mulan',
-        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$dzlFcjg5dElQaEpZWlpYLw$fINVgJTz9ae0j+Xu3O5pgRFPSJv/W4ck55DT4dmyaZ8',
+        'password' => '-aA1poiuy',
+        'password_hash' => '$argon2id$v=19$m=65536,t=4,p=1$HLiHtmJEJdTU0uZLQ/XH3Q$WZYoQHRCwL0pr2UC4mbSbaJxGYOjJhHAaiQLhDg9ws0',
         'lastName' => 'mulan',
         'firstName' => 'mulan',
         'phoneNumber' => '127149626',
