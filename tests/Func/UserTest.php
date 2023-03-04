@@ -150,6 +150,8 @@ class UserTest extends AbstractEndPoint
         $user = $this->createUser();
 
         $this->userLogin($this->client, $user);
+
+        // dd($user->getId());
         
         $this->client->request(
             Request::METHOD_GET,
