@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {# <meta http-equiv="X-UA-Compatible" content="ie=edge"> #}
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
+            {# {% set asset_url  = '/css/main.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" /> #}
+            {{ encore_entry_link_tags('frontend/default') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
+        {% endblock %}
+
+        {% block javascrpit2 %}
+            <script src="https://js.stripe.com/v3/"></script>
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            <nav role="navigation" class ='divBar'>
+                <div id="menuToggle">
+
+                    <input type="checkbox" />
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+
+                    <ul id="menu">
+                        <li><a href='{{ path('storage_space_all') }}' >Accueil</a></li>
+
+                        {% if app.user %}
+                            <li><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></li>
+                            <li class="menu_li_dashboard">
+                                Tableau de bord
+                                <ul class="sous_menu">
+                                    <li >
+                                        <form id="manage-billing-form" method='POST'>
+                                            <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
+                                            <button type='submit'>Gérer mon abonnement actuel</button>
+                                        </form>
+                                    </li>
+                                    <li><a href="{{ path('booking_for_user') }}">Mes payements</a></li>
+                                    <li><a href="{{ path('storage_space_for_user') }}">Mes annonces d'espace de stockage</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ path('user_one', { 'id' : app.user.id }) }}"> Mon compte </a></li>
+                            <li><a href="{{ path('app_logout') }}"> Déconnexion </a></li>
+                        {% else %}
+                            <li><a href="{{ path('app_registration') }}"> Inscription </a></li>
+                            <li><a href="{{ path('app_login') }}"> Connexion </a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        {% block body %}{% endblock %}
+        {% block script %}{% endblock %}
+        {% block stripe_success %}{% endblock %}
+    </body>
+    {% block script_facture %}
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Vérifie si l'élément avec l'ID "session_id" existe dans le DOM
+                if (document.getElementById('session_id') && document.querySelector('#manage-billing-form')) {
+
+                    let sessionId = document.getElementById('session_id').value;
+                    const manageBillingForm = document.querySelector('#manage-billing-form');
+                    
+                    manageBillingForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+
+                        fetch('/customer/portal', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                sessionId: sessionId
+                            }),
+                        })
+                        .then((response) => {
+                            
+                            return response.json()
+                        })
+                        .then((data) => {
+                            //console.log(data)
+                            window.location.href = data.url;
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            alert('Vous n\'avez pas encore souscrit à un abonnement.');
+                        });
+                    });
+                }
+            });
+        </script>
+    {% endblock %}
+</html>

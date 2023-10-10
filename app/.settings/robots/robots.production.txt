@@ -1,0 +1,7 @@
+# ROBOTS.TXT PRODUCTION
+User-agent: *
+# TO KEEP BELOW
+Disallow: /backend/
+Disallow: /dev/
+
+Sitemap: https://www.name_domaine.fr/sitemaps/1/fr-fr-seed.xml 
