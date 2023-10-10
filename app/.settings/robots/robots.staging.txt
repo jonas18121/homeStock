@@ -1,0 +1,3 @@
+# ROBOTS.TXT STAGING
+User-agent: *
+Disallow: /

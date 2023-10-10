@@ -1,0 +1,8 @@
+- app/.data/backups/*
+- app/.data/mco/*
+- app/public/media/*
+- app/public/rss/*
+- app/public/sitemaps/*
+- app/translations/editable/*
+- app/var/media/*
+- var/log/*
