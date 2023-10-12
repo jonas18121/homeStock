@@ -238,6 +238,27 @@ h3, h4, h5 {
   margin: 5rem 0 1rem;
 }
 
+/* ***** message add flash ***** */
+.bm-messages-success {
+  background-color: #0A8E30;
+  color: #fff;
+}
+
+.bm-messages-wraning {
+  background-color: #a26d0b;
+  color: #fff;
+}
+
+.bm-messages-error {
+  background-color: #A2250B;
+  color: #fff;
+}
+
+.bm-messages-message, .bm-messages-notice {
+  background-color: #534E4D;
+  color: #fff;
+}
+
 /* ***** page_get_all ***** */
 
 .get_all_storage_space .storage {
