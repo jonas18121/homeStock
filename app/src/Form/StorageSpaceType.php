@@ -61,7 +61,7 @@ class StorageSpaceType extends AbstractType
             ->add('priceByDays', MoneyType::class, [
                 'divisor' => 100,
                 'attr' => [
-                    'placeholder' => 'Prix par jours'
+                    'placeholder' => 'Prix en euros par jours'
                 ]
             ])
             ->add('imageFile', VichImageType::class, [
