@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Comment;
-use App\Entity\StorageSpace;
 use App\Form\CommentType;
+use App\Entity\StorageSpace;
 use App\Form\StorageSpaceType;
+use App\Manager\CommentManager;
+use App\Manager\StorageSpaceManager;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
-use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,15 +42,15 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/user", name="storage_space_for_user")
      */
-    public function get_all_storage_space_for_user(StorageSpaceRepository $repo): Response
+    public function get_all_storage_space_for_user(StorageSpaceRepository $storageSpaceRepository): Response
     {
-        if (!$this->getUser()) {
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $user = $this->getUser();
-
-        $storageSpaces = $repo->findBy([ 'owner' => $user ]);
+        $storageSpaces = $storageSpaceRepository->findBy([ 'owner' => $user ]);
 
         return $this->render('storage_space/get_all_storage_space_for_user.html.twig', [
             'storageSpaces' => $storageSpaces,
@@ -58,69 +60,34 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/{id}", name="storage_space_one", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
-    public function get_one_product($id, StorageSpaceRepository $repo, Request $request)
+    public function get_one_product(
+        StorageSpace $storageSpace, 
+        Request $request,
+        CommentManager $commentManager
+    )
     {
-        $storageSpace = $repo->find_one_storage($id);
-
         if (!$storageSpace) {
             return $this->redirectToRoute('storage_space_all');
         }
 
-        // Partie commentaire
+        // Comment part
         $comment = new Comment();
-
         $formComment = $this->createForm(CommentType::class, $comment);
-
         $formComment->handleRequest($request);
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
-
-            $comment->setContent(strip_tags(trim($comment->getContent())))
-                ->setDateCreatedAt(new DateTime())
-                ->setStorageSpace($storageSpace)
-                ->setOwner($this->getUser())
-            ;
-
-            //récupérer le contenu du champ parentid
-            $parentid = $formComment->get("parentid")->getData();
-            
-            $manager = $this->getDoctrine()->getManager();
-            
-            //on va chercher le commentaire correspondant
-            if ($parentid != null) {
-                $parent = $manager->getRepository(Comment::class)->find($parentid);
-            }
-
-            // On définit le commentaire parent
-            $comment->setParent($parent ?? null); 
-
-            $manager->persist($comment);
-            $manager->flush();
-
-            $this->addFlash('message', 'Votre commentaire a bien été envoyé');
-            return $this->redirectToRoute('storage_space_one', [ 'id' => $storageSpace->getId()]);
+            return $commentManager->createCommentFromProduct(
+                $formComment,
+                $comment, 
+                $storageSpace, 
+                $this->getUser()
+            );
         }
 
         return $this->render('storage_space/get_one_storage_space.html.twig', [
             'storageSpace' => $storageSpace,
             'formComment' => $formComment->createView()
         ]);
-    }
-
-    /**
-     * calcule le prix par mois
-     */
-    public function price_by_month(StorageSpace $storageSpace)
-    {
-        $firstDayOfThisMonth = new DateTime('first day of this month');
-        $lastDayOfThisMonth = new DateTime('last day of this month');
-
-        $nbDays = $firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a') ;
-        $nbDays += '1';
-
-        $priceByMonth = $storageSpace->getPriceByDays() * $nbDays;
-
-        return $priceByMonth;
     }
 
     /**

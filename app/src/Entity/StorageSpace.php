@@ -53,8 +53,8 @@ class StorageSpace
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Assert\Regex(
-     *      pattern="/^[a-zA-Z0-9 ]+$/",
-     *      message="L'adresse de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et des chiffres, exemple : 1 rue du Faubourg Saint-Honoré "
+     *      pattern="/^[\p{L}\p{N}\s,.-_]+$/u",
+     *      message="L'adresse de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et des chiffres, exemple : 1 rue du Faubourg Saint-Honoré ok"
      * )
      */
     private $adresse;
@@ -113,8 +113,8 @@ class StorageSpace
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Assert\Regex(
-     *      pattern= "/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
-     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et une fois ce caractère pour les mots composés : - "
+     *      pattern= "/^(?!.*-^)(?!.*-$)[\p{L}\s-]+$/",
+     *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et peut contenir un tiret pour les mots composés : - "
      * )
      */
     private $city;

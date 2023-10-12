@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\StorageSpace;
+use App\Manager\StorageSpaceManager;
 use App\Service\StorageSpaceService;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,18 +17,21 @@ class StorageSpaceListener {
     protected $storageSpaceRepository;
     protected $bookingRepository;
     protected $manager;
+    protected $storageSpaceManager;
 
     public function __construct(
         StorageSpaceService $storage, 
         StorageSpaceRepository $repoStorage, 
         BookingRepository $repoBooking,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        StorageSpaceManager $storageSpaceManager
     )
     {
         $this->storageSpaceService = $storage;
         $this->storageSpaceRepository = $repoStorage;
         $this->bookingRepository = $repoBooking;
         $this->manager = $manager;
+        $this->storageSpaceManager = $storageSpaceManager;
     }
 
     /**
@@ -45,6 +49,6 @@ class StorageSpaceListener {
      */
     public function calculPriceByMonth(RequestEvent $event)
     {
-        $this->storageSpaceService->emitStorageCalculPriceByMonth($event->getRequest(), $this->storageSpaceRepository, $this->manager);
+        $this->storageSpaceService->emitStorageCalculPriceByMonth($event->getRequest(), $this->storageSpaceRepository, $this->manager, $this->storageSpaceManager);
     }
 }

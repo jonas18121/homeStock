@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Kernel;
 use App\Entity\StorageSpace;
+use App\Manager\StorageSpaceManager;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
@@ -78,14 +79,15 @@ class StorageSpaceService
     public function emitStorageCalculPriceByMonth(
         Request $request,
         StorageSpaceRepository $repoStorage,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        StorageSpaceManager $storageSpaceManager
     )
     {
         $storageSpaces = $repoStorage->findAll();
 
         foreach ($storageSpaces as $storageSpace) {
 
-            $priceByMonth = $this->price_by_month($storageSpace);
+            $priceByMonth = $storageSpaceManager->priceByMonth($storageSpace);
             
             if ($storageSpace->getPriceByMonth() === null || $priceByMonth != $storageSpace->getPriceByMonth()) {
                 
@@ -95,21 +97,5 @@ class StorageSpaceService
                 $manager->flush();
             }
         }
-    }
-
-    /**
-     * calcule le prix par mois
-     */
-    public function price_by_month(StorageSpace $storageSpace)
-    {
-        $firstDayOfThisMonth = new \DateTime('first day of this month');
-        $lastDayOfThisMonth = new \DateTime('last day of this month');
-
-        $nbDays = $firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a') ;
-        $nbDays += '1';
-
-        $priceByMonth = $storageSpace->getPriceByDays() * $nbDays;
-
-        return $priceByMonth;
     }
 }
