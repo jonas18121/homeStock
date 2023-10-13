@@ -19,23 +19,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StorageSpaceController extends AbstractController
 {
-     /**
+     /** 
+     * TODO : Create HomePageController
+     * 
      * @Route("/", name="home")
      */
-    public function index(StorageSpaceRepository $repo)
+    public function index(StorageSpaceRepository $storageSpaceRepository): Response
     {
-        return $this->get_all_storage_space($repo);
+        return $this->get_all_storage_space($storageSpaceRepository);
     }
 
     /**
      * @Route("/storageSpace", name="storage_space_all")
      */
-    public function get_all_storage_space(StorageSpaceRepository $repo): Response
+    public function get_all_storage_space(StorageSpaceRepository $storageSpaceRepository): Response
     {
-        $storageSpaces = $repo->find_All_storage();
-
         return $this->render('storage_space/get_all_storage_space.html.twig', [
-            'storageSpaces' => $storageSpaces,
+            'storageSpaces' => $storageSpaceRepository->find_All_storage(),
         ]);
     }
 
@@ -50,10 +50,8 @@ class StorageSpaceController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $storageSpaces = $storageSpaceRepository->findBy([ 'owner' => $user ]);
-
         return $this->render('storage_space/get_all_storage_space_for_user.html.twig', [
-            'storageSpaces' => $storageSpaces,
+            'storageSpaces' => $storageSpaceRepository->findBy([ 'owner' => $user ]),
         ]);
     }
 
@@ -64,7 +62,7 @@ class StorageSpaceController extends AbstractController
         StorageSpace $storageSpace, 
         Request $request,
         CommentManager $commentManager
-    )
+    ): Response
     {
         if (!$storageSpace) {
             return $this->redirectToRoute('storage_space_all');
@@ -93,32 +91,21 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/add", name="storage_space_add")
      */
-    public function create_storage_space(Request $request, EntityManagerInterface $manager)
+    public function create_storage_space(
+        Request $request, 
+        StorageSpaceManager $storageSpaceManager
+    ): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
 
         $storageSpace = new StorageSpace;
-
         $form = $this->createForm(StorageSpaceType::class, $storageSpace);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // $priceByMonth = $this->price_by_month($storageSpace);
-            // dd($storageSpace);
-
-            $storageSpace->setDateCreatedAt(new \DateTime())
-                ->setOwner($this->getUser())
-                ->setAvailable(true)
-            ;
-
-            $manager->persist($storageSpace);
-            $manager->flush();
-
-            return $this->redirectToRoute('storage_space_all');
+            return $storageSpaceManager->createStorageSpace($storageSpace, $this->getUser());
         }
 
         return $this->render('storage_space/create_storage_space.html.twig', [
@@ -129,32 +116,25 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/edit/{id}", name="storage_space_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
      */
-    public function edit_storage_space(StorageSpace $storageSpace, Request $request, EntityManagerInterface $manager)
+    public function edit_storage_space(
+        StorageSpace $storageSpace, 
+        Request $request, 
+        StorageSpaceManager $storageSpaceManager
+    ): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
 
+        // voter
         $this->denyAccessUnlessGranted('edit', $storageSpace);
 
         $form = $this->createForm(StorageSpaceType::class, $storageSpace, [ 'method' => 'PUT' ]);
 
         $form->handleRequest($request);
-        
-        //faire les voter https://symfony.com/doc/current/security/voters.html
-        // if($this->getUser()->getId() !== $form->getViewData()->getOwner()->getId()){
-        //     // return $this->redirectToRoute('storage_space_all');
-        //     throw $this->createAccessDeniedException();
-        // }
 
-        
-        
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            $manager->persist($storageSpace);
-            $manager->flush();
-
-            return $this->redirectToRoute('storage_space_all');
+            return $storageSpaceManager->updateStorageSpace($storageSpace);
         }
 
         return $this->render('storage_space/edit_storage_space.html.twig', [
@@ -165,21 +145,21 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/delete/{id}", name="storage_space_delete", requirements={"id": "\d+"})
      */
-    public function delete_storage_space(StorageSpace $storageSpace, EntityManagerInterface $manager)
+    public function delete_storage_space(
+        StorageSpace $storageSpace, 
+        StorageSpaceManager $storageSpaceManager
+    ): Response
     {
-        // if (!$this->getUser() || $this->getUser()->getId() !== $storageSpace->getOwner()->getId()) {
-        //     return $this->redirectToRoute('storage_space_all');
-        // }
-
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
 
+        // voter
         $this->denyAccessUnlessGranted('delete', $storageSpace);
-        
-        $manager->remove($storageSpace);
-        $manager->flush();
 
+        $storageSpaceManager->delete($storageSpace);
+
+        $this->addFlash('success', 'Votre annonce a bien été supprimée.');
         return $this->redirectToRoute('storage_space_all');
     }
 }

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Comment;
 use App\Entity\StorageSpace;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Comment - Manager.
@@ -19,7 +20,7 @@ class CommentManager extends BaseManager
         Comment $comment, 
         StorageSpace $storageSpace, 
         User $user
-    )
+    ): RedirectResponse
     {
         $comment->setContent(strip_tags(trim($comment->getContent())))
             ->setDateCreatedAt(new \DateTime())
@@ -51,5 +52,19 @@ class CommentManager extends BaseManager
         $em->flush();
 
         return $comment;
+    }
+
+    public function delete(
+        Comment $comment,
+        bool $disable = false
+    ): void {
+        if ($disable) {
+            // $comment->setDeletedAt((new \DateTime('now'))->setTimezone(new \DateTimeZone('UTC')));
+            // $this->save($comment);
+        } else {
+            $em = $this->em();
+            $em->remove($comment);
+            $em->flush();
+        }
     }
 }
