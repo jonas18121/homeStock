@@ -23,7 +23,7 @@ class CommentManager extends BaseManager
     ): RedirectResponse
     {
         $comment->setContent(strip_tags(trim($comment->getContent())))
-            ->setDateCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTime())
             ->setStorageSpace($storageSpace)
             ->setOwner($user)
         ;
@@ -59,8 +59,8 @@ class CommentManager extends BaseManager
         bool $disable = false
     ): void {
         if ($disable) {
-            // $comment->setDeletedAt((new \DateTime('now'))->setTimezone(new \DateTimeZone('UTC')));
-            // $this->save($comment);
+            $comment->setDeletedAt((new \DateTime('now'))->setTimezone(new \DateTimeZone('UTC')));
+            $this->save($comment);
         } else {
             $em = $this->em();
             $em->remove($comment);

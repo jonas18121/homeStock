@@ -22,7 +22,7 @@ class BookingCrudController extends AbstractCrudController
             //IdField::new('id'),
             TextField::new('lodger', 'Locataire'),
             TextField::new('storageSpace', 'Espace de stokage'),
-            DateTimeField::new('dateCreatedAt', 'Date de création'),
+            DateTimeField::new('createdAt', 'Date de création'),
             DateField::new('dateStartAt', 'Date de début'),
             DateField::new('dateEndAt', 'Date de Fin'),
         ];

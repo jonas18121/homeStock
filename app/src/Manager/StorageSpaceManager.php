@@ -35,7 +35,7 @@ class StorageSpaceManager extends BaseManager
     {
         // $priceByMonth = $this->price_by_month($storageSpace);
 
-        $storageSpace->setDateCreatedAt(new \DateTime())
+        $storageSpace->setCreatedAt(new \DateTime())
             ->setOwner($user)
             ->setAvailable(true)
         ;
@@ -70,8 +70,8 @@ class StorageSpaceManager extends BaseManager
         bool $disable = false
     ): void {
         if ($disable) {
-            // $storageSpace->setDeletedAt((new \DateTime('now'))->setTimezone(new \DateTimeZone('UTC')));
-            // $this->save($storageSpace);
+            $storageSpace->setDeletedAt((new \DateTime('now'))->setTimezone(new \DateTimeZone('UTC')));
+            $this->save($storageSpace);
         } else {
             $em = $this->em();
             $em->remove($storageSpace);

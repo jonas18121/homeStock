@@ -19,7 +19,7 @@ class AppFixtures extends Fixture
         'lastName' => 'admin',
         'firstName' => 'admin',
         'phoneNumber' => '0645023072',
-        // 'dateCreatedAt' => new \DateTime('2021-07-18 21:12:18'),
+        // 'createdAt' => new \DateTime('2021-07-18 21:12:18'),
         'roles_admin' => ["ROLE_ADMIN"]
     ];
 
@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
         'lastName' => 'mulan',
         'firstName' => 'mulan',
         'phoneNumber' => '0675023072',
-        // 'dateCreatedAt' => new \DateTime('2021-07-18 21:12:18'),
+        // 'createdAt' => new \DateTime('2021-07-18 21:12:18'),
         'roles_user' => ["ROLE_USER"]
     ];
 
@@ -59,7 +59,7 @@ class AppFixtures extends Fixture
             ->setLastName('admin')
             ->setFirstName('admin')
             ->setPhoneNumber(0675023072)
-            ->setDateCreatedAt($faker->dateTime())
+            ->setCreatedAt($faker->dateTime())
         ;
         $manager->persist($admin);
 
@@ -73,7 +73,7 @@ class AppFixtures extends Fixture
             ->setLastName('mulan')
             ->setFirstName('mulan')
             ->setPhoneNumber(0645023072)
-            ->setDateCreatedAt($faker->dateTime())
+            ->setCreatedAt($faker->dateTime())
         ;
         $manager->persist($user);
 
@@ -115,7 +115,7 @@ class AppFixtures extends Fixture
                 ->setPriceByDays($faker->numberBetween(1, 3) * 100)
                 ->setPriceByMonth($faker->numberBetween(20, 50))
                 ->setCategory($category2)
-                ->setDateCreatedAt($faker->dateTime())
+                ->setCreatedAt($faker->dateTime())
                 ->setAvailable(true)
                 ->setOwner($admin)
             ;

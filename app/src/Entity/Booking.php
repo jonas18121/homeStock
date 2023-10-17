@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\DateTimeTrait;
+use App\Repository\BookingRepository;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
  */
 class Booking
 {
+    use DateTimeTrait;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,12 +24,6 @@ class Booking
      * @ORM\Column(type="datetime")
      */
     private $dateStartAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreatedAt;
-
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
@@ -78,18 +75,6 @@ class Booking
     public function setDateStartAt(\DateTimeInterface $dateStartAt): self
     {
         $this->dateStartAt = $dateStartAt;
-
-        return $this;
-    }
-
-    public function getDateCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->dateCreatedAt;
-    }
-
-    public function setDateCreatedAt(\DateTimeInterface $dateCreatedAt): self
-    {
-        $this->dateCreatedAt = $dateCreatedAt;
 
         return $this;
     }

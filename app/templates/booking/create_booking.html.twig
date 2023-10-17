@@ -1,7 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title 'Créer un espace de stockage' %}
-
+{% block title %}Faire une réservation{% endblock %}
 
 {% block javascrpit2 %}
     <script src="https://js.stripe.com/v3/"></script>
@@ -10,7 +9,7 @@
 {% block body %}
 <div class="container">
 
-    <h1>Faire une réservation</h1>
+    <h1>{{ block('title') }}</h1>
 
     {% if oneBookingTrue == true %}
         <p>Il est possible de souscrire qu'à un seul abonnement </p>

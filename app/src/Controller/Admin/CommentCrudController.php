@@ -23,7 +23,7 @@ class CommentCrudController extends AbstractCrudController
             TextField::new('owner', 'Propriétaire'),
             TextareaField::new('content', 'Contenu'),
             TextField::new('storageSpace', 'Espace de stokage'),
-            DateTimeField::new('dateCreatedAt', 'Date de création'),
+            DateTimeField::new('createdAt', 'Date de création'),
         ];
     }
     

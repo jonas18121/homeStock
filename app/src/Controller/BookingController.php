@@ -8,10 +8,11 @@ use App\Entity\Booking;
 use App\Form\BookingType;
 use Stripe\Checkout\Session;
 use App\Form\BookingFinishType;
+use App\Manager\BookingManager;
+use App\Repository\UserRepository;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
-use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,32 +20,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
 {
-
     protected $booking_trouves;
-    protected EntityManagerInterface $manager;
-
-    public function __construct(EntityManagerInterface $manager)
-    {
-        $this->manager = $manager;
-    }
 
     /**
      * @Route("/booking", name="booking_all")
      */
-    public function get_all_booking(BookingRepository $repo): Response
+    public function get_all_booking(BookingRepository $bookingRepository): Response
     {
-        $bookings = $repo->findAll();
-
         return $this->render('booking/get_all_booking.html.twig', [
-            'bookings' => $bookings,
+            'bookings' => $bookingRepository->findAll(),
         ]);
     }
 
     /**
      * @Route("/booking/{id}", name="booking_one_for_user", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function get_one_booking_for_user(Booking $booking){
-
+    public function get_one_booking_for_user(Booking $booking): Response
+    {
         if (!$this->getUser() || $this->getUser() != $booking->getLodger()) {
             return $this->redirectToRoute('storage_space_all');
         }
@@ -57,127 +49,68 @@ class BookingController extends AbstractController
     }
 
     /**
-     * rediriger vers stripe pour le paiment
+     * rediriger vers stripe pour le paiement
      * 
-     * @Route("/booking/add/storageSpace/{id}", name="booking_add")
+     * @Route("/booking/add/storageSpace/{id}", name="booking_add", requirements={"id": "\d+"})
      */
     public function create_booking(
-        $id, 
-        StorageSpaceRepository $repo, 
+        int $id, 
+        StorageSpaceRepository $storageSpaceRepository, 
         Request $request, 
-        EntityManagerInterface $manager,
-        UserRepository $repoUser
-    )
+        BookingManager $bookingManager
+    ): Response
     {
-        if (!$this->getUser()) {
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $oneBookingTrue = $this->verifBookingTrue($repoUser);
-
         $booking = new Booking;
 
-        $storageSpace = $repo->find_one_storage($id);
+        $storageSpace = $storageSpaceRepository->find_one_storage($id);
 
         $formBooking = $this->createForm(BookingType::class, $booking);
 
         $formBooking->handleRequest($request);
 
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
-            
-            $storageSpace->addBooking($booking)
-                // ->setAvailable(false) //à mettre lorsque le payement est valider
-            ;
-
-            $booking->setDateCreatedAt(new \DateTime())
-                ->setLodger($this->getUser())
-            ;
-            $manager->persist($booking);
-
-            $manager->persist($storageSpace);
-
-            $manager->flush();
-
-            return $this->redirectToRoute('booking_one_for_user', ['id' => $booking->getId()]);
+            return $bookingManager->createdBooking($booking, $storageSpace, $user);
         }
 
         return $this->render('booking/create_booking.html.twig', [
             'formBooking' => $formBooking->createView(),
             'storageSpace' => $storageSpace,
-            'oneBookingTrue' => $oneBookingTrue
+            'oneBookingTrue' => $bookingManager->verifBookingTrue($this->getUser())
         ]);
     }
-
-    /**
-     * vérifier s'il y a une réservation qui est en cours avec l'user courant
-     * afin de l'empéché de souscrire à un autre abonnement 
-     * plus tard dans le code
-     */
-    public function verifBookingTrue(UserRepository $repoUser)
-    {
-        $userCurrent =  $repoUser->findUser($this->getUser()->getId());
-        
-        $tabBooking = [];
-
-        foreach ($userCurrent->getBookings() as $bookingOfUser) {
-            $tabBooking[] = $bookingOfUser->getFinish() == false && $bookingOfUser->getCheckForPayement() == true;
-        }
-
-
-        if (in_array(true,$tabBooking)) {
-            return $oneBookingTrue = true;
-        }else{
-            return $oneBookingTrue = false;
-        } 
-    }
-
 
     /**
      * @Route("/booking/user", name="booking_for_user")
      */
     public function get_all_booking_for_user(
-        BookingRepository $repoBooking, 
-        StorageSpaceRepository $repoStorageSpace,
-        EntityManagerInterface $manager
+        BookingManager $bookingManager
     ): Response
     {
-        if (!$this->getUser()) {
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $user = $this->getUser();
-
-        $bookings = $repoBooking->findBy([ 'lodger' => $user ]);
-
-        // s'il y a une réservation qui n'a pas été payé,
-        // on le supprime de la bdd et du tableau $bookings
-        $newBookings = [];
-        foreach ($bookings as $booking) {
-
-            if ($booking->getPay() == false) {
-                
-                $manager->remove($booking);
-                $manager->flush();
-
-                unset($booking);
-            }
-            if (isset($booking)) {
-                $newBookings[] = $booking;
-            }
-        }
-
         return $this->render('booking/get_all_booking_for_user.html.twig', [
-            // 'bookings' => $bookings,
-            'bookings' => $newBookings
+            'bookings' => $bookingManager->getAllBookingsForUser($user)
         ]);
     }
 
     /**
-     * n'est pas utiliser
+     * TODO : A supprimer
+     * 
+     * N'est pas utiliser, comme stripe s'occupe de finir une reservation
      * 
      * @Route("/booking/form/finish/{id}", name="booking_finish")
      */
-    public function get_form_booking_finish(Booking $booking, Request $request, EntityManagerInterface $manager)
+    public function get_form_booking_finish(Booking $booking, Request $request, EntityManagerInterface $manager): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
@@ -185,20 +118,13 @@ class BookingController extends AbstractController
 
         $this->denyAccessUnlessGranted('show', $booking);
 
-
-        // $booking = new Booking;
-
-        // $booking->setStorageSpace($storageSpace);
         $formBooking = $this->createForm(BookingFinishType::class, $booking);
         
         $formBooking->handleRequest($request);
-
-        // dd($booking);
         
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
-            // dd($booking);
 
-            /* $booking->setDateCreatedAt(new \DateTime())
+            /* $booking->setCreatedAt(new \DateTime())
                 ->setLodger($this->getUser())
             ; */
 
@@ -217,28 +143,19 @@ class BookingController extends AbstractController
      * @Route("/booking/delete/{id}", name="booking_delete", requirements={"id": "\d+"})
      */
     public function delete_booking(
-        $id,
-        BookingRepository $repoBooking, 
-        EntityManagerInterface $manager, 
+        Booking $booking,
+        BookingManager $bookingManager, 
         Request $request
-    )
+    ): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
-        
-        $booking = $repoBooking->find_one_storage_in_booking($id);
 
         $this->denyAccessUnlessGranted('delete', $booking);
         
         if($this->isCsrfTokenValid('delete', $request->get('_token'))){
-
-            $booking->getStorageSpace()->setAvailable(true);
-
-            $manager->remove($booking);
-            $manager->flush();
-
-            $this->addFlash('success',"Votre réservation a été supprimé !");
+            $bookingManager->deleteBooking($booking);
         }
 
         return $this->redirectToRoute('booking_for_user');

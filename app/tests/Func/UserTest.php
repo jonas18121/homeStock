@@ -215,7 +215,7 @@ class UserTest extends AbstractEndPoint
             ->setLastName(AppFixtures::DEFAULT_ADMIN['lastName'])
             ->setFirstName(AppFixtures::DEFAULT_ADMIN['firstName'])
             ->setPhoneNumber(AppFixtures::DEFAULT_ADMIN['phoneNumber'])
-            // ->setDateCreatedAt(AppFixtures::DEFAULT_USER['dateCreatedAt'])
+            // ->setCreatedAt(AppFixtures::DEFAULT_USER['createdAt'])
             ->setRoles(AppFixtures::DEFAULT_ADMIN['roles_admin'])
         ;
 
@@ -236,7 +236,7 @@ class UserTest extends AbstractEndPoint
             ->setLastName(AppFixtures::DEFAULT_USER['lastName'])
             ->setFirstName(AppFixtures::DEFAULT_USER['firstName'])
             ->setPhoneNumber(AppFixtures::DEFAULT_USER['phoneNumber'])
-            // ->setDateCreatedAt(AppFixtures::DEFAULT_USER['dateCreatedAt'])
+            // ->setCreatedAt(AppFixtures::DEFAULT_USER['createdAt'])
             ->setRoles(AppFixtures::DEFAULT_USER['roles_user'])
         ;
 
