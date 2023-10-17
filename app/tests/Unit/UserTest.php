@@ -95,24 +95,24 @@ class UserTest extends TestCase
         self::assertEquals($value, $this->user->getImages());
     }
 
-    public function testGetDateCreatedAt() : void
+    public function testGetCreatedAt() : void
     {
         $value = new \DateTime('now');
 
-        $response = $this->user->setDateCreatedAt($value);
+        $response = $this->user->setCreatedAt($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getDateCreatedAt());
+        self::assertEquals($value, $this->user->getCreatedAt());
     }
 
-    public function testGetDateUpdateAt() : void
+    public function testGetUpdateAt() : void
     {
         $value = new \DateTime('now');
 
-        $response = $this->user->setDateUpdateAt($value);
+        $response = $this->user->setUpdatedAt($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getDateUpdateAt());
+        self::assertEquals($value, $this->user->getUpdatedAt());
     }
 
     public function testGetPhoneNumber() : void

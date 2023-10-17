@@ -53,18 +53,15 @@ class StorageSpaceService
 
                     if ($nb_days == 0 && $booking->getFinish() == false) {
 
-                        $storageSpaces = $repoStorage->find_one_booking_in_storage($booking->getId());
-                        
-                        foreach ($storageSpaces as $key => $storageSpace) {
-        
-                            $storageSpace->setAvailable(true);
-                            $manager->persist($storageSpace);
+                        $storageSpace = $repoStorage->find_storage_space_from_booking_id($booking->getId());
 
-                            $booking->setFinish(true);
-                            $manager->persist($booking);
+                        $storageSpace->setAvailable(true);
+                        $manager->persist($storageSpace);
 
-                            $manager->flush();
-                        }
+                        $booking->setFinish(true);
+                        $manager->persist($booking);
+
+                        $manager->flush();
                     }
                 }
             }

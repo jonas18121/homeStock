@@ -26,14 +26,14 @@ class BookingTest extends TestCase
         $this->booking = new Booking();
     }
 
-    public function testGetDateCreatedAt() : void
+    public function testGetCreatedAt() : void
     {
         $value = new \DateTime('now');
 
-        $response = $this->booking->setDateCreatedAt($value);
+        $response = $this->booking->setCreatedAt($value);
 
         self::assertInstanceOf(Booking::class, $response);
-        self::assertEquals($value, $this->booking->getDateCreatedAt());
+        self::assertEquals($value, $this->booking->getCreatedAt());
     }
 
     public function testGetDateStartAt() : void

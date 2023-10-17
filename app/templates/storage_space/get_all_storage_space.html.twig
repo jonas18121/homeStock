@@ -43,7 +43,7 @@
                             <li class='storage_space'> {{ storageSpace.space }} m2</li>
                             <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
                             <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                            {# <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li> #}
+                            {# <li class='storage_date_create'>Créer le : {{ storageSpace.createdAt | date('d/m/Y H:i') }} </li> #}
                         </a>
                     </ul>
                 </article>

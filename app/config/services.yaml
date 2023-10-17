@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.path.images: /uploads/images
+    app.domain: '%env(DOMAIN)%'
 
 services:
     # default configuration for services in *this* file

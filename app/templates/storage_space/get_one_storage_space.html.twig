@@ -34,7 +34,7 @@
                     <li class='storage_space'> {{ storageSpace.space }} m2</li>
                     <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
                     <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                    <li class='storage_date_create'>Créer le : {{ storageSpace.dateCreatedAt | date('d/m/Y H:i') }} </li>
+                    <li class='storage_date_create'>Créer le : {{ storageSpace.createdAt | date('d/m/Y H:i') }} </li>
                     <li class='storage_owner'> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
 
                     {% if app.user %}
@@ -73,7 +73,7 @@
                         
                             <div class="get_comment">
                                 <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
-                                <p>Le {{ comment.dateCreatedAt | date('d/m/Y H:i') }} 
+                                <p>Le {{ comment.createdAt | date('d/m/Y H:i') }} 
 
                                     {% if app.user != null %}    
                                         {% if comment.owner.id == app.user.id %}
@@ -97,7 +97,7 @@
                                                 {{ reply.owner.lastName }} 
                                                 {{ reply.owner.firstName }} 
                                             </strong> 
-                                            le {{ reply.dateCreatedAt | date('d/m/Y H:i') }}
+                                            le {{ reply.createdAt | date('d/m/Y H:i') }}
 
                                             {% if app.user != null %}
                                                 {% if reply.owner.id == app.user.id %}
