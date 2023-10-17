@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\StorageSpaceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\DateTimeTrait;
+use App\Repository\StorageSpaceRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,6 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class StorageSpace
 {
+    use DateTimeTrait;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -75,11 +78,6 @@ class StorageSpace
      * )
      */
     private $priceByDays;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreatedAt;
 
     /**
      * @ORM\Column(type="boolean")
@@ -151,11 +149,6 @@ class StorageSpace
      * @Assert\NotBlank
      */
     private $category;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateUpdatedAt;
 
     public function __construct()
     {
@@ -233,18 +226,6 @@ class StorageSpace
         return $this;
     }
 
-    public function getDateCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->dateCreatedAt;
-    }
-
-    public function setDateCreatedAt(\DateTimeInterface $dateCreatedAt): self
-    {
-        $this->dateCreatedAt = $dateCreatedAt;
-
-        return $this;
-    }
-
     public function getAvailable(): ?bool
     {
         return $this->available;
@@ -283,7 +264,7 @@ class StorageSpace
         // sinon les écouteurs d'événement ne seront pas appelés et le fichier est perdu
         if ($image) {
             // si 'updatedAt' n'est pas défini dans votre entité, utilisez une autre propriété
-            $this->dateUpdatedAt = new \DateTime('now');
+            $this->updated_at = new \DateTime('now');
         }
     }
 
@@ -403,18 +384,6 @@ class StorageSpace
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getDateUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->dateUpdatedAt;
-    }
-
-    public function setDateUpdatedAt(?\DateTimeInterface $dateUpdatedAt): self
-    {
-        $this->dateUpdatedAt = $dateUpdatedAt;
 
         return $this;
     }

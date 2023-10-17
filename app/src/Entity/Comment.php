@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\DateTimeTrait;
+use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
+    use DateTimeTrait;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -25,11 +28,6 @@ class Comment
      * @Assert\NotBlank
      */
     private $content;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=StorageSpace::class, inversedBy="comments")
@@ -78,18 +76,6 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getDateCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->dateCreatedAt;
-    }
-
-    public function setDateCreatedAt(\DateTimeInterface $dateCreatedAt): self
-    {
-        $this->dateCreatedAt = $dateCreatedAt;
 
         return $this;
     }

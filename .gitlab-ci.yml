@@ -1,0 +1,95 @@
+image: php:7.4
+
+cache:
+  paths:
+    - vendor/
+      
+before_script:
+  - cd app
+  - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer 
+  - zip # on install extension php zip
+  - composer install # execution de composer install 
+  - composer require symfony/webpack-encore-bundle
+  - rm -rf node_modules && yarn add --dev @symfony/webpack-encore && yarn add @babel/plugin-proposal-class-properties && yarn add @babel/core add && yarn install
+
+
+stages:
+  # - security 
+  - quality
+  # - tests
+  - deploy
+
+lint:
+  stage: quality
+  except:
+    - staging
+    - preproduction
+    - production
+  script:
+    - ./bin/console lint:yaml config --parse-tags
+    - ./bin/console lint:twig templates --env=prod
+    - ./bin/console lint:container --no-debug
+    - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+  allow_failure: false # or true
+
+staging:
+  stage: deploy
+  only: 
+    - staging
+  script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+    - | 
+        ssh -tt -p $SSH_PORT $SSH_USER@$SSH_HOST  << EOF 
+        cd /var/www/homeStockGitlab/app
+        git pull origin staging  
+        rm -f .env && cp .settings/files/.env.$ENVIRONMENT .env
+        composer install --prefer-dist --optimize-autoloader --classmap-authoritative --ignore-platform-reqs --no-interaction
+        APP_ENV=prod APP_DEBUG=0 
+        bin/console cache:clear
+        yarn install && yarn dev  
+        exit
+        EOF
+  variables:
+    ENVIRONMENT: staging
+    ENVIRONMENT_SYMFONY: staging
+    PROJECT_PATH: "$PROJECT_PATH_STAGING" # Not using at the moment 
+    SSH_PORT: "$SSH_PORT_STAGING"
+    SSH_USER: "$SSH_USER_STAGING"
+    SSH_HOST: "$SSH_HOST_STAGING"
+    SSH_PRIVATE_KEY: "$SSH_PRIVATE_KEY_STAGING"
+
+production:
+  stage: deploy
+  only:
+    - production
+  script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+    - | 
+        ssh -tt -p $SSH_PORT $SSH_USER@$SSH_HOST  << EOF 
+        cd /var/www/homeStockGitlab/app
+        git pull origin production  
+        rm -f .env && cp .settings/files/.env.$ENVIRONMENT .env
+        composer install --prefer-dist --optimize-autoloader --classmap-authoritative --ignore-platform-reqs --no-interaction
+        APP_ENV=prod APP_DEBUG=0 
+        bin/console cache:clear
+        yarn install && yarn dev  
+        exit
+        EOF
+  variables:
+    ENVIRONMENT: production
+    ENVIRONMENT_SYMFONY: production
+    PROJECT_PATH: "$PROJECT_PATH_PROD"
+    SSH_PORT: "$SSH_PORT_PROD"
+    SSH_USER: "$SSH_USER_PROD"
+    SSH_HOST: "$SSH_HOST_PROD"
+    SSH_PRIVATE_KEY: "$SSH_PRIVATE_KEY_PROD"

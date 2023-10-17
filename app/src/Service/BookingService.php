@@ -31,7 +31,7 @@ class BookingService
 
             if ($booking->getPay() == true && $booking->getFinish() == false && $booking->getCheckForPayement() == false) {
 
-                $storageSpace = $repoStorage->find_one_booking_in_storage($booking->getId());
+                $storageSpace = $repoStorage->find_storage_space_from_booking_id($booking->getId());
 
                 $storageSpace->setAvailable(false);
                 $manager->persist($storageSpace);

@@ -35,14 +35,14 @@ class CommentTest extends TestCase
         self::assertEquals($value, $this->comment->getContent());
     }
 
-    public function testGetDateCreatedAt() : void
+    public function testGetCreatedAt() : void
     {
         $value = new \DateTime('now');
 
-        $response = $this->comment->setDateCreatedAt($value);
+        $response = $this->comment->setCreatedAt($value);
 
         self::assertInstanceOf(Comment::class, $response);
-        self::assertEquals($value, $this->comment->getDateCreatedAt());
+        self::assertEquals($value, $this->comment->getCreatedAt());
     }
 
     /**

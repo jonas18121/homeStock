@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class SecurityController extends AbstractController
     /**
      *@Route("/registration", name="app_registration")
      */
-    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder): Response
+    public function register(Request $request, UserManager $userManager, UserPasswordEncoderInterface $encoder): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
@@ -30,16 +31,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            $hash = $encoder->encodePassword($user, $user->getPassword());
-            $user->setDateCreatedAt(new \DateTime());
-
-            $user->setPassword($hash);
-            $manager->persist($user);
-            $manager->flush();
-
-            $this->addFlash('success', 'Votre compte a bien était créé, Connectez-vous !');
-            return $this->redirectToRoute('app_login');
+            return $userManager->register($user, $encoder);
         }
 
         return $this->render('security/registration.html.twig', [

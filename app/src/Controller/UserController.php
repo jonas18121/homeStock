@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserAcountType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,8 +35,12 @@ class UserController extends AbstractController
      * 
      * @Route("/user/edit/{id}", name="user_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
      */
-    public function edit_user(User $user, Request $request,  EntityManagerInterface $manager){
-
+    public function edit_user(
+        User $user, 
+        Request $request,  
+        UserManager $userManager
+    ): Response
+    {
         if (!$this->getUser()) {
             return $this->redirectToRoute('storage_space_all');
         }
@@ -48,11 +52,7 @@ class UserController extends AbstractController
         $formUser->handleRequest($request);
        
         if ($formUser->isSubmitted() && $formUser->isValid()) {
-            
-            $manager->persist($user);
-            $manager->flush();
-
-            return $this->redirectToRoute('user_one', [ 'id' => $user->getId()]);
+            return $userManager->updateThenRedirect($user);
         }
 
         return $this->render('user/edit_user.html.twig', [
@@ -63,26 +63,19 @@ class UserController extends AbstractController
     /**
      * @Route("/user/delete", name="user_delete", requirements={"id": "\d+"})
      */
-    public function delete_user( EntityManagerInterface $manager, Request $request){
+    public function delete_user(UserManager $userManager, Request $request): Response
+    {     
+        $user = $this->getUser();
 
-        
-        if (!$this->getUser()) {
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
         
-        $user = $this->getUser();
-
+        // voter
         $this->denyAccessUnlessGranted('delete', $user);
 
         if($this->isCsrfTokenValid('delete', $request->get('_token'))){
-
-            $manager->remove($user);
-            $manager->flush();
-
-            $this->get('security.token_storage')->setToken(null);
-            $this->get('session')->invalidate();
-
-            $this->addFlash('success',"Votre compte a été supprimé !");
+            $userManager->userDeletesTheirAccount($user);
         }
 
         return $this->redirectToRoute('app_login');

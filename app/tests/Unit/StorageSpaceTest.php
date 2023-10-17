@@ -117,24 +117,24 @@ class StorageSpaceTest extends TestCase
         self::assertEquals($value, $this->storageSpace->getImages());
     }
 
-    public function testGetDateCreatedAt() : void
+    public function testGetCreatedAt() : void
     {
         $value = new \DateTime('now');
 
-        $response = $this->storageSpace->setDateCreatedAt($value);
+        $response = $this->storageSpace->setCreatedAt($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getDateCreatedAt());
+        self::assertEquals($value, $this->storageSpace->getCreatedAt());
     }
 
-    public function testGetDateUpdateAt() : void
+    public function testGetUpdatedAt() : void
     {
         $value = new \DateTime('now');
 
-        $response = $this->storageSpace->setDateUpdatedAt($value);
+        $response = $this->storageSpace->setUpdatedAt($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getDateUpdatedAt());
+        self::assertEquals($value, $this->storageSpace->getUpdatedAt());
     }
 
     /**

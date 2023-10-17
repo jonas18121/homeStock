@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
+use App\Entity\Traits\DateTimeTrait;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -15,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    use DateTimeTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -114,16 +117,6 @@ class User implements UserInterface
      * @var string
      */
     private $firstName;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreatedAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateUpdateAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -298,30 +291,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDateCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->dateCreatedAt;
-    }
-
-    public function setDateCreatedAt(\DateTimeInterface $dateCreatedAt): self
-    {
-        $this->dateCreatedAt = $dateCreatedAt;
-
-        return $this;
-    }
-
-    public function getDateUpdateAt(): ?\DateTimeInterface
-    {
-        return $this->dateUpdateAt;
-    }
-
-    public function setDateUpdateAt(?\DateTimeInterface $dateUpdateAt): self
-    {
-        $this->dateUpdateAt = $dateUpdateAt;
-
-        return $this;
-    }
-
     public function getImages(): ?string
     {
         return $this->images;
@@ -468,25 +437,3 @@ class User implements UserInterface
         return $this;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-* @Assert\Regex(
-     *      pattern  = "/^[a-zA-Z0-9_]+@[a-z]{4,7}.[a-z]{2,3}$/",
-     *      message="Votre email n'est pas valide, voici un exemple : xxxx@xxxx.xxx"
-     * )
-
-
-*/

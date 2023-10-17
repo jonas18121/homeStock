@@ -59,7 +59,7 @@ class StorageSpaceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function find_one_booking_in_storage($id)
+    public function find_storage_space_from_booking_id($id)
     {
         return $this->createQueryBuilder('s')
             ->select('s, b')
