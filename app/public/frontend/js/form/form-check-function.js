@@ -7,6 +7,90 @@ export class FormCheckFunction {
     }
 
     /**
+     * @param {string} input : input id
+     * @param {string} partUrl : part of the url
+     * @param {string} messageError : error message, the field is empty
+     * @param {string} temporaryColor : temporary color
+     * @param {string} permanentColor : permanent color
+     * 
+     *  @returns {string}
+     */
+    async isEmailExist(input, partUrl, messageError, temporaryColor, permanentColor) {
+        try {
+            const isValid = await this.findEmailExist(input, partUrl, messageError, temporaryColor, permanentColor);
+            console.log(isValid); // Obtenez la nouvelle valeur de isValid ici
+            return isValid;
+        } catch (error) {
+            alert('Une erreur s\'est produite : ' + error);
+            console.error('Une erreur s\'est produite : ' + error);
+            throw error;
+        }
+    }
+
+    /**
+     * @param {string} input : input id
+     * @param {string} partUrl : part of the url
+     * @param {string} tagError : tag error
+     * @param {string} messageError : error message, the field is empty
+     * @param {string} temporaryColor : temporary color
+     * @param {string} permanentColor : permanent color
+     * 
+     *  @returns {Promise}
+     */
+    async findEmailExist(input, partUrl, tagError, messageError, temporaryColor, permanentColor) 
+    {
+        return new Promise(function(resolve, reject) {
+            let email = $(input).val();
+            let isValid = false;
+            
+            if (email !== 'undefined' && email !== undefined && email !== 0 && email !== '') {
+
+                let baseUrl = window.location.origin;
+                $.ajax({
+                    type: 'GET',
+                    url: baseUrl + partUrl + email,
+                    success: function (response) {
+
+                        if (response.result == 'success') {
+                            $(tagError).text('');
+
+                            isValid = true;
+                        } 
+                        else {
+                            $(tagError).text(messageError)
+                            .css('color', temporaryColor)
+                            .delay(50000)
+                            .queue(function (next) {
+                                $(this).css('color', permanentColor);
+                                next();
+                            });
+
+                            isValid = false;
+                        }
+
+                        resolve(isValid);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        alert('Error : ' + xhr.statusText + '.');
+                        reject(error);
+                        // Use toastr
+                        // toastr.error(
+                        // 	Translator.trans('js.error_occured', {}, 'javascript') + ' : ' + xhr.statusText + '.',
+                        // );
+                    },
+                    complete: function (data) {
+                        // Nothing
+                    },
+                });
+            } 
+            else {
+                resolve(isValid); // Si l'email est vide, résolvez la promesse avec la valeur actuelle de isValid (false).
+            } 
+        });       
+    }
+
+
+    /**
      * Checking the length of an input field's value
      * 
      * @param {string} input : input id
@@ -224,9 +308,26 @@ export class FormCheckFunction {
      * @returns {void}
      */
     checkOnSubmit(isValid, event){
-        if (isValid == false) {
+        if (isValid === false) {
             event.preventDefault(); // stop submit
             $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+        }
+    }
+
+    /**
+     * check if isValid is correct on submit on async
+     * 
+     * @param {boolean} isValid
+     * @param {event} event
+     * 
+     * @returns {void}
+     */
+    async checkOnSubmitAsync(isValid, event, form){
+        if (isValid === false) {
+            event.preventDefault(); // stop submit
+            $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+        } else {
+            form.submit();
         }
     }
 
@@ -238,7 +339,7 @@ export class FormCheckFunction {
     * messageSuccess : message de success
     * messageErrorDateSmall : message d'erreur si la date saisie dans l'input est plus petit que la date du jour 
     */
-        validInputDateBirthdate(input, inputError, messageError, messageErrorEmpty, messageSuccess = null, messageErrorDateSmall = null){
+    validInputDateBirthdate(input, inputError, messageError, messageErrorEmpty, messageSuccess = null, messageErrorDateSmall = null){
         let validInputError = $(`#${inputError}`);
         let validInput = $(`#${input}`);
         let regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
