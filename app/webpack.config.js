@@ -33,6 +33,10 @@ Encore
         './public/frontend/js/pages/page-register/page-register.js'
     ])
 
+    .addEntry('frontend/page-register-check', [
+        './public/frontend/js/pages/page-register/page-register-check.js'
+    ])
+
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

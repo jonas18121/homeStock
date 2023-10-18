@@ -11,6 +11,7 @@
     {{ parent() }}
     {#{{ encore_entry_script_tags('app') }}#}
     {{ encore_entry_script_tags('frontend/page-register') }}
+    {{ encore_entry_script_tags('frontend/page-register-check') }}
 {% endblock %}
 
 {% block body %}
@@ -21,7 +22,7 @@
 
     <div class="container_form">
 
-        {{ form_start(formRegistration, { 'attr' : { 'class' : 'form' }} ) }}
+        {{ form_start(formRegistration, { 'attr' : { class: 'form', id: 'user-registration-form' }} ) }}
 
             <div class="div_form">
                 <label for="inputUsername" class="form_label">Nom d'utilisateur</label>
@@ -44,7 +45,7 @@
                 <div>
                     {{ form_widget(formRegistration.email, {attr : {class : 'form_input' }} ) }}
                 </div>
-                <small class="error_input_small">{{ form_errors(formRegistration.email) }} </small>
+                <small class="error_input_small" id="error_email">{{ form_errors(formRegistration.email) }} </small>
             </div>
 
             <div class="div_form">
