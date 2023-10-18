@@ -9,8 +9,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     errorPath="email",
+ *     message="Cette adresse email est déjà utilisé."
+ * )
+ * 
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
@@ -23,9 +30,8 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @var int
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -40,19 +46,17 @@ class User implements UserInterface
      *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
      * )
      * 
-     * @var string
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * exemple : -aA1poiuy
      * 
-     * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      * @Assert\Regex(
@@ -61,22 +65,19 @@ class User implements UserInterface
      *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, 
      *          au moins une lettre majuscule, 
      *          au moins une lettre minuscule, 
-     *          au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _", 
-     *      
+     *          au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _",  
      * )
      */
-    private $password;
+    private string $password;
 
     /**
-     * @var string
      * @Assert\NotBlank
      * @Assert\EqualTo(
      *      propertyPath="password", 
-     *      message="Les 2 mots de passe doîvent être identiques",
-     *      
+     *      message="Les 2 mots de passe doîvent être identiques", 
      * )
      */
-    private $confirm_password;
+    private string $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -94,9 +95,8 @@ class User implements UserInterface
      *      groups={"update_user"}
      * )
      * 
-     * @var string
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -114,39 +114,43 @@ class User implements UserInterface
      *      groups={"update_user"}
      * )
      * 
-     * @var string
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $images;
+    private string $images;
 
     /**
      * @ORM\OneToMany(targetEntity=StorageSpace::class, mappedBy="owner", orphanRemoval=true)
+     * 
+     * @var StorageSpace[]|Collection<int, StorageSpace>
      */
     private $storageSpaces;
 
     /**
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="lodger", orphanRemoval=true)
+     * 
+     * @var Booking[]|Collection<int, Booking>
      */
     private $bookings;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="owner", orphanRemoval=true)
+     * 
+     * @var Comment[]|Collection<int, Comment>
      */
     private $comments;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $customerId;
+    private string $customerId;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      * 
-     * @var string|null
      * 
      * On n'utilise plus ces contraintes mais on les garde pour avoir un exemple, aller voir dans UserAccountType.php
      * 
@@ -165,7 +169,7 @@ class User implements UserInterface
      * )
      * 
      */
-    private $phoneNumber;
+    private ?string $phoneNumber;
 
     public function __construct()
     {
@@ -174,7 +178,7 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLastName() . ' ' . $this->getFirstName();
     }
@@ -304,9 +308,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|StorageSpace[]
+     * @return StorageSpace[]|Collection<int, StorageSpace>
      */
-    public function getStorageSpaces(): Collection
+    public function getStorageSpaces()
     {
         return $this->storageSpaces;
     }
@@ -334,9 +338,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Booking[]
+     * @return Booking[]|Collection<int, Booking>
      */
-    public function getBookings(): Collection
+    public function getBookings()
     {
         return $this->bookings;
     }
@@ -364,9 +368,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Comment[]
+     * @return Comment[]|Collection<int, Comment>
      */
-    public function getComments(): Collection
+    public function getComments()
     {
         return $this->comments;
     }
@@ -396,17 +400,15 @@ class User implements UserInterface
     /**
      * Get the value of confirm_password
      */ 
-    public function getConfirmPassword()
+    public function getConfirmPassword(): string
     {
         return $this->confirm_password;
     }
 
     /**
      * Set the value of confirm_password
-     *
-     * @return  self
      */ 
-    public function setConfirmPassword($confirm_password)
+    public function setConfirmPassword($confirm_password): self
     {
         $this->confirm_password = $confirm_password;
 
