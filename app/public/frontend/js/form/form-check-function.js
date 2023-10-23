@@ -7,22 +7,234 @@ export class FormCheckFunction {
     }
 
     /**
+     * Ecrire du texte avec une couleur temporaire
+     * 
+     * Peut être buger en async
+     * 
+     * @param {Object} textElementDom 
+     * @param {String} text 
+     * @param {String} temporaryColor 
+     * @param {String} permanentColor 
+     * @param {int} time 
+     */
+    writeTextWithTemporaryColor(textElementDom, text, temporaryColor, permanentColor, time)
+    {
+        textElementDom.text(text)
+        .css('color', temporaryColor)
+        .delay(time)
+        .queue(function (next) {
+            $(this).css('color', permanentColor);
+            next();
+        });
+    }
+
+    /**
+     * Ecrire du texte avec une couleur
+     * 
+     * @param {Object} textElementDom 
+     * @param {String} text 
+     * @param {String} permanentColor 
+     * @param {int} time 
+     */
+    writeTextWithColor(textElementDom, text, temporaryColor)
+    {
+        textElementDom.text(text).css('color', temporaryColor);
+    }
+
+    /**
+     * Vérifier si les caractères du password sont pareil que ceux de comfirm_password
+     * 
+     * @param {string} passwordId : Password Id
+     * @param {string} comparePasswordId : compare confirm Password Id
+     * @param {string} tagError : tag error
+     * @param {string} messageSuccessGeneral : success message general, the field is empty
+     * @param {string} messageSuccessEqual : success message Equal, the field is empty
+     * @param {string} messageErrorGeneral : error message general, the field is empty
+     * @param {string} messageErrorSmall : error message Small, the field is empty
+     * @param {string} permanentColorSuccessGeneral : permanent color Success General
+     * @param {string} permanentColorSuccessEqual : permanent color Success Equal
+     * @param {string} permanentColorErrorGeneral : permanent color Error General
+     * @param {string} permanentColorErrorSmall : permanent color Error Small
+     * 
+     * @returns {boolean}
+     */
+    samePassword(
+        passwordId, 
+        compareComfirmPasswordId, 
+        tagError, 
+        messageSuccessGeneral,
+        messageSuccessEqual,
+        messageErrorGeneral,
+        messageErrorSmall,
+        permanentColorSuccessGeneral,
+        permanentColorSuccessEqual,
+        permanentColorErrorGeneral,
+        permanentColorErrorSmall
+    ) {
+        const compare = $(compareComfirmPasswordId).val(); // La chaîne de comparaison
+
+        const inputText = $(passwordId).val(); // Récupérer la valeur du champ de formulaire
+        const textError = $(tagError);
+
+        let isMatch = true;
+    
+        if (compare !== null && compare !== undefined && compare !== '') {
+            for (let i = 0; i < inputText.length && i < compare.length; i++) {
+                if (inputText[i] !== compare[i]) {
+                    isMatch = false;
+                    break; // Sortir de la boucle dès qu'une différence est trouvée
+                }
+            }
+    
+            if (inputText.length > compare.length || inputText.length < compare.length) {
+                isMatch = false;
+            }
+        
+            if (isMatch) {
+                this.writeTextWithColor(
+                    textError, 
+                    messageSuccessGeneral,
+                    permanentColorSuccessGeneral
+                );
+    
+                if (inputText.length === compare.length) {
+                    this.writeTextWithColor(
+                        textError, 
+                        messageSuccessEqual, 
+                        permanentColorSuccessEqual
+                    );
+                }
+    
+                return true;
+            } else {
+                this.writeTextWithColor(
+                    textError, 
+                    messageErrorGeneral, 
+                    permanentColorErrorGeneral
+                );
+    
+                if (inputText.length < compare.length) {
+                    this.writeTextWithColor(
+                        textError, 
+                        messageErrorSmall, 
+                        permanentColorErrorSmall
+                    );
+                }
+    
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Vérifier si les caractères du comfirm_password sont pareil que ceux de password
+     * 
+     * @param {string} comfirmPasswordId : comfirm Password Id
+     * @param {string} comparePasswordId : compare Password Id
+     * @param {string} tagError : tag error
+     * @param {string} messageSuccessGeneral : success message general, the field is empty
+     * @param {string} messageSuccessEqual : success message Equal, the field is empty
+     * @param {string} messageErrorGeneral : error message general, the field is empty
+     * @param {string} messageErrorSmall : error message Small, the field is empty
+     * @param {string} permanentColorSuccessGeneral : permanent color Success General
+     * @param {string} permanentColorSuccessEqual : permanent color Success Equal
+     * @param {string} permanentColorErrorGeneral : permanent color Error General
+     * @param {string} permanentColorErrorSmall : permanent color Error Small
+     * 
+     * @returns {boolean}
+     */
+    sameComfirmPassword(
+        comfirmPasswordId, 
+        passwordId, 
+        tagError, 
+        messageSuccessGeneral,
+        messageSuccessEqual,
+        messageErrorGeneral,
+        messageErrorSmall,
+        permanentColorSuccessGeneral,
+        permanentColorSuccessEqual,
+        permanentColorErrorGeneral,
+        permanentColorErrorSmall
+    ) {
+        const compare = $(passwordId).val(); // La chaîne de comparaison
+
+        const inputText = $(comfirmPasswordId).val(); // Récupérer la valeur du champ de formulaire
+        const textError = $(tagError);
+
+        let isMatch = true;
+    
+        if (inputText !== null && inputText !== undefined && inputText !== '') {
+            for (let i = 0; i < inputText.length && i < compare.length; i++) {
+                if (inputText[i] !== compare[i]) {
+                    isMatch = false;
+                    break; // Sortir de la boucle dès qu'une différence est trouvée
+                }
+            }
+    
+            // if (inputText.length > compare.length) {
+            //     isMatch = false;
+            // }
+
+            if (inputText.length !== compare.length) {
+                isMatch = false;
+            }
+        
+            if (isMatch) {
+                this.writeTextWithColor(
+                    textError, 
+                    messageSuccessGeneral, 
+                    permanentColorSuccessGeneral
+                );
+    
+                if (inputText.length === compare.length) {
+                    this.writeTextWithColor(
+                        textError, 
+                        messageSuccessEqual,  
+                        permanentColorSuccessEqual
+                    );
+                }
+    
+                return true;
+            } else {
+                this.writeTextWithColor(
+                    textError, 
+                    messageErrorGeneral, 
+                    permanentColorErrorGeneral
+                );
+    
+                if (inputText.length < compare.length) {
+                    this.writeTextWithColor(
+                        textError, 
+                        messageErrorSmall,  
+                        permanentColorErrorSmall
+                    );
+                }
+    
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param {string} input : input id
      * @param {string} partUrl : part of the url
      * @param {string} messageError : error message, the field is empty
      * @param {string} temporaryColor : temporary color
      * @param {string} permanentColor : permanent color
      * 
-     *  @returns {string}
+     * @returns {string}
      */
     async isEmailExist(input, partUrl, messageError, temporaryColor, permanentColor) {
         try {
             const isValid = await this.findEmailExist(input, partUrl, messageError, temporaryColor, permanentColor);
-            console.log(isValid); // Obtenez la nouvelle valeur de isValid ici
+            console.log(isValid);
             return isValid;
         } catch (error) {
             alert('Une erreur s\'est produite : ' + error);
-            console.error('Une erreur s\'est produite : ' + error);
             throw error;
         }
     }
@@ -35,7 +247,7 @@ export class FormCheckFunction {
      * @param {string} temporaryColor : temporary color
      * @param {string} permanentColor : permanent color
      * 
-     *  @returns {Promise}
+     * @returns {Promise}
      */
     async findEmailExist(input, partUrl, tagError, messageError, temporaryColor, permanentColor) 
     {
@@ -212,6 +424,7 @@ export class FormCheckFunction {
      * @returns {boolean}
      */
     isValidField(data) {
+        // console.log(data);
         for (let index = 0; index < data.length; index++) {
             if(false == data[index]){
                 return false;
@@ -307,28 +520,114 @@ export class FormCheckFunction {
      * 
      * @returns {void}
      */
-    checkOnSubmit(isValid, event){
+    checkAfterSubmit(isValid, event){
         if (isValid === false) {
-            event.preventDefault(); // stop submit
-            $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+            this.stopEventAndBackToTop(event);
         }
     }
 
     /**
-     * check if isValid is correct on submit on async
+     * check if isValid is correct on submit on async whit submit
      * 
      * @param {boolean} isValid
      * @param {event} event
+     * @param {Object} form
      * 
      * @returns {void}
      */
-    async checkOnSubmitAsync(isValid, event, form){
+    async checkAfterSubmitAsync(isValid, event, form){
         if (isValid === false) {
-            event.preventDefault(); // stop submit
-            $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+            this.stopEventAndBackToTop(event);
         } else {
             form.submit();
         }
+    }
+
+       /**
+     * check if isValid is correct on submit on async  whitout submit
+     * 
+     * @param {boolean} isValid
+     * @param {event} event
+     * @param {Object} form
+     * 
+     * @returns {void}
+     */
+       async checkAfterSubmitAsyncWhitoutSubmit(isValid, event){
+        if (isValid === false) {
+            this.stopEventAndBackToTop(event);
+        }
+    }
+
+    /**
+     * check if isValid is correct before submit
+     * 
+     * @param {boolean} isValid
+     * @param {event} event
+     * @param {string} buttonId
+     * @param {boolean} isDisabled
+     * 
+     * @returns {boolean}
+     */
+    checkBeforeSubmit(isValid, event, buttonId, isDisabled = false){
+        if (isValid === false) {
+            if (isDisabled === true) {
+                event.preventDefault(); // stop submit
+                $(buttonId).prop('disabled', true);
+                // $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+            }
+
+            console.log('return false');
+            return false;
+        }
+        else {
+            if (isDisabled === true) {
+                $(buttonId).prop('disabled', false);
+            }
+
+            console.log('return true');
+            return true;
+        }
+    }
+
+    /**
+     * check if isValid is correct before submit
+     * 
+     * @param {boolean} isValid
+     * @param {event} event
+     * @param {string} buttonSubmitId
+     * @param {boolean} isDisabled
+     * 
+     * @returns {boolean}
+     */
+    async checkBeforeSubmitAsync(isValid, event, buttonSubmitId, isDisabled = false){
+        if (isValid === false) {
+            if (isDisabled === true) {
+                event.preventDefault(); // stop submit
+                $(buttonSubmitId).prop('disabled', true);
+                // $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+            }
+
+            return false;
+        }
+        else {
+            if (isDisabled === true) {
+                $(buttonSubmitId).prop('disabled', false);
+            }
+
+            return true;
+        }
+    }
+
+    /**
+     * 
+     * @param {Event} event 
+     * 
+     * @returns {void}
+     */
+    stopEventAndBackToTop (event)
+    {
+        event.preventDefault(); // stop submit
+        $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
     }
 
     /**
