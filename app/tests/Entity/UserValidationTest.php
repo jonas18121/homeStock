@@ -6,6 +6,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\Validator\TraceableValidator;
 use App\Repository\UserRepository as RepositoryUserRepository;
 
 /**
@@ -15,7 +16,6 @@ use App\Repository\UserRepository as RepositoryUserRepository;
  */
 class UserValidationTest extends KernelTestCase
 {
-
     /**
      * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
      *
@@ -35,7 +35,9 @@ class UserValidationTest extends KernelTestCase
             ->setLastName('LastName')
         ;
 
-        $error = self::$container->get('validator')->validate($user);
+        /** @var TraceableValidator */
+        $validator = self::$container->get('validator');
+        $error = $validator->validate($user);        
 
         $this->assertCount(0, $error);
     }
@@ -60,7 +62,9 @@ class UserValidationTest extends KernelTestCase
 
         self::bootKernel();
 
-        $error = self::$container->get('validator')->validate($user);
+        /** @var TraceableValidator */
+        $validator = self::$container->get('validator');
+        $error = $validator->validate($user);
 
         $this->assertCount(1, $error);
     }
@@ -85,7 +89,9 @@ class UserValidationTest extends KernelTestCase
 
         self::bootKernel();
 
-        $error = self::$container->get('validator')->validate($user);
+        /** @var TraceableValidator */
+        $validator = self::$container->get('validator');
+        $error = $validator->validate($user);
 
         $this->assertCount(1, $error);
     }
@@ -110,7 +116,9 @@ class UserValidationTest extends KernelTestCase
 
         self::bootKernel();
 
-        $error = self::$container->get('validator')->validate($user);
+        /** @var TraceableValidator */
+        $validator = self::$container->get('validator');
+        $error = $validator->validate($user);
 
         $this->assertCount(1, $error);
     }
@@ -135,7 +143,9 @@ class UserValidationTest extends KernelTestCase
 
         self::bootKernel();
 
-        $error = self::$container->get('validator')->validate($user);
+        /** @var TraceableValidator */
+        $validator = self::$container->get('validator');
+        $error = $validator->validate($user);
 
         $this->assertCount(1, $error);
     }
@@ -160,7 +170,9 @@ class UserValidationTest extends KernelTestCase
 
         self::bootKernel();
 
-        $error = self::$container->get('validator')->validate($user);
+        /** @var TraceableValidator */
+        $validator = self::$container->get('validator');
+        $error = $validator->validate($user);
 
         $this->assertCount(1, $error);
     }

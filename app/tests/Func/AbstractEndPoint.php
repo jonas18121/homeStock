@@ -12,10 +12,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractEndPoint extends WebTestCase
 {
-    protected array $serverInformations = ['ACCEPT' => 'text/html', 'CONTENT_TYPE' => 'text/html'];
+    /** @var array<string, string> */
+    protected $serverInformations = ['ACCEPT' => 'text/html', 'CONTENT_TYPE' => 'text/html'];
     protected string $notYourResource = 'It\'s not your resource';
     protected string $loginPayload = '{"username": "%s", "password": "%s"}';
 
+    /**
+     * Undocumented function
+     *
+     * @param string $method
+     * @param string $uri
+     * @param string $payload
+     * @param array<string, string> $parameter
+     * @param boolean $withAuthentification
+     * @return Response
+     */
     public function getResponseFromRequest(
         string $method,
         string $uri,
@@ -38,7 +49,7 @@ abstract class AbstractEndPoint extends WebTestCase
         return $client->getResponse();
     }
 
-    protected function createAuthentificationClient(bool $withAuthentification)
+    protected function createAuthentificationClient(bool $withAuthentification): KernelBrowser
     {
         $client = static::createClient();
 
