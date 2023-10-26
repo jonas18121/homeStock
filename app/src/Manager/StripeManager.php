@@ -94,6 +94,7 @@ class StripeManager extends BaseManager
         // Quand on passera en production stripe ira chercher les images dans la vrai adresse
         // https:www/homestock.com/public/images/
         // $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+        /** @var string */
         $YOUR_DOMAIN = $this->parameterBag->get('app.domain');
         
         //initialiser stripe
@@ -175,17 +176,26 @@ class StripeManager extends BaseManager
     public function customerPortal(User $user): JsonResponse
     {
         // $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+        /** @var string */
         $YOUR_DOMAIN = $this->parameterBag->get('app.domain');
 
         //initialiser stripe
         Stripe::setApiKey('sk_test_51IWMatFt4LI0nktG0r7oE8hshnM9rKoJBqrq5T8wBMGM8Jm5AwJkPloggJNta4KsrZsC3HmRKiDESkevgHMSUXY500UycnbgSo');
         
-        $customer = Customer::retrieve($user->getCustomerId());
+        /** @var string */
+        $customerId = $user->getCustomerId();
+        $customer = Customer::retrieve($customerId);
         $customer->save();
         
         $booking = $this->bookingRepository->findOneBy([ 'lodger' => $user->getId() ], ['id' => 'DESC']);
 
-        $checkout_session = Session::retrieve($booking->getStripeSessionId());
+        if (null === $booking) {
+            throw new \Exception('Booking don\'t exist.');
+        }
+
+        /** @var string */
+        $stripeSessionId = $booking->getStripeSessionId();
+        $checkout_session = Session::retrieve($stripeSessionId);
         $stripe_customer_id = $checkout_session->customer;
 
         $session = \Stripe\BillingPortal\Session::create([
@@ -205,8 +215,20 @@ class StripeManager extends BaseManager
 
         $booking = $this->bookingRepository->findOneBy(['id' => $bookingId]);
 
+        if (null === $booking) {
+            throw new \Exception('Booking don\'t exist.');
+        }
+
         if($stripe_plan->cancel_at_period_end === true && true !== $booking->getFinish()){
-            $product = $this->storageSpaceRepository->findOneBy(['id' => $booking->getStorageSpace()->getId()]);
+
+            /** @var StorageSpace */
+            $product = $booking->getStorageSpace();
+            // /** @var StorageSpace */
+            // $product = $this->storageSpaceRepository->findOneBy(['id' => $storageSpace->getId()]);
+
+            if (null === $stripe_plan->cancel_at) {
+                throw new \Exception('Subscription is not cancel.');
+            }
             
             $date = new \DateTime();
             $date->setTimestamp($stripe_plan->cancel_at);

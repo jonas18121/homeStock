@@ -26,7 +26,7 @@ class UserVoter extends Voter
             return false;
         }
 
-        if($myUser === null){
+        if($myUser === null || !$myUser instanceof UserInterface){
             return false;
         }
 
@@ -34,15 +34,12 @@ class UserVoter extends Voter
 
             case self::SHOW:
                 return $this->isAccess($myUser, $user);
-                break;
 
             case self::EDIT:
                 return $this->isAccess($myUser, $user);
-                break;
 
             case self::DELETE:
                 return $this->isAccess($myUser, $user);
-                break;
         }
 
         return false;
@@ -51,7 +48,7 @@ class UserVoter extends Voter
     /**
     * Verifier si c'est bien le même user 
     */
-    protected function isAccess($myUser, $user): bool
+    protected function isAccess(UserInterface $myUser, UserInterface $user): bool
     {
         return $myUser === $user;
     }

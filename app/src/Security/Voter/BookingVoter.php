@@ -2,9 +2,10 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\Booking;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class BookingVoter extends Voter
 {
@@ -27,7 +28,7 @@ class BookingVoter extends Voter
             return false;
         }
 
-        if($booking->getLodger() === null){
+        if(!$booking instanceof Booking || $booking->getLodger() === null){
             return false;
         }
 
@@ -36,15 +37,12 @@ class BookingVoter extends Voter
             
             case self::SHOW:
                 return $this->isAccess($booking, $user);
-                break;
 
             case self::EDIT:
                 return $this->isAccess($booking, $user);
-                break;
 
             case self::DELETE:
                 return $this->isAccess($booking, $user);
-                break;
 
         }
 
@@ -54,7 +52,7 @@ class BookingVoter extends Voter
     /**
     * Verifier si l'user est bien le propriétaire de la réservation
     */
-    protected function isAccess($booking, $user): bool
+    protected function isAccess(Booking $booking, UserInterface $user): bool
     {
         return $booking->getLodger() === $user;
     }

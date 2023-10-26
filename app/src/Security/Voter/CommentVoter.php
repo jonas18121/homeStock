@@ -2,9 +2,10 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\Comment;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CommentVoter extends Voter
 {
@@ -27,7 +28,7 @@ class CommentVoter extends Voter
             return false;
         }
 
-        if($comment->getOwner() === null){
+        if(!$comment instanceof Comment || $comment->getOwner() === null){
             return false;
         }
 
@@ -35,15 +36,12 @@ class CommentVoter extends Voter
 
             case self::SHOW:
                 return $this->isAccess($comment, $user);
-                break;
 
             case self::EDIT:
                 return $this->isAccess($comment, $user);
-                break;
 
             case self::DELETE:
                 return $this->isAccess($comment, $user);
-                break;
         }
 
         return false;
@@ -52,7 +50,7 @@ class CommentVoter extends Voter
     /**
     * erifier si l'user est bien le propriétaire du commentaire 
     */
-    protected function isAccess($comment, $user): bool
+    protected function isAccess(Comment $comment, UserInterface $user): bool
     {
         return $comment->getOwner() === $user;
     }

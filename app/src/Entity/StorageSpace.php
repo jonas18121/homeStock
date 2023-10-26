@@ -24,7 +24,7 @@ class StorageSpace
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -40,7 +40,7 @@ class StorageSpace
      *      message="Le titre '{{ value }}' de votre espace de stockage n'accepte pas les caractères < et >"
      * )
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="text")
@@ -50,7 +50,7 @@ class StorageSpace
      *      message="Le champ description '{{ value }}' de votre espace de stockage n'accepte pas les caractères < et > "
      * )
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,13 +60,13 @@ class StorageSpace
      *      message="L'adresse de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et des chiffres, exemple : 1 rue du Faubourg Saint-Honoré ok"
      * )
      */
-    private $adresse;
+    private string $adresse;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
      */
-    private $space;
+    private int $space;
 
     /**
      * @ORM\Column(type="float")
@@ -77,27 +77,27 @@ class StorageSpace
      *      message="Le prix par jour de votre espace de stockage doit contenir uniquement des nombres entier ou des nombres décimaux"
      * )
      */
-    private $priceByDays;
+    private float $priceByDays;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $available;
+    private bool $available;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string
      */
-    private $images;
+    private ?string $images = null;
 
     /**
      * @Vich\UploadableField(mapping="images_in_vich_uploade", fileNameProperty="images")
-     * @var File
      */
-    private $imageFile;
+    private ?File $imageFile = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="storageSpace", orphanRemoval=true)
+     * 
+     * @var Comment[]|Collection<int, Comment>
      */
     private $comments;
 
@@ -105,7 +105,7 @@ class StorageSpace
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="storageSpaces")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $owner;
+    private ?User $owner;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -115,7 +115,7 @@ class StorageSpace
      *      message="Le nom de la ville '{{ value }}' de votre espace de stockage doit contenir uniquement des lettres et peut contenir un tiret pour les mots composés : - "
      * )
      */
-    private $city;
+    private string $city;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -131,24 +131,26 @@ class StorageSpace
      *      message="Le numéro de code postale '{{ value }}' de votre espace de stockage doit contenir uniquement des chiffres et pas d'espace entre les chiffres"
      * )
      */
-    private $postalCode;
+    private string $postalCode;
 
     /**
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="storageSpace", orphanRemoval=true)
+     * 
+     * @var Booking[]|Collection<int, Booking>
      */
     private $bookings;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $priceByMonth;
+    private ?float $priceByMonth;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="storageSpaces")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
      */
-    private $category;
+    private ?Category $category;
 
     public function __construct()
     {
@@ -161,7 +163,7 @@ class StorageSpace
         return $this->getTitle() . ', ' . $this->getAdresse()  . ' ' . $this->getCity();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -238,24 +240,24 @@ class StorageSpace
         return $this;
     }
 
-    public function getImages()
+    public function getImages(): ?string
     {
         return $this->images;
     }
 
-    public function setImages($images)
+    public function setImages(?string $images): self
     {
         $this->images = $images;
 
         return $this;
     }
 
-    public function getImageFile()
+    public function getImageFile(): ?string
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(File $image = null)
+    public function setImageFile(File $image = null): void
     {
         $this->imageFile = $image;
         
@@ -269,9 +271,9 @@ class StorageSpace
     }
 
     /**
-     * @return Collection|Comment[]
+     * @return Comment[]|Collection<int, Comment>
      */
-    public function getComments(): Collection
+    public function getComments()
     {
         return $this->comments;
     }
@@ -335,9 +337,9 @@ class StorageSpace
     }
 
     /**
-     * @return Collection|Booking[]
+     * @return Booking[]|Collection<int, Booking>
      */
-    public function getBookings(): Collection
+    public function getBookings()
     {
         return $this->bookings;
     }

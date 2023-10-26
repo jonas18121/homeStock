@@ -19,13 +19,16 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
-    public function countBooking()
+    public function countBooking(): string
     {
-        return $this->createQueryBuilder('b')
+        /** @var string */
+        $count = $this->createQueryBuilder('b')
             ->select('COUNT(b)')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleResult()
         ;
+
+        return $count;
     }
 
     // /**
@@ -57,9 +60,10 @@ class BookingRepository extends ServiceEntityRepository
     }
     */
 
-    public function find_one_booking($id)
+    public function find_one_booking(int $id): Booking
     {
-        return $this->createQueryBuilder('b')
+        /** @var Booking */
+        $booking =  $this->createQueryBuilder('b')
             ->select('b, s')
             ->leftJoin('b.storageSpace', 's')
             ->andWhere('b.id IN (:id)')
@@ -67,5 +71,9 @@ class BookingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
         ;
+
+        if ($booking instanceof Booking) {
+            return $booking;
+        }
     }
 }

@@ -20,8 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
 {
-    protected $booking_trouves;
-
     /**
      * @Route("/booking", name="booking_all")
      */
@@ -60,6 +58,7 @@ class BookingController extends AbstractController
         BookingManager $bookingManager
     ): Response
     {
+        /** @var User|null */
         $user = $this->getUser();
 
         if (!$user) {
@@ -81,7 +80,7 @@ class BookingController extends AbstractController
         return $this->render('booking/create_booking.html.twig', [
             'formBooking' => $formBooking->createView(),
             'storageSpace' => $storageSpace,
-            'oneBookingTrue' => $bookingManager->verifBookingTrue($this->getUser())
+            'oneBookingTrue' => $bookingManager->verifBookingTrue($user)
         ]);
     }
 
@@ -92,6 +91,7 @@ class BookingController extends AbstractController
         BookingManager $bookingManager
     ): Response
     {
+        /** @var User|null */
         $user = $this->getUser();
 
         if (!$user) {
@@ -148,13 +148,19 @@ class BookingController extends AbstractController
         Request $request
     ): Response
     {
-        if (!$this->getUser()) {
+        /** @var User|null */
+        $user = $this->getUser();
+
+        /** @var string|null */
+        $token = $request->get('_token');
+
+        if (!$user || null === $token) {
             return $this->redirectToRoute('storage_space_all');
         }
 
         $this->denyAccessUnlessGranted('delete', $booking);
         
-        if($this->isCsrfTokenValid('delete', $request->get('_token'))){
+        if($this->isCsrfTokenValid('delete', $token)){
             $bookingManager->deleteBooking($booking);
         }
 

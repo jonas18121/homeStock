@@ -19,7 +19,7 @@ class CommentType extends AbstractType
      * Comment parentid n'existe pas en BDD on lui met une propriété 'mapped' => false
      * pour dire que ce champ la n'exite pas dans mon entité Comment
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('content', TextareaType::class, [
@@ -34,7 +34,7 @@ class CommentType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,

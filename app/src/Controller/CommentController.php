@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Comment;
 use App\Manager\CommentManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,10 @@ class CommentController extends AbstractController
      */
     public function delete_comment(Comment $comment, CommentManager $commentManager): Response
     {
-        if (!$this->getUser()) {
+        /** @var User|null */
+        $user = $this->getUser();
+        
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
@@ -23,6 +27,10 @@ class CommentController extends AbstractController
         $this->denyAccessUnlessGranted('delete', $comment);
 
         $commentManager->delete($comment);
+
+        if (null === $comment->getStorageSpace()) {
+            return $this->redirectToRoute('storage_space_all');
+        }
 
         $this->addFlash('success', 'Votre commentaire a bien été supprimée.');
         return $this->redirectToRoute('storage_space_one', [ 'id' => $comment->getStorageSpace()->getId()]);

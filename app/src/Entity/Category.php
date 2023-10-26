@@ -20,15 +20,17 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=StorageSpace::class, mappedBy="category", orphanRemoval=true)
+     * 
+     * @var StorageSpace[]|Collection<int, StorageSpace>
      */
     private $storageSpaces;
 
@@ -37,12 +39,12 @@ class Category
         $this->storageSpaces = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getName();
+        return $this->getName() ?? '';
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -60,9 +62,9 @@ class Category
     }
 
     /**
-     * @return Collection|StorageSpace[]
+     * @return StorageSpace[]|Collection<int, StorageSpace>
      */
-    public function getStorageSpaces(): Collection
+    public function getStorageSpaces()
     {
         return $this->storageSpaces;
     }

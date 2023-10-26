@@ -14,26 +14,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingListener {
 
-    protected $bookingService;
-    protected $repoBooking;
-    protected $repoStorage;
-    protected $manager;
+    protected BookingService $bookingService;
+    protected BookingRepository $bookingRepository;
+    protected StorageSpaceRepository $storageSpaceRepository;
+    protected EntityManagerInterface $entityManager;
 
     public function __construct(
         BookingService $bookingService,
-        BookingRepository $repoBooking,
-        StorageSpaceRepository $repoStorage,
-        EntityManagerInterface $manager
+        BookingRepository $bookingRepository,
+        StorageSpaceRepository $storageSpaceRepository,
+        EntityManagerInterface $entityManager
     )
     {
         $this->bookingService = $bookingService;
-        $this->repoBooking = $repoBooking;
-        $this->repoStorage = $repoStorage;
-        $this->manager = $manager;
+        $this->bookingRepository = $bookingRepository;
+        $this->storageSpaceRepository = $storageSpaceRepository;
+        $this->entityManager = $entityManager;
     }
 
-    public function processBooking(RequestEvent $event)
+    /**
+     * @param RequestEvent $event
+     * @return void
+     */
+    public function processBooking(RequestEvent $event): void
     {
-        $this->bookingService->emitBookingPaymentOk($event->getRequest(), $this->repoBooking, $this->repoStorage, $this->manager);
+        $this->bookingService->emitBookingPaymentOk($event->getRequest(), $this->bookingRepository, $this->storageSpaceRepository, $this->entityManager);
     }
 }

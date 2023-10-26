@@ -26,7 +26,7 @@ class StorageSpaceService
         StorageSpaceRepository $repoStorage, 
         BookingRepository $repoBooking,
         EntityManagerInterface $manager
-    )
+    ): void
     {
         $bookings = $repoBooking->findAll();
         
@@ -78,7 +78,7 @@ class StorageSpaceService
         StorageSpaceRepository $repoStorage,
         EntityManagerInterface $manager,
         StorageSpaceManager $storageSpaceManager
-    )
+    ): void
     {
         $storageSpaces = $repoStorage->findAll();
 
