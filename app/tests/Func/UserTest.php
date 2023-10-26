@@ -11,11 +11,15 @@ use App\Entity\Comment;
 use App\Entity\StorageSpace;
 use App\DataFixtures\AppFixtures;
 use App\Tests\Func\AbstractEndPoint;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; // tester les controlleurs et l'application en générale
-use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; // tester les controlleurs et l'application en générale
 
 /**
  * https://phpunit.readthedocs.io/fr/latest/textui.html
@@ -24,7 +28,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class UserTest extends AbstractEndPoint
 {
-    private  $client;
+    private KernelBrowser $client;
     private string $userPayload = '{"email": "%s", "password": "password"}';
 
 
@@ -124,7 +128,13 @@ class UserTest extends AbstractEndPoint
      */
     public function testSecurityControllerLoginSuccess() : void
     {
-        $csrfToken = $this->client->getContainer()->get('security.csrf.token_manager')->getToken('authenticate');
+        /** @var ContainerInterface */
+        $containerInterface = $this->client->getContainer();
+
+        /** @var CsrfTokenManager */
+        $tokenManager = $containerInterface->get('security.csrf.token_manager');
+
+        $csrfToken = $tokenManager->getToken('authenticate');
 
         $this->client->request(
             Request::METHOD_POST,
@@ -150,8 +160,6 @@ class UserTest extends AbstractEndPoint
         $user = $this->createUser();
 
         $this->userLogin($this->client, $user);
-
-        // dd($user->getId());
         
         $this->client->request(
             Request::METHOD_GET,
@@ -248,13 +256,16 @@ class UserTest extends AbstractEndPoint
      * 
      * On crée une session pour un utilisateur
      * puis on fait un cookie qui est lier à la session
-     * @param [User] $user
-     * @return 
      */
-    private function userLogin($client, $user)
+    private function userLogin(KernelBrowser $client, User $user): void
     {
         // Creer une session pour un utilisateur
-        $session = $client->getContainer()->get('session'); // acceder au servvice de session
+        /** @var ContainerInterface */
+        $containerInterface = $this->client->getContainer();
+
+        /** @var SessionInterface */
+        $session = $containerInterface->get('session'); // acceder au servvice de session
+        
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles()); // généré le token
         $session->set('_security_main', serialize($token)); // firewall main
         $session->save();
@@ -265,6 +276,9 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
+     * 
+     * @phpstan-ignore-next-line
+     * 
      * généré un email aléatoire
      *
      * @return string

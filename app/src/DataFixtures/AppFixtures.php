@@ -7,7 +7,6 @@ use App\Entity\Category;
 use App\Entity\StorageSpace;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -35,20 +34,14 @@ class AppFixtures extends Fixture
         'roles_user' => ["ROLE_USER"]
     ];
 
-    private $passwordEncoder;
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
     /**
      * faire cette commande pour les envoyers en base de donnée
      * php bin/console doctrine:fixtures:load --env=test
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
+        /** @var \Faker\Generator */
         $faker = \Faker\Factory::create('fr_FR');
-
 
         //-------- A D M I N -------//
 
@@ -58,11 +51,10 @@ class AppFixtures extends Fixture
             ->setRoles(["ROLE_ADMIN"])
             ->setLastName('admin')
             ->setFirstName('admin')
-            ->setPhoneNumber(0675023072)
+            ->setPhoneNumber('0675023072')
             ->setCreatedAt($faker->dateTime())
         ;
         $manager->persist($admin);
-
 
         //-------- U S E R -------//
 
@@ -72,12 +64,11 @@ class AppFixtures extends Fixture
             ->setRoles(["ROLE_USER"])
             ->setLastName('mulan')
             ->setFirstName('mulan')
-            ->setPhoneNumber(0645023072)
+            ->setPhoneNumber('0645023072')
             ->setCreatedAt($faker->dateTime())
         ;
         $manager->persist($user);
 
-        
         //-------- C A T E G O R Y -------//
         $category1 = new Category();
         $category1->setName('Pièces')
@@ -99,7 +90,6 @@ class AppFixtures extends Fixture
         ;
         $manager->persist($category4);
 
-        
         //-------- S T O R A G E  S P A C E -------//
 
         for ($i=1; $i <= 3 ; $i++) { 
@@ -108,10 +98,10 @@ class AppFixtures extends Fixture
 
             $storageSpace->setTitle($faker->word())
                 ->setDescription($faker->text())
-                ->setAdresse($faker->streetAddress())
-                ->setCity($faker->city())
-                ->setPostalCode($faker->postCode())
-                ->setSpace($faker->randomDigit())
+                ->setAdresse($faker->streetAddress())/* @phpstan-ignore-line */
+                ->setCity($faker->city())/* @phpstan-ignore-line */
+                ->setPostalCode($faker->postCode())/* @phpstan-ignore-line */
+                ->setSpace($faker->randomDigit())/* @phpstan-ignore-line */
                 ->setPriceByDays($faker->numberBetween(1, 3) * 100)
                 ->setPriceByMonth($faker->numberBetween(20, 50))
                 ->setCategory($category2)

@@ -6,6 +6,7 @@ use Stripe\Plan;
 use Stripe\Price;
 use Stripe\Stripe;
 use Stripe\Product;
+use App\Entity\User;
 use Stripe\Customer;
 use App\Entity\Booking;
 use Stripe\Subscription;
@@ -34,11 +35,14 @@ class StripeController extends AbstractController
         int $id_booking
     ): Response
     {
-        if (!$this->getUser()) {
+        /** @var User|null */
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
-        return $this->stripeManager->createCheckoutSession($this->getUser(), $id_storage, $id_booking);
+        return $this->stripeManager->createCheckoutSession($user, $id_storage, $id_booking);
     }
 
     /**
@@ -46,9 +50,10 @@ class StripeController extends AbstractController
      */
     public function customer_portal(): Response
     {
+        /** @var User|null */
         $user = $this->getUser();
 
-        if (!$this->getUser()) {
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
@@ -60,7 +65,10 @@ class StripeController extends AbstractController
      */
     public function returnSubscription(string $stripeSubscriptionId, int $bookingId): Response
     {
-        if (!$this->getUser() || false === $this->stripeManager->isReturnSubscriptionCancel($stripeSubscriptionId, $bookingId)) {
+        /** @var User|null */
+        $user = $this->getUser();
+
+        if (!$user || false === $this->stripeManager->isReturnSubscriptionCancel($stripeSubscriptionId, $bookingId)) {
             return $this->redirectToRoute('storage_space_all');
         }
 
@@ -73,6 +81,7 @@ class StripeController extends AbstractController
      */
     public function payement_cancel(string $stripeSessionId): Response
     {
+        /** @var User|null */
         $user = $this->getUser();
 
         if (!$user || false === $this->stripeManager->isPayementCancel($stripeSessionId, $user)) {
@@ -86,8 +95,9 @@ class StripeController extends AbstractController
     /**
      * @Route("/commande/success/stripeSessionId={stripeSessionId}", name="payement_success")
      */
-    public function payement_success($stripeSessionId): Response
+    public function payement_success(string $stripeSessionId): Response
     {
+        /** @var User|null */
         $user = $this->getUser();
 
         if (!$user || false === $booking = $this->stripeManager->isPayementSuccess($stripeSessionId, $user)) {

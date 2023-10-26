@@ -65,16 +65,20 @@ class UserController extends AbstractController
      */
     public function delete_user(UserManager $userManager, Request $request): Response
     {     
+        /** @var User|null */
         $user = $this->getUser();
 
-        if (!$user) {
+        /** @var string|null */
+        $token = $request->get('_token');
+
+        if (!$user || null === $token) {
             return $this->redirectToRoute('storage_space_all');
         }
         
         // voter
         $this->denyAccessUnlessGranted('delete', $user);
 
-        if($this->isCsrfTokenValid('delete', $request->get('_token'))){
+        if($this->isCsrfTokenValid('delete', $token)){
             $userManager->userDeletesTheirAccount($user);
         }
 

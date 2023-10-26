@@ -39,7 +39,7 @@ endif
 EXEC_CONTAINER = docker exec -it -u $(CURRENT_UID):$(CURRENT_GID)
 
 # RUN
-RUN_APP = docker-compose run --rm -u $(CURRENT_UID):$(CURRENT_GID) app
+RUN_APP = docker-compose run --rm -u $(CURRENT_UID):$(CURRENT_GID) www
 RUN_NODE = docker-compose run --rm -u $(CURRENT_UID):$(CURRENT_GID) node
 
 # HELP
@@ -57,6 +57,28 @@ help:
 endif
 
 ##-----------------------------------------
+## QUALITY
+##-----------------------------------------
+
+quality: ## Global quality (app)
+quality: phpfixer phpstan  lint
+
+lint: ## Run Lint globally (app)
+lint:
+	$(SYMFONY_CONSOLE) lint:twig templates 
+	$(SYMFONY_CONSOLE) lint:yaml config translations 
+
+phpfixer: ## Run PhpCsFixer globally (app)
+phpfixer: .php_cs.dist.php
+	$(BIN_PHP) vendor/bin/php-cs-fixer fix -vvv --diff --config .php_cs.dist.php
+
+phpstan: ## Run PhpStan globally (app)
+phpstan: phpstan.dist.neon
+# $(BIN_PHP) vendor/bin/phpstan analyse
+# $(BIN_PHP) vendor/bin/phpstan analyse --memory-limit=2G
+	$(BIN_PHP) vendor/bin/phpstan analyse public src tests --level=max -c phpstan.dist.neon --memory-limit=2G
+
+##-----------------------------------------
 ## DATABASE
 ##-----------------------------------------
 
@@ -67,14 +89,6 @@ db-load-latest: ## Load latest SQL file - depending env
 
 db-with-fixture: 
 	$(SYMFONY_CONSOLE) doctrine:fixtures:load
-
-##-----------------------------------------
-## COMPOSER
-##-----------------------------------------
-
-composer-install: ## Install bundles of symfony whit compose
-	@echo "Install bundles of symfony whit compose"
-	composer install
 
 ##-----------------------------------------
 ## .ENV FILES

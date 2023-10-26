@@ -23,7 +23,7 @@ class BookingService
         BookingRepository $repoBooking,
         StorageSpaceRepository $repoStorage,
         EntityManagerInterface $manager
-    )
+    ): void
     {
         $bookings = $repoBooking->findAll();
 

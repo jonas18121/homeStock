@@ -36,9 +36,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function findUser($value)
+    public function findUser(int $value): User
     {
-        return $this->createQueryBuilder('u')
+        /** @var User */
+        $user = $this->createQueryBuilder('u')
             ->select('u, b')
             ->leftJoin('u.bookings', 'b')
             ->andWhere('u.id = :val')
@@ -46,26 +47,40 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getSingleResult()
         ;
+
+        if ($user instanceof UserInterface) {
+            return $user;
+        }
     }
 
-    public function countUser()
+    public function countUser(): string
     {
-        return $this->createQueryBuilder('u')
+        /** @var string */
+        $count = $this->createQueryBuilder('u')
             ->select('COUNT(u)')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleResult()
         ;
+
+        return $count;
     }
 
-    public function isEmailExist(string $email)
+    public function isEmailExist(string $email): ?User
     {
-        return $this->createQueryBuilder('u')
+        /** @var User|null */
+        $user = $this->createQueryBuilder('u')
             ->select('u')
             ->andWhere('u.email = :val')
             ->setParameter('val', $email)
             ->getQuery()
             ->getOneOrNullResult()
         ;
+
+        if ($user instanceof UserInterface) {
+            return $user;
+        }
+        
+        return null;
     }
 
     // /**

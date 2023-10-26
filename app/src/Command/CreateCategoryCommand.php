@@ -23,7 +23,7 @@ class CreateCategoryCommand extends Command
         $this->em = $em;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Nom de la catégory')
@@ -32,6 +32,7 @@ class CreateCategoryCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string */
         $name = $input->getOption('name');
 
         // instanciez la classe SymfonyStyle

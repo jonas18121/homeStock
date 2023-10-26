@@ -48,20 +48,30 @@ class StorageSpaceRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * @return StorageSpace[] 
+    */
     public function find_All_storage()
     {
-        return $this->createQueryBuilder('s')
+        /** @var array<int, StorageSpace> */
+        $storageSpaces =  $this->createQueryBuilder('s')
             ->select('s, b, c')
             ->leftJoin('s.bookings', 'b')
             ->leftJoin('s.category', 'c')
             ->getQuery()
             ->getResult();
         ;
+
+        return $storageSpaces;
     }
 
-    public function find_storage_space_from_booking_id($id)
+    /**
+     * @return StorageSpace
+    */
+    public function find_storage_space_from_booking_id(int $id)
     {
-        return $this->createQueryBuilder('s')
+        /** @var StorageSpace */
+        $storageSpace = $this->createQueryBuilder('s')
             ->select('s, b')
             ->leftJoin('s.bookings', 'b')
             ->andWhere('b.id IN (:id)')
@@ -69,11 +79,17 @@ class StorageSpaceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
         ;
+
+        return $storageSpace;
     }
 
-    public function find_one_storage($id)
+    /**
+     * @return StorageSpace
+    */
+    public function find_one_storage(int $id)
     {
-        return $this->createQueryBuilder('s')
+        /** @var StorageSpace */
+        $storageSpace = $this->createQueryBuilder('s')
             ->select('s, b, u, c')
             ->leftJoin('s.bookings', 'b')
             ->leftJoin('s.owner', 'u')
@@ -83,15 +99,20 @@ class StorageSpaceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
         ;
+
+        return $storageSpace;
     }
 
-    public function countStorageSpace()
+    public function countStorageSpace(): string
     {
-        return $this->createQueryBuilder('s')
+        /** @var string */
+        $count = $this->createQueryBuilder('s')
             ->select('COUNT(s)')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleResult()
         ;
+
+        return $count;
     }
 
 }

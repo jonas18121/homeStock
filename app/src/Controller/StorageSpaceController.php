@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use DateTime;
+use App\Entity\User;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Entity\StorageSpace;
 use App\Form\StorageSpaceType;
 use App\Manager\CommentManager;
+use Symfony\Component\Form\Form;
 use App\Manager\StorageSpaceManager;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,6 +46,7 @@ class StorageSpaceController extends AbstractController
      */
     public function get_all_storage_space_for_user(StorageSpaceRepository $storageSpaceRepository): Response
     {
+        /** @var User|null */
         $user = $this->getUser();
 
         if (!$user) {
@@ -64,21 +67,27 @@ class StorageSpaceController extends AbstractController
         CommentManager $commentManager
     ): Response
     {
-        if (!$storageSpace) {
-            return $this->redirectToRoute('storage_space_all');
-        }
-
         // Comment part
+        /** @var Comment */
         $comment = new Comment();
+
+        /** @var Form */
         $formComment = $this->createForm(CommentType::class, $comment);
         $formComment->handleRequest($request);
 
         if ($formComment->isSubmitted() && $formComment->isValid()) {
+            /** @var User|null */
+            $user = $this->getUser();
+
+            if (!$user) {
+                return $this->redirectToRoute('storage_space_all');
+            }
+
             return $commentManager->createCommentFromProduct(
                 $formComment,
                 $comment, 
                 $storageSpace, 
-                $this->getUser()
+                $user
             );
         }
 
@@ -96,7 +105,10 @@ class StorageSpaceController extends AbstractController
         StorageSpaceManager $storageSpaceManager
     ): Response
     {
-        if (!$this->getUser()) {
+        /** @var User|null */
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
@@ -105,7 +117,7 @@ class StorageSpaceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $storageSpaceManager->createStorageSpace($storageSpace, $this->getUser());
+            return $storageSpaceManager->createStorageSpace($storageSpace, $user);
         }
 
         return $this->render('storage_space/create_storage_space.html.twig', [
@@ -122,7 +134,10 @@ class StorageSpaceController extends AbstractController
         StorageSpaceManager $storageSpaceManager
     ): Response
     {
-        if (!$this->getUser()) {
+        /** @var User|null */
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 
@@ -150,7 +165,10 @@ class StorageSpaceController extends AbstractController
         StorageSpaceManager $storageSpaceManager
     ): Response
     {
-        if (!$this->getUser()) {
+        /** @var User|null */
+        $user = $this->getUser();
+
+        if (!$user) {
             return $this->redirectToRoute('storage_space_all');
         }
 

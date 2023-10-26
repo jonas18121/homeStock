@@ -20,11 +20,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
-    private $userRepository;
-    private $storageSpaceRepository;
-    private $categoryRepository;
-    private $bookingRepository;
-    private $commentRepository;
+    private UserRepository $userRepository;
+    private StorageSpaceRepository $storageSpaceRepository;
+    private CategoryRepository $categoryRepository;
+    private BookingRepository $bookingRepository;
+    private CommentRepository $commentRepository;
 
     public function __construct(
         UserRepository $userRepository,
@@ -67,7 +67,9 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToUrl('Revenir à l\'accueil','fas fa-arrow-circle-left', $this->getParameter('app.domain'));
+        /** @var string */
+        $domain = $this->getParameter('app.domain');
+        yield MenuItem::linkToUrl('Revenir à l\'accueil','fas fa-arrow-circle-left', $domain);
 
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Utilisateur', 'fas fa-user', User::class);

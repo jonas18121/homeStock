@@ -18,61 +18,61 @@ class Booking
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateStartAt;
+    private ?\DateTime $dateStartAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $lodger;
+    private ?User $lodger;
 
     /**
      * @ORM\ManyToOne(targetEntity=StorageSpace::class, inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $storageSpace;
+    private ?StorageSpace $storageSpace;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dateEndAt;
+    private ?\DateTime $dateEndAt;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $finish = false;
+    private ?bool $finish = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $pay = false;
+    private bool $pay = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $checkForPayement = false;
+    private bool $checkForPayement = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $stripeSessionId;
+    private ?string $stripeSessionId;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getDateStartAt(): ?\DateTimeInterface
+    public function getDateStartAt(): ?\DateTime
     {
         return $this->dateStartAt;
     }
 
-    public function setDateStartAt(\DateTimeInterface $dateStartAt): self
+    public function setDateStartAt(?\DateTime $dateStartAt): self
     {
         $this->dateStartAt = $dateStartAt;
 
@@ -103,12 +103,12 @@ class Booking
         return $this;
     }
 
-    public function getDateEndAt(): ?\DateTimeInterface
+    public function getDateEndAt(): ?\DateTime
     {
         return $this->dateEndAt;
     }
 
-    public function setDateEndAt(\DateTimeInterface $dateEndAt): self
+    public function setDateEndAt(?\DateTime $dateEndAt): self
     {
         $this->dateEndAt = $dateEndAt;
 

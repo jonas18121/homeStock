@@ -22,7 +22,7 @@ class CommentManager extends BaseManager
         User $user
     ): RedirectResponse
     {
-        $comment->setContent(strip_tags(trim($comment->getContent())))
+        $comment->setContent(strip_tags(trim($comment->getContent() ?? '')))
             ->setCreatedAt(new \DateTime())
             ->setStorageSpace($storageSpace)
             ->setOwner($user)
