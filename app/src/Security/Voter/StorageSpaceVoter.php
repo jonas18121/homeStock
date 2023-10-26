@@ -2,9 +2,10 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\StorageSpace;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class StorageSpaceVoter extends Voter
 {
@@ -27,7 +28,7 @@ class StorageSpaceVoter extends Voter
             return false;
         }
 
-        if($storageSpace->getOwner() === null){
+        if(!$storageSpace instanceof StorageSpace || $storageSpace->getOwner() === null){
             return false;
         }
 
@@ -35,15 +36,12 @@ class StorageSpaceVoter extends Voter
 
             case self::SHOW:
                 return $this->isAccess($storageSpace, $user);
-                break;
 
             case self::EDIT:
                 return $this->isAccess($storageSpace, $user);
-                break;
 
             case self::DELETE:
                 return $this->isAccess($storageSpace, $user);
-                break;
         }
 
         return false;
@@ -53,7 +51,7 @@ class StorageSpaceVoter extends Voter
     /**
     * Verifier si l'user est bien le propriétaire de l'espace de stockage
     */
-    protected function isAccess($storageSpace, $user): bool
+    protected function isAccess(StorageSpace $storageSpace, UserInterface $user): bool
     {
         return $storageSpace->getOwner() === $user;
     }

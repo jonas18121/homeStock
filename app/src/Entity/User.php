@@ -51,8 +51,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
+     * 
+     * @var array<string>
      */
-    private array $roles = [];
+    private $roles = [];
 
     /**
      * exemple : -aA1poiuy
@@ -77,7 +79,7 @@ class User implements UserInterface
      *      message="Les 2 mots de passe doîvent être identiques", 
      * )
      */
-    private string $confirm_password;
+    private ?string $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -120,7 +122,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $images;
+    private ?string $images;
 
     /**
      * @ORM\OneToMany(targetEntity=StorageSpace::class, mappedBy="owner", orphanRemoval=true)
@@ -146,7 +148,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $customerId;
+    private ?string $customerId;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -183,7 +185,7 @@ class User implements UserInterface
         return $this->getLastName() . ' ' . $this->getFirstName();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -219,8 +221,10 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     * 
+     * @return array<string>
      */
-    public function getRoles(): array
+    public function getRoles()
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
@@ -229,6 +233,10 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     *
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -265,7 +273,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -400,7 +408,7 @@ class User implements UserInterface
     /**
      * Get the value of confirm_password
      */ 
-    public function getConfirmPassword(): string
+    public function getConfirmPassword(): ?string
     {
         return $this->confirm_password;
     }
@@ -408,7 +416,7 @@ class User implements UserInterface
     /**
      * Set the value of confirm_password
      */ 
-    public function setConfirmPassword($confirm_password): self
+    public function setConfirmPassword(?string $confirm_password): self
     {
         $this->confirm_password = $confirm_password;
 

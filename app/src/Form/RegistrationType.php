@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('lastName', TextType::class, [
@@ -81,8 +81,8 @@ class RegistrationType extends AbstractType
         ;
     }
 
-    public function searchConsonne($param) {
-
+    public function searchConsonne(string $param): bool 
+    {
         $list_consonne = [
             'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Z',
             'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z'
@@ -94,8 +94,8 @@ class RegistrationType extends AbstractType
         return false;
     }
 
-    public function searchVoyelle($param) {
-
+    public function searchVoyelle(string $param): bool 
+    {
         $list_voyelle = [
             'A', 'E', 'I', 'O', 'U', 'Y',
             'a', 'e', 'i', 'o', 'u', 'y'
@@ -112,7 +112,7 @@ class RegistrationType extends AbstractType
      * @param OptionsResolver $resolver
      * @return void
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,

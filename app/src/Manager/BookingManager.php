@@ -37,6 +37,9 @@ class BookingManager extends BaseManager
         $this->bookingRepository = $bookingRepository;
     }
 
+    /**
+     * @return array<int, Booking>
+     */
     public function getAllBookingsForUser(
         User $user
     ): array
@@ -104,7 +107,13 @@ class BookingManager extends BaseManager
 
     public function deleteBooking(Booking $booking, bool $disable = false): void
     {
-        $booking->getStorageSpace()->setAvailable(true);
+        $storageSpace = $booking->getStorageSpace();
+
+        if (null === $storageSpace) {
+            throw new \Exception("StorageSpace don't exist.");
+        }
+
+        $storageSpace->setAvailable(true);
 
         $this->delete($booking, $disable);
         $this->addFlashFromManager('success', 'Votre réservation a bien été supprimée.');

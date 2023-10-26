@@ -23,8 +23,8 @@ class StorageSpaceManager extends BaseManager
         $firstDayOfThisMonth = new \DateTime('first day of this month');
         $lastDayOfThisMonth = new \DateTime('last day of this month');
 
-        $nbDays = $firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a') ;
-        $nbDays += '1';
+        $nbDays = intval($firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a'));
+        $nbDays += 1;
 
         $priceByMonth = $storageSpace->getPriceByDays() * $nbDays;
 
@@ -33,7 +33,7 @@ class StorageSpaceManager extends BaseManager
 
     public function createStorageSpace(StorageSpace $storageSpace, User $user): RedirectResponse
     {
-        // $priceByMonth = $this->price_by_month($storageSpace);
+        // $priceByMonth = $this->priceByMonth($storageSpace);
 
         $storageSpace->setCreatedAt(new \DateTime())
             ->setOwner($user)
@@ -48,7 +48,7 @@ class StorageSpaceManager extends BaseManager
 
     public function updateStorageSpace(StorageSpace $storageSpace): RedirectResponse
     {
-        // $priceByMonth = $this->price_by_month($storageSpace);
+        // $priceByMonth = $this->priceByMonth($storageSpace);
 
         $this->save($storageSpace);
 

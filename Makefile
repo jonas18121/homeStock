@@ -26,6 +26,8 @@ endif
 
 # VARIABLES
 SYMFONY_CONSOLE = $(BIN_PHP) bin/console
+APP_NAME = homestock
+DOMAIN = $(APP_NAME).fr
 
 ifeq ($(OS), Windows_NT)
 	CURRENT_UID = $(cmd id -u)
@@ -94,6 +96,29 @@ update: ## Update application (db, front)
 ## - make front-dev-build
 
 ##-----------------------------------------
+## QUALITY
+##-----------------------------------------
+
+quality: ## Global quality (app)
+quality: phpfixer phpstan lint
+
+lint: ## Run Lint globaly (app)
+lint:
+	$(RUN_APP) make lint
+
+phpfixer: ## Run PhpCsFixer globaly (app)
+phpfixer: app/.php_cs.dist.php
+	$(RUN_APP) make phpfixer
+
+phpstan: ## Run PhpStan globaly (app)
+phpstan: app/phpstan.dist.neon
+	$(RUN_APP) make phpstan
+
+prettier: ## Run Prettier globaly (app)
+prettier: app/.prettierrc
+	$(RUN_NODE) make prettier
+
+##-----------------------------------------
 ## DOCKER
 ##-----------------------------------------
 
@@ -150,7 +175,6 @@ run-cli-node: ## Create temporary container of node
 ## FRONT
 ##-----------------------------------------
 
-## TODO : Install a container node
 front-dev-build: ## Build front for dev
 	$(RUN_NODE) bash -c "make front-dev-build"
 

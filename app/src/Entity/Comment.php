@@ -21,32 +21,32 @@ class Comment
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
      */
-    private $content;
+    private ?string $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=StorageSpace::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $storageSpace;
+    private ?StorageSpace $storageSpace;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $owner;
+    private ?User $owner;
 
     /**
      * Représente le commentaire parent, si un user a répondu à ce commentaire
      * 
      * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="replies")
      */
-    private $parent;
+    private ?Comment $parent;
 
     /**
      * Représente les commentaires enfants (réponses) d'un commentaire parent
@@ -55,6 +55,8 @@ class Comment
      * Dans la BDD, la table Comment aura comment.id qui sera en relation avec comment.parent_id
      * 
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="parent", orphanRemoval=true)
+     * 
+     * @var Comment[]|Collection<int, Comment>
      */
     private $replies;
 
@@ -63,7 +65,7 @@ class Comment
         $this->replies = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -73,7 +75,7 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 
@@ -117,9 +119,9 @@ class Comment
     }
 
     /**
-     * @return Collection|self[]
+     * @return self[]|Collection<int, self>
      */
-    public function getReplies(): Collection
+    public function getReplies()
     {
         return $this->replies;
     }
