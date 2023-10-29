@@ -1,29 +1,35 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
-use DateTime;
-use App\Entity\User;
 use App\Entity\Comment;
-use App\Form\CommentType;
 use App\Entity\StorageSpace;
+use App\Entity\User;
+use App\Form\CommentType;
 use App\Form\StorageSpaceType;
 use App\Manager\CommentManager;
-use Symfony\Component\Form\Form;
 use App\Manager\StorageSpaceManager;
-use App\Repository\CommentRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StorageSpaceController extends AbstractController
 {
-     /** 
-     * TODO : Create HomePageController
-     * 
+    /**
+     * TODO : Create HomePageController.
+     *
      * @Route("/", name="home")
      */
     public function index(StorageSpaceRepository $storageSpaceRepository): Response
@@ -54,7 +60,7 @@ class StorageSpaceController extends AbstractController
         }
 
         return $this->render('storage_space/get_all_storage_space_for_user.html.twig', [
-            'storageSpaces' => $storageSpaceRepository->findBy([ 'owner' => $user ]),
+            'storageSpaces' => $storageSpaceRepository->findBy(['owner' => $user]),
         ]);
     }
 
@@ -62,11 +68,10 @@ class StorageSpaceController extends AbstractController
      * @Route("/storageSpace/{id}", name="storage_space_one", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
     public function get_one_product(
-        StorageSpace $storageSpace, 
+        StorageSpace $storageSpace,
         Request $request,
         CommentManager $commentManager
-    ): Response
-    {
+    ): Response {
         // Comment part
         /** @var Comment */
         $comment = new Comment();
@@ -85,15 +90,15 @@ class StorageSpaceController extends AbstractController
 
             return $commentManager->createCommentFromProduct(
                 $formComment,
-                $comment, 
-                $storageSpace, 
+                $comment,
+                $storageSpace,
                 $user
             );
         }
 
         return $this->render('storage_space/get_one_storage_space.html.twig', [
             'storageSpace' => $storageSpace,
-            'formComment' => $formComment->createView()
+            'formComment' => $formComment->createView(),
         ]);
     }
 
@@ -101,10 +106,9 @@ class StorageSpaceController extends AbstractController
      * @Route("/storageSpace/add", name="storage_space_add")
      */
     public function create_storage_space(
-        Request $request, 
+        Request $request,
         StorageSpaceManager $storageSpaceManager
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -112,7 +116,7 @@ class StorageSpaceController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $storageSpace = new StorageSpace;
+        $storageSpace = new StorageSpace();
         $form = $this->createForm(StorageSpaceType::class, $storageSpace);
         $form->handleRequest($request);
 
@@ -121,7 +125,7 @@ class StorageSpaceController extends AbstractController
         }
 
         return $this->render('storage_space/create_storage_space.html.twig', [
-            'formStorageSpace' => $form->createView()
+            'formStorageSpace' => $form->createView(),
         ]);
     }
 
@@ -129,11 +133,10 @@ class StorageSpaceController extends AbstractController
      * @Route("/storageSpace/edit/{id}", name="storage_space_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
      */
     public function edit_storage_space(
-        StorageSpace $storageSpace, 
-        Request $request, 
+        StorageSpace $storageSpace,
+        Request $request,
         StorageSpaceManager $storageSpaceManager
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -144,7 +147,7 @@ class StorageSpaceController extends AbstractController
         // voter
         $this->denyAccessUnlessGranted('edit', $storageSpace);
 
-        $form = $this->createForm(StorageSpaceType::class, $storageSpace, [ 'method' => 'PUT' ]);
+        $form = $this->createForm(StorageSpaceType::class, $storageSpace, ['method' => 'PUT']);
 
         $form->handleRequest($request);
 
@@ -153,7 +156,7 @@ class StorageSpaceController extends AbstractController
         }
 
         return $this->render('storage_space/edit_storage_space.html.twig', [
-            'formStorageSpace' => $form->createView()
+            'formStorageSpace' => $form->createView(),
         ]);
     }
 
@@ -161,10 +164,9 @@ class StorageSpaceController extends AbstractController
      * @Route("/storageSpace/delete/{id}", name="storage_space_delete", requirements={"id": "\d+"})
      */
     public function delete_storage_space(
-        StorageSpace $storageSpace, 
+        StorageSpace $storageSpace,
         StorageSpaceManager $storageSpaceManager
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -178,6 +180,7 @@ class StorageSpaceController extends AbstractController
         $storageSpaceManager->delete($storageSpace);
 
         $this->addFlash('success', 'Votre annonce a bien été supprimée.');
+
         return $this->redirectToRoute('storage_space_all');
     }
 }

@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\DateTimeTrait;
 use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -14,10 +23,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Category
 {
     use DateTimeTrait;
-    
+
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      */
     private int $id;
@@ -29,7 +40,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity=StorageSpace::class, mappedBy="category", orphanRemoval=true)
-     * 
+     *
      * @var StorageSpace[]|Collection<int, StorageSpace>
      */
     private $storageSpaces;

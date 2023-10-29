@@ -1,18 +1,26 @@
-<?php 
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace App\EventListener;
 
-use App\Entity\StorageSpace;
 use App\Manager\StorageSpaceManager;
-use App\Service\StorageSpaceService;
 use App\Repository\BookingRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use App\Service\StorageSpaceService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-class StorageSpaceListener {
-
+class StorageSpaceListener
+{
     protected StorageSpaceService $storageSpaceService;
     protected StorageSpaceRepository $storageSpaceRepository;
     protected BookingRepository $bookingRepository;
@@ -20,13 +28,12 @@ class StorageSpaceListener {
     protected StorageSpaceManager $storageSpaceManager;
 
     public function __construct(
-        StorageSpaceService $storageSpaceService, 
-        StorageSpaceRepository $storageSpaceRepository, 
+        StorageSpaceService $storageSpaceService,
+        StorageSpaceRepository $storageSpaceRepository,
         BookingRepository $bookingRepository,
         EntityManagerInterface $entityManager,
         StorageSpaceManager $storageSpaceManager
-    )
-    {
+    ) {
         $this->storageSpaceService = $storageSpaceService;
         $this->storageSpaceRepository = $storageSpaceRepository;
         $this->bookingRepository = $bookingRepository;
@@ -36,9 +43,7 @@ class StorageSpaceListener {
 
     /**
      * Pour réagir à une reponse ResponseEvent $event
-     * Pour réagir à une request RequestEvent $event
-     * 
-     * @param RequestEvent $event
+     * Pour réagir à une request RequestEvent $event.
      */
     public function processStorage(RequestEvent $event): void
     {
@@ -47,9 +52,7 @@ class StorageSpaceListener {
 
     /**
      * Pour réagir à une reponse ResponseEvent $event
-     * Pour réagir à une request RequestEvent $event
-     * 
-     * @param RequestEvent $event
+     * Pour réagir à une request RequestEvent $event.
      */
     public function calculPriceByMonth(RequestEvent $event): void
     {

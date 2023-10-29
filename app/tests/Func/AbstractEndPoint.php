@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests\Func;
 
 use App\DataFixtures\AppFixtures;
@@ -18,14 +27,9 @@ abstract class AbstractEndPoint extends WebTestCase
     protected string $loginPayload = '{"username": "%s", "password": "%s"}';
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
-     * @param string $method
-     * @param string $uri
-     * @param string $payload
      * @param array<string, string> $parameter
-     * @param boolean $withAuthentification
-     * @return Response
      */
     public function getResponseFromRequest(
         string $method,
@@ -34,7 +38,6 @@ abstract class AbstractEndPoint extends WebTestCase
         array $parameter = [],
         bool $withAuthentification = true
     ): Response {
-        
         $client = $this->createAuthentificationClient($withAuthentification);
 
         $client->request(
@@ -64,7 +67,7 @@ abstract class AbstractEndPoint extends WebTestCase
 
         $form = $crawler->selectButton('Se connecter')->form([
             'email' => AppFixtures::DEFAULT_USER['email'],
-            'password' => AppFixtures::DEFAULT_USER['password']
+            'password' => AppFixtures::DEFAULT_USER['password'],
         ]);
 
         $client->submit($form);

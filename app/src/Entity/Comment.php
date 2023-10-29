@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\DateTimeTrait;
 use App\Repository\CommentRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,35 +24,40 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Comment
 {
     use DateTimeTrait;
-    
+
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      */
     private int $id;
 
     /**
      * @ORM\Column(type="text")
+     *
      * @Assert\NotBlank
      */
     private ?string $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=StorageSpace::class, inversedBy="comments")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private ?StorageSpace $storageSpace;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private ?User $owner;
 
     /**
-     * Représente le commentaire parent, si un user a répondu à ce commentaire
-     * 
+     * Représente le commentaire parent, si un user a répondu à ce commentaire.
+     *
      * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="replies")
      */
     private ?Comment $parent;
@@ -51,11 +65,11 @@ class Comment
     /**
      * Représente les commentaires enfants (réponses) d'un commentaire parent
      * si un ou plusieurs users répondents à un commentaire précis.
-     * 
+     *
      * Dans la BDD, la table Comment aura comment.id qui sera en relation avec comment.parent_id
-     * 
+     *
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="parent", orphanRemoval=true)
-     * 
+     *
      * @var Comment[]|Collection<int, Comment>
      */
     private $replies;

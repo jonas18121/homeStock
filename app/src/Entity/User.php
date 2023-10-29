@@ -1,15 +1,24 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\UserRepository;
 use App\Entity\Traits\DateTimeTrait;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @UniqueEntity(
@@ -17,8 +26,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     errorPath="email",
  *     message="Cette adresse email est déjà utilisé."
  * )
- * 
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  * @ORM\Table(name="`user`")
  */
 class User implements UserInterface
@@ -27,95 +37,105 @@ class User implements UserInterface
 
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
-     * 
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      * @Assert\NotBlank(groups={"update_user"})
+     *
      * @Assert\Email(
      *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
      *      groups={"update_user"}
      * )
-     * 
+     *
      * @Assert\NotBlank()
+     *
      * @Assert\Email(
      *      message="Votre email '{{ value }}' n'est pas valide, voici un exemple : xxxx@xxxx.xxx",
      * )
-     * 
      */
     private string $email;
 
     /**
      * @ORM\Column(type="json")
-     * 
+     *
      * @var array<string>
      */
     private $roles = [];
 
     /**
-     * exemple : -aA1poiuy
-     * 
+     * exemple : -aA1poiuy.
+     *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
+     *
      * @Assert\Regex(
      *      pattern= "/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}$/",
      *      htmlPattern= "(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,10}",
-     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères, 
-     *          au moins une lettre majuscule, 
-     *          au moins une lettre minuscule, 
-     *          au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _",  
+     *      message="Votre mot de passe doit avoir minimum 8 et maximum 10 caractères,
+     *          au moins une lettre majuscule,
+     *          au moins une lettre minuscule,
+     *          au moins un chiffre et un caractère spécial qui sont : @ $ ! % * ? & - _",
      * )
      */
     private string $password;
 
     /**
      * @Assert\NotBlank
+     *
      * @Assert\EqualTo(
-     *      propertyPath="password", 
-     *      message="Les 2 mots de passe doîvent être identiques", 
+     *      propertyPath="password",
+     *      message="Les 2 mots de passe doîvent être identiques",
      * )
      */
     private ?string $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank
+     *
      * @Assert\Length(
      *      min=2,
      *      max=70,
      *      minMessage="Votre nom '{{ value }}' doit comporter au moins {{ limit }} caractères",
      *      maxMessage="Votre nom '{{ value }}' ne peut pas dépasser {{ limit }} caractères",
-     *      
+     *
      * )
+     *
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
      *      message="Votre nom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - ",
      *      groups={"update_user"}
      * )
-     * 
      */
     private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank
+     *
      * @Assert\Length(
      *      min=2,
      *      max=70,
      *      minMessage="Votre prénom '{{ value }}' doit comporter au moins {{ limit }} caractères",
      *      maxMessage="Votre prénom '{{ value }}' ne peut pas dépasser {{ limit }} caractères",
-     *      
+     *
      * )
+     *
      * @Assert\Regex(
      *      pattern="/^[a-zA-Z ]+([-]{0,1})[a-zA-Z ]+$/",
      *      message="Votre prénom '{{ value }}' doit contenir uniquement des lettres et une fois ce caractère pour les noms composés : - ",
      *      groups={"update_user"}
      * )
-     * 
      */
     private string $firstName;
 
@@ -126,21 +146,21 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=StorageSpace::class, mappedBy="owner", orphanRemoval=true)
-     * 
+     *
      * @var StorageSpace[]|Collection<int, StorageSpace>
      */
     private $storageSpaces;
 
     /**
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="lodger", orphanRemoval=true)
-     * 
+     *
      * @var Booking[]|Collection<int, Booking>
      */
     private $bookings;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="owner", orphanRemoval=true)
-     * 
+     *
      * @var Comment[]|Collection<int, Comment>
      */
     private $comments;
@@ -152,24 +172,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * 
-     * 
-     * On n'utilise plus ces contraintes mais on les garde pour avoir un exemple, aller voir dans UserAccountType.php
-     * 
+     *
      * @ /////// Assert\Length(
      *      min=9,
      *      max=10,
      *      minMessage="Votre numéro de téléphone '{{ value }}' doit comporter au moins {{ limit }} chiffres, exemple : 690223344",
      *      maxMessage="Votre numéro de téléphone '{{ value }}' ne peut pas dépasser {{ limit }} chiffres, exemple : 0690223344",
      *      groups={"update_user"}
-
+     *
      * )
+     *
      * @ /////// Assert\Regex(
      *      pattern= "/^([0-9]{9,10})$/",
      *      message="Votre numéro de téléphone '{{ value }}' doit contenir uniquement des chiffres et pas d'espace entre les chiffres",
      *      groups={"update_user"}
      * )
-     * 
      */
     private ?string $phoneNumber;
 
@@ -182,7 +199,7 @@ class User implements UserInterface
 
     public function __toString(): string
     {
-        return $this->getLastName() . ' ' . $this->getFirstName();
+        return $this->getLastName().' '.$this->getFirstName();
     }
 
     public function getId(): int
@@ -221,7 +238,7 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
-     * 
+     *
      * @return array<string>
      */
     public function getRoles()
@@ -234,7 +251,6 @@ class User implements UserInterface
     }
 
     /**
-     *
      * @param array<string> $roles
      */
     public function setRoles(array $roles): self
@@ -406,16 +422,16 @@ class User implements UserInterface
     }
 
     /**
-     * Get the value of confirm_password
-     */ 
+     * Get the value of confirm_password.
+     */
     public function getConfirmPassword(): ?string
     {
         return $this->confirm_password;
     }
 
     /**
-     * Set the value of confirm_password
-     */ 
+     * Set the value of confirm_password.
+     */
     public function setConfirmPassword(?string $confirm_password): self
     {
         $this->confirm_password = $confirm_password;

@@ -1,20 +1,27 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\StorageSpace;
-use Symfony\Component\Form\AbstractType;
-use Vich\UploaderBundle\Form\Type\VichFileType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class StorageSpaceType extends AbstractType
 {
@@ -23,46 +30,46 @@ class StorageSpaceType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Titre '
-                ]
+                    'placeholder' => 'Titre ',
+                ],
             ])
             ->add('description', TextareaType::class, [
                 'attr' => [
-                    'placeholder' => 'Description '
-                ]
+                    'placeholder' => 'Description ',
+                ],
             ])
             ->add('adresse', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Adresse '
-                ]
+                    'placeholder' => 'Adresse ',
+                ],
             ])
             ->add('postalCode', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Code postale '
-                ]
+                    'placeholder' => 'Code postale ',
+                ],
             ])
             ->add('city', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Ville '
-                ]
+                    'placeholder' => 'Ville ',
+                ],
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => false,
                 'label' => 'Type d\'espace ',
-                'required' => true
+                'required' => true,
             ])
             ->add('space', IntegerType::class, [
                 'attr' => [
-                    'placeholder' => 'Espace en m2 '
-                ]
+                    'placeholder' => 'Espace en m2 ',
+                ],
             ])
             ->add('priceByDays', MoneyType::class, [
                 'divisor' => 100,
                 'attr' => [
-                    'placeholder' => 'Prix en euros par jours'
-                ]
+                    'placeholder' => 'Prix en euros par jours',
+                ],
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,

@@ -2,12 +2,20 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Manager;
 
-use App\Entity\User;
 use App\Entity\Booking;
 use App\Entity\StorageSpace;
-use App\Repository\UserRepository;
+use App\Entity\User;
 use App\Repository\BookingRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -15,7 +23,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * Booking - Manager.
  */
 class BookingManager extends BaseManager
-{ 
+{
     private StorageSpaceManager $storageSpaceManager;
     private BookingRepository $bookingRepository;
 
@@ -42,15 +50,14 @@ class BookingManager extends BaseManager
      */
     public function getAllBookingsForUser(
         User $user
-    ): array
-    {
+    ): array {
         $bookings = $this->bookingRepository->findBy(['lodger' => $user]);
 
         // s'il y a une réservation qui n'a pas été payé,
         // on le supprime de la bdd et du tableau $bookings
         $newBookings = [];
         foreach ($bookings as $booking) {
-            if ($booking->getPay() === false) {
+            if (false === $booking->getPay()) {
                 $this->delete($booking);
                 unset($booking);
             }
@@ -64,11 +71,10 @@ class BookingManager extends BaseManager
     }
 
     public function createdBooking(
-        Booking $booking, 
-        StorageSpace $storageSpace, 
+        Booking $booking,
+        StorageSpace $storageSpace,
         User $user
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $storageSpace->addBooking($booking)
             ->setUpdatedAt(new \DateTime())
             // ->setAvailable(false) //à mettre lorsque le payement est valider
@@ -82,26 +88,27 @@ class BookingManager extends BaseManager
         $this->storageSpaceManager->save($storageSpace);
 
         $this->addFlashFromManager('success', 'Votre reservation a bien été crée.');
+
         return $this->redirectToRouteFromManager('booking_one_for_user', ['id' => $booking->getId()]);
     }
 
     /**
      * vérifier s'il y a une réservation qui est en cours avec l'user courant
-     * afin de l'empéché de souscrire à un autre abonnement 
-     * plus tard dans le code
+     * afin de l'empéché de souscrire à un autre abonnement
+     * plus tard dans le code.
      */
     public function verifBookingTrue(User $userCurrent): bool
-    {        
+    {
         $tabBooking = [];
 
         foreach ($userCurrent->getBookings() as $bookingOfUser) {
-            $tabBooking[] = $bookingOfUser->getFinish() === false && $bookingOfUser->getCheckForPayement() === true;
+            $tabBooking[] = false === $bookingOfUser->getFinish() && true === $bookingOfUser->getCheckForPayement();
         }
 
-        if (in_array(true, $tabBooking)) {
+        if (\in_array(true, $tabBooking, true)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -119,7 +126,7 @@ class BookingManager extends BaseManager
         $this->addFlashFromManager('success', 'Votre réservation a bien été supprimée.');
     }
 
-    public function save(Booking $booking): Booking 
+    public function save(Booking $booking): Booking
     {
         $em = $this->em();
         $em->persist($booking);

@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\DateTimeTrait;
 use App\Repository\BookingRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
@@ -12,10 +21,12 @@ use App\Repository\BookingRepository;
 class Booking
 {
     use DateTimeTrait;
-    
+
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      */
     private int $id;
@@ -27,12 +38,14 @@ class Booking
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private ?User $lodger;
 
     /**
      * @ORM\ManyToOne(targetEntity=StorageSpace::class, inversedBy="bookings")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private ?StorageSpace $storageSpace;

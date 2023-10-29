@@ -69,13 +69,11 @@ lint:
 	$(SYMFONY_CONSOLE) lint:yaml config translations 
 
 phpfixer: ## Run PhpCsFixer globally (app)
-phpfixer: .php_cs.dist.php
-	$(BIN_PHP) vendor/bin/php-cs-fixer fix -vvv --diff --config .php_cs.dist.php
+# phpfixer: .php-cs-fixer-dist.php
+	$(BIN_PHP) tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --diff
 
 phpstan: ## Run PhpStan globally (app)
 phpstan: phpstan.dist.neon
-# $(BIN_PHP) vendor/bin/phpstan analyse
-# $(BIN_PHP) vendor/bin/phpstan analyse --memory-limit=2G
 	$(BIN_PHP) vendor/bin/phpstan analyse public src tests --level=max -c phpstan.dist.neon --memory-limit=2G
 
 ##-----------------------------------------

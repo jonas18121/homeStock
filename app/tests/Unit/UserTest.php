@@ -2,17 +2,26 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests\Unit;
 
-use App\Entity\User;
 use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\StorageSpace;
-use PHPUnit\Framework\TestCase; 
+use App\Entity\User;
+use PHPUnit\Framework\TestCase;
 
 /**
- * https://phpunit.readthedocs.io/fr/latest/textui.html
- * 
+ * https://phpunit.readthedocs.io/fr/latest/textui.html.
+ *
  * php bin/phpunit tests/Unit/UserTest.php
  */
 class UserTest extends TestCase
@@ -26,25 +35,23 @@ class UserTest extends TestCase
         $this->user = new User();
     }
 
-    public function testGetEmail() : void
+    public function testGetEmail(): void
     {
         $value = 'test@test.fr';
 
         $response = $this->user->setEmail($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getEmail());
-        self::assertEquals($value, $this->user->getUsername());
+        self::assertSame($value, $this->user->getEmail());
+        self::assertSame($value, $this->user->getUsername());
     }
 
     /**
-     * assertContains(), pour les tableaux
-     * 
-     * 'ROLE_USER' fait partie de 'ROLE_ADMIN'
+     * assertContains(), pour les tableaux.
      *
-     * @return void
+     * 'ROLE_USER' fait partie de 'ROLE_ADMIN'
      */
-    public function testGetRoles() : void
+    public function testGetRoles(): void
     {
         $value = ['ROLE_ADMIN'];
 
@@ -55,82 +62,80 @@ class UserTest extends TestCase
         self::assertContains('ROLE_ADMIN', $this->user->getRoles());
     }
 
-    public function testGetPassword() : void
+    public function testGetPassword(): void
     {
         $value = 'password';
 
         $response = $this->user->setPassword($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getPassword());
+        self::assertSame($value, $this->user->getPassword());
     }
 
-    public function testGetLastName() : void
+    public function testGetLastName(): void
     {
         $value = 'Doe';
 
         $response = $this->user->setLastName($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getLastName());
+        self::assertSame($value, $this->user->getLastName());
     }
 
-    public function testGetFirstName() : void
+    public function testGetFirstName(): void
     {
         $value = 'Jhon';
 
         $response = $this->user->setFirstName($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getFirstName());
+        self::assertSame($value, $this->user->getFirstName());
     }
 
-    public function testGetImages() : void
+    public function testGetImages(): void
     {
         $value = 'myImage.jpg';
 
         $response = $this->user->setImages($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getImages());
+        self::assertSame($value, $this->user->getImages());
     }
 
-    public function testGetCreatedAt() : void
+    public function testGetCreatedAt(): void
     {
         $value = new \DateTime('now');
 
         $response = $this->user->setCreatedAt($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getCreatedAt());
+        self::assertSame($value, $this->user->getCreatedAt());
     }
 
-    public function testGetUpdateAt() : void
+    public function testGetUpdateAt(): void
     {
         $value = new \DateTime('now');
 
         $response = $this->user->setUpdatedAt($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getUpdatedAt());
+        self::assertSame($value, $this->user->getUpdatedAt());
     }
 
-    public function testGetPhoneNumber() : void
+    public function testGetPhoneNumber(): void
     {
         $value = '0644112233';
 
         $response = $this->user->setPhoneNumber($value);
 
         self::assertInstanceOf(User::class, $response);
-        self::assertEquals($value, $this->user->getPhoneNumber());
+        self::assertSame($value, $this->user->getPhoneNumber());
     }
 
     /**
      * Ajouter un espace de stockage
      * Afficher un espace de stockage
-     * Supprimer un espace de stockage
-     *
-     * @return void
+     * Supprimer un espace de stockage.
      */
     public function testStorageSpace(): void
     {
@@ -144,7 +149,6 @@ class UserTest extends TestCase
         // est ce qu'il contient notre value
         self::assertTrue($this->user->getStorageSpaces()->contains($value));
 
-        
         $response = $this->user->removeStorageSpace($value);
 
         self::assertInstanceOf(User::class, $response);
@@ -155,9 +159,7 @@ class UserTest extends TestCase
     /**
      * Ajouter plusieurs espaces de stockage
      * Afficher plusieurs espaces de stockage
-     * Supprimer plusieurs espaces de stockage
-     *
-     * @return void
+     * Supprimer plusieurs espaces de stockage.
      */
     public function testStorageSpaces(): void
     {
@@ -174,7 +176,6 @@ class UserTest extends TestCase
         self::assertTrue($this->user->getStorageSpaces()->contains($value1));
         self::assertTrue($this->user->getStorageSpaces()->contains($value2));
 
-
         $response = $this->user->removeStorageSpace($value);
 
         self::assertInstanceOf(User::class, $response);
@@ -187,9 +188,7 @@ class UserTest extends TestCase
     /**
      * Ajouter un Commentaire
      * Afficher un Commentaire
-     * Supprimer un Commentaire
-     *
-     * @return void
+     * Supprimer un Commentaire.
      */
     public function testComment(): void
     {
@@ -203,7 +202,6 @@ class UserTest extends TestCase
         // est ce qu'il contient notre value
         self::assertTrue($this->user->getComments()->contains($value));
 
-        
         $response = $this->user->removeComment($value);
 
         self::assertInstanceOf(User::class, $response);
@@ -214,9 +212,7 @@ class UserTest extends TestCase
     /**
      * Ajouter plusieurs Commentaires
      * Afficher plusieurs Commentaires
-     * supprimer plusieurs Commentaires
-     *
-     * @return void
+     * supprimer plusieurs Commentaires.
      */
     public function testComments(): void
     {
@@ -233,7 +229,6 @@ class UserTest extends TestCase
         self::assertTrue($this->user->getComments()->contains($value1));
         self::assertTrue($this->user->getComments()->contains($value2));
 
-
         $response = $this->user->removeComment($value);
 
         self::assertInstanceOf(User::class, $response);
@@ -246,9 +241,7 @@ class UserTest extends TestCase
     /**
      * Ajouter une réservation
      * Afficher une réservation
-     * supprimer une réservation
-     *
-     * @return void
+     * supprimer une réservation.
      */
     public function testBooking(): void
     {
@@ -262,7 +255,6 @@ class UserTest extends TestCase
         // est ce qu'il contient notre value
         self::assertTrue($this->user->getBookings()->contains($value));
 
-        
         $response = $this->user->removeBooking($value);
 
         self::assertInstanceOf(User::class, $response);
@@ -273,9 +265,7 @@ class UserTest extends TestCase
     /**
      * Ajouter plusieurs Réservations
      * Afficher plusieurs Réservations
-     * supprimer plusieurs Réservations
-     *
-     * @return void
+     * supprimer plusieurs Réservations.
      */
     public function testBookings(): void
     {
@@ -291,7 +281,6 @@ class UserTest extends TestCase
         self::assertTrue($this->user->getBookings()->contains($value));
         self::assertTrue($this->user->getBookings()->contains($value1));
         self::assertTrue($this->user->getBookings()->contains($value2));
-
 
         $response = $this->user->removeBooking($value);
 
