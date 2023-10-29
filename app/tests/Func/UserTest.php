@@ -2,35 +2,41 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests\Func;
 
-use Faker\Factory;
-use App\Entity\User;
-use App\Entity\Booking;
-use App\Entity\Comment;
-use App\Entity\StorageSpace;
 use App\DataFixtures\AppFixtures;
-use App\Tests\Func\AbstractEndPoint;
+use App\Entity\StorageSpace;
+use App\Entity\User;
+use Faker\Factory;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; // tester les controlleurs et l'application en générale
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+
+// tester les controlleurs et l'application en générale
 
 /**
- * https://phpunit.readthedocs.io/fr/latest/textui.html
- * 
+ * https://phpunit.readthedocs.io/fr/latest/textui.html.
+ *
  * php bin/phpunit tests/Func/UserTest.php
  */
 class UserTest extends AbstractEndPoint
 {
     private KernelBrowser $client;
     private string $userPayload = '{"email": "%s", "password": "password"}';
-
 
     protected function setUp(): void
     {
@@ -39,30 +45,27 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
-     * Accéder à la page d'accueil sans être connecter
-     *
-     * @return void
+     * Accéder à la page d'accueil sans être connecter.
      */
-    public function testGetHomeUserAnonymous() : void
+    public function testGetHomeUserAnonymous(): void
     {
         $this->client->request(Request::METHOD_GET, '/');
 
-        self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     /**
-     * Accéder a un utilisateur en mode anonyme
-     * 
+     * Accéder a un utilisateur en mode anonyme.
+     *
      * code 302 found
      *
      * rediriger vers la page d'accueil
-     * @return void
      */
-    public function testGetOneUserAnonymous() : void
+    public function testGetOneUserAnonymous(): void
     {
         $this->client->request(Request::METHOD_GET, '/user/2');
 
-        self::assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
         self::assertResponseRedirects('/storageSpace');
     }
 
@@ -70,11 +73,9 @@ class UserTest extends AbstractEndPoint
      * On test la page login lorsqu'un utilisateur se connecte avec des fausses données
      * Il doit être rediriger vers la page /login
      * On suit la redirection
-     * On verifie que la classe .error_form_login est bien présente afin d'afficher une erreur à l'utilisateur
-     * 
-     * @return void
+     * On verifie que la classe .error_form_login est bien présente afin d'afficher une erreur à l'utilisateur.
      */
-    public function testUserLoginBad() : void
+    public function testUserLoginBad(): void
     {
         $crawler = $this->client->request(
             Request::METHOD_GET,
@@ -83,7 +84,7 @@ class UserTest extends AbstractEndPoint
 
         $form = $crawler->selectButton('Se connecter')->form([
             'email' => AppFixtures::DEFAULT_USER['email'],
-            'password' => 'fakePassword'
+            'password' => 'fakePassword',
         ]);
 
         $this->client->submit($form);
@@ -95,11 +96,9 @@ class UserTest extends AbstractEndPoint
 
     /**
      * On test la page login lorsqu'un utilisateur se connecte avec des données valide
-     * Il doit être rediriger vers la page /storageSpace
-     * 
-     * @return void
+     * Il doit être rediriger vers la page /storageSpace.
      */
-    public function testUserLoginSuccess() : void
+    public function testUserLoginSuccess(): void
     {
         $crawler = $this->client->request(
             Request::METHOD_GET,
@@ -108,7 +107,7 @@ class UserTest extends AbstractEndPoint
 
         $form = $crawler->selectButton('Se connecter')->form([
             'email' => AppFixtures::DEFAULT_USER['email'],
-            'password' => AppFixtures::DEFAULT_USER['password']
+            'password' => AppFixtures::DEFAULT_USER['password'],
         ]);
 
         $this->client->submit($form);
@@ -119,14 +118,12 @@ class UserTest extends AbstractEndPoint
 
     /**
      * On test le contrôleur SecurityController::login
-     * lorsqu'un utilisateur se connecte avec des données valide
-     * 
+     * lorsqu'un utilisateur se connecte avec des données valide.
+     *
      * On récupère le token CSRF du formulaire et on le passe en paramètre avec le email et le password
      * on doit être rediriger vers la page /storageSpace
-     * 
-     * @return void
      */
-    public function testSecurityControllerLoginSuccess() : void
+    public function testSecurityControllerLoginSuccess(): void
     {
         /** @var ContainerInterface */
         $containerInterface = $this->client->getContainer();
@@ -140,9 +137,9 @@ class UserTest extends AbstractEndPoint
             Request::METHOD_POST,
             '/login',
             [
-                'email'         => AppFixtures::DEFAULT_USER['email'],
-                'password'      => AppFixtures::DEFAULT_USER['password'],
-                '_csrf_token'   => $csrfToken
+                'email' => AppFixtures::DEFAULT_USER['email'],
+                'password' => AppFixtures::DEFAULT_USER['password'],
+                '_csrf_token' => $csrfToken,
             ]
         );
 
@@ -150,17 +147,15 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
-     * L'utilisateur connecter accède à son profil 
-     * On vérifie si le status code est 200 pour la page /user/{id}
-     *
-     * @return void
+     * L'utilisateur connecter accède à son profil
+     * On vérifie si le status code est 200 pour la page /user/{id}.
      */
-    public function testGetOneUserWithUserConnected() : void
+    public function testGetOneUserWithUserConnected(): void
     {
         $user = $this->createUser();
 
         $this->userLogin($this->client, $user);
-        
+
         $this->client->request(
             Request::METHOD_GET,
             "/user/{$user->getId()}"
@@ -170,51 +165,45 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
-     * L'utilisateur en role admin accède à la page /amdin 
-     * On vérifie si le status code est 200 pour la page /amdin 
-     *
-     * @return void
+     * L'utilisateur en role admin accède à la page /amdin
+     * On vérifie si le status code est 200 pour la page /amdin.
      */
-    public function testGetAdminDasboardWithAdmin() : void
+    public function testGetAdminDasboardWithAdmin(): void
     {
         $user = $this->createUserAdmin();
 
         $this->userLogin($this->client, $user);
-        
+
         $this->client->request(
             Request::METHOD_GET,
-            "/admin"
+            '/admin'
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
-    
+
     /**
-     * L'utilisateur non admin accède à la page /amdin 
-     * On vérifie si le status code est 403 pour la page /amdin 
-     *
-     * @return void
+     * L'utilisateur non admin accède à la page /amdin
+     * On vérifie si le status code est 403 pour la page /amdin.
      */
-    public function testGetAdminDasboardWithUserNotAdmin() : void
+    public function testGetAdminDasboardWithUserNotAdmin(): void
     {
         $user = $this->createUser();
 
         $this->userLogin($this->client, $user);
-        
+
         $this->client->request(
             Request::METHOD_GET,
-            "/admin"
+            '/admin'
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     /**
-     * Créer un utilisateur admin
-     *
-     * @return User
+     * Créer un utilisateur admin.
      */
-    private function createUserAdmin() : User
+    private function createUserAdmin(): User
     {
         $user = new User();
         $user->setId(AppFixtures::DEFAULT_ADMIN['id'])
@@ -231,11 +220,9 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
-     * Créer un utilisateur
-     *
-     * @return User
+     * Créer un utilisateur.
      */
-    private function createUser() : User
+    private function createUser(): User
     {
         $user = new User();
         $user->setId(AppFixtures::DEFAULT_USER['id'])
@@ -252,8 +239,8 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
-     * L' utilisateur se conntecte
-     * 
+     * L' utilisateur se conntecte.
+     *
      * On crée une session pour un utilisateur
      * puis on fait un cookie qui est lier à la session
      */
@@ -265,7 +252,7 @@ class UserTest extends AbstractEndPoint
 
         /** @var SessionInterface */
         $session = $containerInterface->get('session'); // acceder au servvice de session
-        
+
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles()); // généré le token
         $session->set('_security_main', serialize($token)); // firewall main
         $session->save();
@@ -276,12 +263,9 @@ class UserTest extends AbstractEndPoint
     }
 
     /**
-     * 
      * @phpstan-ignore-next-line
-     * 
-     * généré un email aléatoire
      *
-     * @return string
+     * généré un email aléatoire
      */
     private function getPayload(): string
     {

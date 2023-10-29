@@ -1,22 +1,29 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
-use Stripe\Stripe;
-use App\Entity\User;
 use App\Entity\Booking;
-use App\Form\BookingType;
-use Stripe\Checkout\Session;
+use App\Entity\User;
 use App\Form\BookingFinishType;
+use App\Form\BookingType;
 use App\Manager\BookingManager;
-use App\Repository\UserRepository;
 use App\Repository\BookingRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\StorageSpaceRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Stripe;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
 {
@@ -35,29 +42,28 @@ class BookingController extends AbstractController
      */
     public function get_one_booking_for_user(Booking $booking): Response
     {
-        if (!$this->getUser() || $this->getUser() != $booking->getLodger()) {
+        if (!$this->getUser() || $this->getUser() !== $booking->getLodger()) {
             return $this->redirectToRoute('storage_space_all');
         }
 
         $this->denyAccessUnlessGranted('edit', $booking);
 
         return $this->render('booking/get_one_booking_for_user.html.twig', [
-            'booking' => $booking
+            'booking' => $booking,
         ]);
     }
 
     /**
-     * rediriger vers stripe pour le paiement
-     * 
+     * rediriger vers stripe pour le paiement.
+     *
      * @Route("/booking/add/storageSpace/{id}", name="booking_add", requirements={"id": "\d+"})
      */
     public function create_booking(
-        int $id, 
-        StorageSpaceRepository $storageSpaceRepository, 
-        Request $request, 
+        int $id,
+        StorageSpaceRepository $storageSpaceRepository,
+        Request $request,
         BookingManager $bookingManager
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -65,7 +71,7 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('storage_space_all');
         }
 
-        $booking = new Booking;
+        $booking = new Booking();
 
         $storageSpace = $storageSpaceRepository->find_one_storage($id);
 
@@ -80,7 +86,7 @@ class BookingController extends AbstractController
         return $this->render('booking/create_booking.html.twig', [
             'formBooking' => $formBooking->createView(),
             'storageSpace' => $storageSpace,
-            'oneBookingTrue' => $bookingManager->verifBookingTrue($user)
+            'oneBookingTrue' => $bookingManager->verifBookingTrue($user),
         ]);
     }
 
@@ -89,8 +95,7 @@ class BookingController extends AbstractController
      */
     public function get_all_booking_for_user(
         BookingManager $bookingManager
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -99,15 +104,15 @@ class BookingController extends AbstractController
         }
 
         return $this->render('booking/get_all_booking_for_user.html.twig', [
-            'bookings' => $bookingManager->getAllBookingsForUser($user)
+            'bookings' => $bookingManager->getAllBookingsForUser($user),
         ]);
     }
 
     /**
-     * TODO : A supprimer
-     * 
+     * TODO : A supprimer.
+     *
      * N'est pas utiliser, comme stripe s'occupe de finir une reservation
-     * 
+     *
      * @Route("/booking/form/finish/{id}", name="booking_finish")
      */
     public function get_form_booking_finish(Booking $booking, Request $request, EntityManagerInterface $manager): Response
@@ -119,11 +124,10 @@ class BookingController extends AbstractController
         $this->denyAccessUnlessGranted('show', $booking);
 
         $formBooking = $this->createForm(BookingFinishType::class, $booking);
-        
-        $formBooking->handleRequest($request);
-        
-        if ($formBooking->isSubmitted() && $formBooking->isValid()) {
 
+        $formBooking->handleRequest($request);
+
+        if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             /* $booking->setCreatedAt(new \DateTime())
                 ->setLodger($this->getUser())
             ; */
@@ -135,19 +139,18 @@ class BookingController extends AbstractController
         }
 
         return $this->render('booking/finish_booking.html.twig', [
-            'formBooking' => $formBooking->createView()
+            'formBooking' => $formBooking->createView(),
         ]);
-    } 
+    }
 
     /**
      * @Route("/booking/delete/{id}", name="booking_delete", requirements={"id": "\d+"})
      */
     public function delete_booking(
         Booking $booking,
-        BookingManager $bookingManager, 
+        BookingManager $bookingManager,
         Request $request
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -159,8 +162,8 @@ class BookingController extends AbstractController
         }
 
         $this->denyAccessUnlessGranted('delete', $booking);
-        
-        if($this->isCsrfTokenValid('delete', $token)){
+
+        if ($this->isCsrfTokenValid('delete', $token)) {
             $bookingManager->deleteBooking($booking);
         }
 

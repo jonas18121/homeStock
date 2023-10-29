@@ -107,16 +107,16 @@ lint:
 	$(RUN_APP) make lint
 
 phpfixer: ## Run PhpCsFixer globaly (app)
-phpfixer: app/.php_cs.dist.php
+# phpfixer: app/.php-cs-fixer-dist.php
 	$(RUN_APP) make phpfixer
 
 phpstan: ## Run PhpStan globaly (app)
 phpstan: app/phpstan.dist.neon
 	$(RUN_APP) make phpstan
 
-prettier: ## Run Prettier globaly (app)
-prettier: app/.prettierrc
-	$(RUN_NODE) make prettier
+# prettier: ## Run Prettier globaly (app)
+# prettier: app/.prettierrc
+# 	$(RUN_NODE) make prettier
 
 ##-----------------------------------------
 ## DOCKER

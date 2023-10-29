@@ -1,22 +1,25 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
-use Stripe\Plan;
-use Stripe\Price;
-use Stripe\Stripe;
-use Stripe\Product;
-use App\Entity\User;
-use Stripe\Customer;
 use App\Entity\Booking;
-use Stripe\Subscription;
-use App\Entity\StorageSpace;
-use Stripe\Checkout\Session;
+use App\Entity\User;
 use App\Manager\StripeManager;
+use Stripe\Checkout\Session;
+use Stripe\Customer;
+use Stripe\Stripe;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StripeController extends AbstractController
 {
@@ -31,10 +34,9 @@ class StripeController extends AbstractController
      * @Route("/commande/create-checkout-session/{id_storage}/{id_booking}", name="stripe_create_session")
      */
     public function index(
-        int $id_storage, 
+        int $id_storage,
         int $id_booking
-    ): Response
-    {
+    ): Response {
         /** @var User|null */
         $user = $this->getUser();
 
@@ -73,7 +75,8 @@ class StripeController extends AbstractController
         }
 
         $this->addFlash('success', 'Votre abonnement a bien été annulé.');
-        return $this->render('payement_return/return.html.twig'); 
+
+        return $this->render('payement_return/return.html.twig');
     }
 
     /**
@@ -89,6 +92,7 @@ class StripeController extends AbstractController
         }
 
         $this->addFlash('error', 'Votre tentative de paiement a échoué.');
+
         return $this->render('payement_cancel/cancel.html.twig');
     }
 
@@ -103,11 +107,11 @@ class StripeController extends AbstractController
         if (!$user || false === $booking = $this->stripeManager->isPayementSuccess($stripeSessionId, $user)) {
             return $this->redirectToRoute('storage_space_all');
         }
-        
+
         $this->addFlash('success', 'Votre paiement a bien été réalisé.');
+
         return $this->render('payement_success/success.html.twig', [
             'booking' => $booking,
         ]);
     }
 }
-

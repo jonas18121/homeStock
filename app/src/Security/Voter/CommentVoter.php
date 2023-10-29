@@ -1,21 +1,30 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Security\Voter;
 
 use App\Entity\Comment;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CommentVoter extends Voter
 {
-    const SHOW      = 'show';
-    const EDIT      = 'edit';
-    const DELETE    = 'delete';
+    public const SHOW = 'show';
+    public const EDIT = 'edit';
+    public const DELETE = 'delete';
 
     protected function supports($attribute, $comment)
     {
-        return in_array($attribute, [self::SHOW, self::EDIT, self::DELETE])
+        return \in_array($attribute, [self::SHOW, self::EDIT, self::DELETE], true)
             && $comment instanceof \App\Entity\Comment;
     }
 
@@ -28,12 +37,11 @@ class CommentVoter extends Voter
             return false;
         }
 
-        if(!$comment instanceof Comment || $comment->getOwner() === null){
+        if (!$comment instanceof Comment || null === $comment->getOwner()) {
             return false;
         }
 
         switch ($attribute) {
-
             case self::SHOW:
                 return $this->isAccess($comment, $user);
 
@@ -48,8 +56,8 @@ class CommentVoter extends Voter
     }
 
     /**
-    * erifier si l'user est bien le propriétaire du commentaire 
-    */
+     * erifier si l'user est bien le propriétaire du commentaire.
+     */
     protected function isAccess(Comment $comment, UserInterface $user): bool
     {
         return $comment->getOwner() === $user;

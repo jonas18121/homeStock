@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\Booking;
@@ -63,14 +72,13 @@ class BookingRepository extends ServiceEntityRepository
     public function find_one_booking(int $id): Booking
     {
         /** @var Booking */
-        $booking =  $this->createQueryBuilder('b')
+        $booking = $this->createQueryBuilder('b')
             ->select('b, s')
             ->leftJoin('b.storageSpace', 's')
             ->andWhere('b.id IN (:id)')
             ->setParameter('id', $id)
             ->getQuery()
             ->getSingleResult();
-        ;
 
         if ($booking instanceof Booking) {
             return $booking;
