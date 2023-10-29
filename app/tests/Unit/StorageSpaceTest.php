@@ -2,18 +2,27 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests\Unit;
 
-use App\Entity\User;
 use App\Entity\Booking;
-use App\Entity\Comment;
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\StorageSpace;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 /**
- * https://phpunit.readthedocs.io/fr/latest/textui.html
- * 
+ * https://phpunit.readthedocs.io/fr/latest/textui.html.
+ *
  * php bin/phpunit tests/Unit/StorageSpaceTest.php
  */
 class StorageSpaceTest extends TestCase
@@ -27,122 +36,120 @@ class StorageSpaceTest extends TestCase
         $this->storageSpace = new StorageSpace();
     }
 
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $value = 'Super garage à loué';
 
         $response = $this->storageSpace->setTitle($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getTitle());
+        self::assertSame($value, $this->storageSpace->getTitle());
     }
 
-    public function testGetDescription() : void
+    public function testGetDescription(): void
     {
         $value = 'Super garage à loué, très spacieux de 20 m2, bien éclairé, bien isolé';
 
         $response = $this->storageSpace->setDescription($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getDescription());
+        self::assertSame($value, $this->storageSpace->getDescription());
     }
 
-    public function testGetAdresse() : void
+    public function testGetAdresse(): void
     {
         $value = '9 rue des madières';
-    
+
         $response = $this->storageSpace->setAdresse($value);
-    
+
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getAdresse());
+        self::assertSame($value, $this->storageSpace->getAdresse());
     }
 
-    public function testGetCity() : void
+    public function testGetCity(): void
     {
         $value = 'Langueux';
-    
+
         $response = $this->storageSpace->setCity($value);
-    
+
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getCity());
+        self::assertSame($value, $this->storageSpace->getCity());
     }
 
-    public function testGetPostalCode() : void
+    public function testGetPostalCode(): void
     {
         $value = '22390';
-    
+
         $response = $this->storageSpace->setPostalCode($value);
-    
+
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getPostalCode());
+        self::assertSame($value, $this->storageSpace->getPostalCode());
     }
-    
-    public function testGetSpace() : void
+
+    public function testGetSpace(): void
     {
         $value = 45;
-    
+
         $response = $this->storageSpace->setSpace($value);
-    
+
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getSpace());
+        self::assertSame($value, $this->storageSpace->getSpace());
     }
-    
-    public function testGetPriceByDays() : void
+
+    public function testGetPriceByDays(): void
     {
         $value = 1.33;
-    
+
         $response = $this->storageSpace->setPriceByDays($value);
-    
+
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getPriceByDays());
+        self::assertSame($value, $this->storageSpace->getPriceByDays());
     }
 
-    public function testGetPriceByMonth() : void
+    public function testGetPriceByMonth(): void
     {
         $value = 39.9;
-    
+
         $response = $this->storageSpace->setPriceByMonth($value);
-    
+
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getPriceByMonth());
+        self::assertSame($value, $this->storageSpace->getPriceByMonth());
     }
 
-    public function testGetImages() : void
+    public function testGetImages(): void
     {
         $value = 'myImage.jpg';
 
         $response = $this->storageSpace->setImages($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getImages());
+        self::assertSame($value, $this->storageSpace->getImages());
     }
 
-    public function testGetCreatedAt() : void
+    public function testGetCreatedAt(): void
     {
         $value = new \DateTime('now');
 
         $response = $this->storageSpace->setCreatedAt($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getCreatedAt());
+        self::assertSame($value, $this->storageSpace->getCreatedAt());
     }
 
-    public function testGetUpdatedAt() : void
+    public function testGetUpdatedAt(): void
     {
         $value = new \DateTime('now');
 
         $response = $this->storageSpace->setUpdatedAt($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getUpdatedAt());
+        self::assertSame($value, $this->storageSpace->getUpdatedAt());
     }
 
     /**
      * Ajouter un Commentaire dans un espace de stockage
      * Afficher un Commentaire dans un espace de stockage
-     * Supprimer un Commentaire dans un espace de stockage
-     *
-     * @return void
+     * Supprimer un Commentaire dans un espace de stockage.
      */
     public function testComment(): void
     {
@@ -156,7 +163,6 @@ class StorageSpaceTest extends TestCase
         // est ce qu'il contient notre value
         self::assertTrue($this->storageSpace->getComments()->contains($value));
 
-        
         $response = $this->storageSpace->removeComment($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
@@ -167,9 +173,7 @@ class StorageSpaceTest extends TestCase
     /**
      * Ajouter plusieurs Commentaires dans un espace de stockage
      * Afficher plusieurs Commentaires dans un espace de stockage
-     * supprimer plusieurs Commentaires dans un espace de stockage
-     *
-     * @return void
+     * supprimer plusieurs Commentaires dans un espace de stockage.
      */
     public function testComments(): void
     {
@@ -186,7 +190,6 @@ class StorageSpaceTest extends TestCase
         self::assertTrue($this->storageSpace->getComments()->contains($value1));
         self::assertTrue($this->storageSpace->getComments()->contains($value2));
 
-
         $response = $this->storageSpace->removeComment($value);
 
         self::assertInstanceOf(storageSpace::class, $response);
@@ -199,9 +202,7 @@ class StorageSpaceTest extends TestCase
     /**
      * Ajouter une reservation à un espace de stockage
      * Afficher une reservation à un espace de stockage
-     * Supprimer une reservation à un espace de stockage
-     *
-     * @return void
+     * Supprimer une reservation à un espace de stockage.
      */
     public function testBooking(): void
     {
@@ -215,7 +216,6 @@ class StorageSpaceTest extends TestCase
         // est ce qu'il contient notre value
         self::assertTrue($this->storageSpace->getBookings()->contains($value));
 
-        
         $response = $this->storageSpace->removeBooking($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
@@ -226,9 +226,7 @@ class StorageSpaceTest extends TestCase
     /**
      * Ajouter plusieurs réservation à un espace de stockage
      * Afficher plusieurs réservation à un espace de stockage
-     * supprimer plusieurs réservation à un espace de stockage
-     *
-     * @return void
+     * supprimer plusieurs réservation à un espace de stockage.
      */
     public function testBookings(): void
     {
@@ -245,7 +243,6 @@ class StorageSpaceTest extends TestCase
         self::assertTrue($this->storageSpace->getBookings()->contains($value1));
         self::assertTrue($this->storageSpace->getBookings()->contains($value2));
 
-
         $response = $this->storageSpace->removeBooking($value);
 
         self::assertInstanceOf(storageSpace::class, $response);
@@ -255,12 +252,9 @@ class StorageSpaceTest extends TestCase
         self::assertTrue($this->storageSpace->getBookings()->contains($value2));
     }
 
-
     /**
      * Ajouter pour allier espace de stockage a une catégorie
-     * Afficher la catégorie de l'espace de stockage
-     *
-     * @return void
+     * Afficher la catégorie de l'espace de stockage.
      */
     public function testCategory(): void
     {
@@ -269,14 +263,12 @@ class StorageSpaceTest extends TestCase
         $response = $this->storageSpace->setCategory($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getCategory());
+        self::assertSame($value, $this->storageSpace->getCategory());
     }
 
     /**
      * Ajouter pour allier un user a un espace de stockager
-     * Afficher le propriétaire (user) de l'espace de stockage
-     *
-     * @return void
+     * Afficher le propriétaire (user) de l'espace de stockage.
      */
     public function testUser(): void
     {
@@ -285,6 +277,6 @@ class StorageSpaceTest extends TestCase
         $response = $this->storageSpace->setOwner($value);
 
         self::assertInstanceOf(StorageSpace::class, $response);
-        self::assertEquals($value, $this->storageSpace->getOwner());
+        self::assertSame($value, $this->storageSpace->getOwner());
     }
 }

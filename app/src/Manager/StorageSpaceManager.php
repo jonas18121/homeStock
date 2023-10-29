@@ -2,20 +2,29 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Manager;
 
-use App\Entity\User;
 use App\Entity\StorageSpace;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * StorageSpace - Manager.
  */
 class StorageSpaceManager extends BaseManager
-{ 
+{
     /**
-     * Calculate the price per month
-     * 
+     * Calculate the price per month.
+     *
      * @return int|float
      */
     public function priceByMonth(StorageSpace $storageSpace)
@@ -23,8 +32,8 @@ class StorageSpaceManager extends BaseManager
         $firstDayOfThisMonth = new \DateTime('first day of this month');
         $lastDayOfThisMonth = new \DateTime('last day of this month');
 
-        $nbDays = intval($firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a'));
-        $nbDays += 1;
+        $nbDays = (int) $firstDayOfThisMonth->diff($lastDayOfThisMonth)->format('%R%a');
+        ++$nbDays;
 
         $priceByMonth = $storageSpace->getPriceByDays() * $nbDays;
 
@@ -43,6 +52,7 @@ class StorageSpaceManager extends BaseManager
         $this->save($storageSpace);
 
         $this->addFlashFromManager('success', 'Votre annonce a bien été crée.');
+
         return $this->redirectToRouteFromManager('storage_space_all');
     }
 
@@ -53,10 +63,11 @@ class StorageSpaceManager extends BaseManager
         $this->save($storageSpace);
 
         $this->addFlashFromManager('success', 'Votre annonce a bien été modifiée.');
+
         return $this->redirectToRouteFromManager('storage_space_all');
     }
 
-    public function save(StorageSpace $storageSpace): StorageSpace 
+    public function save(StorageSpace $storageSpace): StorageSpace
     {
         $em = $this->em();
         $em->persist($storageSpace);

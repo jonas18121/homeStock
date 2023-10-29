@@ -2,27 +2,36 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests\Entity;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\TraceableValidator;
-use App\Repository\UserRepository as RepositoryUserRepository;
 
 /**
- * https://phpunit.readthedocs.io/fr/latest/textui.html
- * 
+ * https://phpunit.readthedocs.io/fr/latest/textui.html.
+ *
  * php bin/phpunit tests/Entity/UserValidationTest.php
  */
 class UserValidationTest extends KernelTestCase
 {
     /**
-     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
+     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend zéro erreur
+     *
      * @return void
      */
-    public function testValidEntity ()
+    public function testValidEntity()
     {
         self::bootKernel();
 
@@ -37,19 +46,20 @@ class UserValidationTest extends KernelTestCase
 
         /** @var TraceableValidator */
         $validator = self::$container->get('validator');
-        $error = $validator->validate($user);        
+        $error = $validator->validate($user);
 
         $this->assertCount(0, $error);
     }
 
     /**
-     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
+     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend une erreur, car le mail n'est pas correcte
      * il manque le caractère spéciale arobase @
+     *
      * @return void
      */
-    public function testInvalidEmailEntity ()
+    public function testInvalidEmailEntity()
     {
         $user = new User();
 
@@ -70,13 +80,14 @@ class UserValidationTest extends KernelTestCase
     }
 
     /**
-     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
+     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend une erreur, car le password n'est pas correcte
      * il manque au moin un chiffre
+     *
      * @return void
      */
-    public function testInvalidPasswordEntity ()
+    public function testInvalidPasswordEntity()
     {
         $user = new User();
 
@@ -97,13 +108,14 @@ class UserValidationTest extends KernelTestCase
     }
 
     /**
-     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
+     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend une erreur, car le confirm_password n'est pas correcte
      * il n'est pas égale au champ password
+     *
      * @return void
      */
-    public function testInvalidConfirmPasswordEntity ()
+    public function testInvalidConfirmPasswordEntity()
     {
         $user = new User();
 
@@ -124,13 +136,14 @@ class UserValidationTest extends KernelTestCase
     }
 
     /**
-     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
+     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend une erreur, car le champ firstName n'est pas correcte
-     * il est a moins de deux caractères 
+     * il est a moins de deux caractères
+     *
      * @return void
      */
-    public function testInvalidFirstNameEntity ()
+    public function testInvalidFirstNameEntity()
     {
         $user = new User();
 
@@ -151,13 +164,14 @@ class UserValidationTest extends KernelTestCase
     }
 
     /**
-     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas
+     * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend une erreur, car le champ LastName n'est pas correcte
-     * il est a moins de deux caractères 
+     * il est a moins de deux caractères
+     *
      * @return void
      */
-    public function testInvalidLastNameEntity ()
+    public function testInvalidLastNameEntity()
     {
         $user = new User();
 
@@ -176,5 +190,4 @@ class UserValidationTest extends KernelTestCase
 
         $this->assertCount(1, $error);
     }
-
 }

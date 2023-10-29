@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\StorageSpace;
@@ -49,25 +58,24 @@ class StorageSpaceRepository extends ServiceEntityRepository
     */
 
     /**
-     * @return StorageSpace[] 
-    */
+     * @return StorageSpace[]
+     */
     public function find_All_storage()
     {
         /** @var array<int, StorageSpace> */
-        $storageSpaces =  $this->createQueryBuilder('s')
+        $storageSpaces = $this->createQueryBuilder('s')
             ->select('s, b, c')
             ->leftJoin('s.bookings', 'b')
             ->leftJoin('s.category', 'c')
             ->getQuery()
             ->getResult();
-        ;
 
         return $storageSpaces;
     }
 
     /**
      * @return StorageSpace
-    */
+     */
     public function find_storage_space_from_booking_id(int $id)
     {
         /** @var StorageSpace */
@@ -78,14 +86,13 @@ class StorageSpaceRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getSingleResult();
-        ;
 
         return $storageSpace;
     }
 
     /**
      * @return StorageSpace
-    */
+     */
     public function find_one_storage(int $id)
     {
         /** @var StorageSpace */
@@ -98,7 +105,6 @@ class StorageSpaceRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getSingleResult();
-        ;
 
         return $storageSpace;
     }
@@ -114,5 +120,4 @@ class StorageSpaceRepository extends ServiceEntityRepository
 
         return $count;
     }
-
 }

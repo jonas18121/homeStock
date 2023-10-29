@@ -1,10 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -63,7 +71,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        if(!is_array($credentials)){
+        if (!\is_array($credentials)) {
             throw new \Exception('credentials is not exist');
         }
 
@@ -86,7 +94,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if(!is_array($credentials)){
+        if (!\is_array($credentials)) {
             throw new \Exception('credentials is not exist');
         }
 
@@ -98,7 +106,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function getPassword($credentials): ?string
     {
-        if(!is_array($credentials)){
+        if (!\is_array($credentials)) {
             throw new \Exception('credentials is not exist');
         }
 

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Manager;
 
 use App\Entity\User;
@@ -12,11 +21,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * User - Manager.
  */
 class UserManager extends BaseManager
-{ 
+{
     public function updateThenRedirect(User $user): RedirectResponse
     {
         $this->save($user);
         $this->addFlashFromManager('success', 'Votre compte a bien été modifiée.');
+
         return $this->redirectToRouteFromManager('user_one', ['id' => $user->getId()]);
     }
 
@@ -32,20 +42,20 @@ class UserManager extends BaseManager
     }
 
     public function register(
-        User $user, 
+        User $user,
         UserPasswordEncoderInterface $encoder
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $hash = $encoder->encodePassword($user, $user->getPassword());
         $user->setCreatedAt(new \DateTime());
         $user->setPassword($hash);
 
         $this->save($user);
         $this->addFlashFromManager('success', 'Votre compte a bien été créé, Connectez-vous !');
+
         return $this->redirectToRouteFromManager('app_login');
     }
 
-    public function save(User $user): User 
+    public function save(User $user): User
     {
         $em = $this->em();
         $em->persist($user);

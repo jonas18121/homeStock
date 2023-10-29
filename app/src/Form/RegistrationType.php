@@ -1,16 +1,24 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form;
 
 use App\Entity\User;
-use Doctrine\ORM\Query\Expr\Func;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Callback;
 
 class RegistrationType extends AbstractType
 {
@@ -19,20 +27,19 @@ class RegistrationType extends AbstractType
         $builder
             ->add('lastName', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Votre nom '
+                    'placeholder' => 'Votre nom ',
                 ],
                 'constraints' => [
                     new Callback(function ($text, $context) {
-
                         if ($text) {
-                            $tab_text = str_split($text);
+                            $tab_text = mb_str_split($text);
 
                             if (isset($tab_text[3])) {
-                                if($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2]) && $this->searchConsonne($tab_text[3])){
+                                if ($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2]) && $this->searchConsonne($tab_text[3])) {
                                     $context->addViolation('Vous êtes probablement un robot Consonne');
                                 }
-    
-                                if($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2]) && $this->searchVoyelle($tab_text[3])){
+
+                                if ($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2]) && $this->searchVoyelle($tab_text[3])) {
                                     $context->addViolation('Vous êtes probablement un robot Voyelle');
                                 }
                             }
@@ -42,20 +49,19 @@ class RegistrationType extends AbstractType
             ])
             ->add('firstName', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Votre prénom'
+                    'placeholder' => 'Votre prénom',
                 ],
                 'constraints' => [
                     new Callback(function ($text, $context) {
-
                         if ($text) {
-                            $tab_text = str_split($text);
+                            $tab_text = mb_str_split($text);
 
                             if (isset($tab_text[3])) {
-                                if($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2]) && $this->searchConsonne($tab_text[3])){
+                                if ($this->searchConsonne($tab_text[0]) && $this->searchConsonne($tab_text[1]) && $this->searchConsonne($tab_text[2]) && $this->searchConsonne($tab_text[3])) {
                                     $context->addViolation('Vous êtes probablement un robot Consonne');
                                 }
-    
-                                if($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2]) && $this->searchVoyelle($tab_text[3])){
+
+                                if ($this->searchVoyelle($tab_text[0]) && $this->searchVoyelle($tab_text[1]) && $this->searchVoyelle($tab_text[2]) && $this->searchVoyelle($tab_text[3])) {
                                     $context->addViolation('Vous êtes probablement un robot Voyelle');
                                 }
                             }
@@ -65,53 +71,50 @@ class RegistrationType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
-                    'placeholder' => 'Votre email'
-                ]
+                    'placeholder' => 'Votre email',
+                ],
             ])
             ->add('password', PasswordType::class, [
                 'attr' => [
-                    'placeholder' => 'Votre mot de passe'
-                ]
+                    'placeholder' => 'Votre mot de passe',
+                ],
             ])
             ->add('confirm_password', PasswordType::class, [
                 'attr' => [
-                    'placeholder' => 'Confirmer votre mot de passe'
-                ]
+                    'placeholder' => 'Confirmer votre mot de passe',
+                ],
             ])
         ;
     }
 
-    public function searchConsonne(string $param): bool 
+    public function searchConsonne(string $param): bool
     {
         $list_consonne = [
             'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Z',
-            'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z'
+            'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z',
         ];
 
-        if (in_array($param, $list_consonne)) {
+        if (\in_array($param, $list_consonne, true)) {
             return true;
         }
+
         return false;
     }
 
-    public function searchVoyelle(string $param): bool 
+    public function searchVoyelle(string $param): bool
     {
         $list_voyelle = [
             'A', 'E', 'I', 'O', 'U', 'Y',
-            'a', 'e', 'i', 'o', 'u', 'y'
+            'a', 'e', 'i', 'o', 'u', 'y',
         ];
 
-        if (in_array($param, $list_voyelle)) {
+        if (\in_array($param, $list_voyelle, true)) {
             return true;
         }
+
         return false;
     }
 
-    /**
-     *
-     * @param OptionsResolver $resolver
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

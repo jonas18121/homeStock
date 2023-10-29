@@ -2,16 +2,25 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests\Unit;
 
-use App\Entity\User;
 use App\Entity\Comment;
 use App\Entity\StorageSpace;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 /**
- * https://phpunit.readthedocs.io/fr/latest/textui.html
- * 
+ * https://phpunit.readthedocs.io/fr/latest/textui.html.
+ *
  * php bin/phpunit tests/Unit/CommentTest.php
  */
 class CommentTest extends TestCase
@@ -25,30 +34,28 @@ class CommentTest extends TestCase
         $this->comment = new Comment();
     }
 
-    public function testGetComment() : void
+    public function testGetComment(): void
     {
         $value = 'Super ce garage est très bien entretenu';
 
         $response = $this->comment->setContent($value);
 
         self::assertInstanceOf(Comment::class, $response);
-        self::assertEquals($value, $this->comment->getContent());
+        self::assertSame($value, $this->comment->getContent());
     }
 
-    public function testGetCreatedAt() : void
+    public function testGetCreatedAt(): void
     {
         $value = new \DateTime('now');
 
         $response = $this->comment->setCreatedAt($value);
 
         self::assertInstanceOf(Comment::class, $response);
-        self::assertEquals($value, $this->comment->getCreatedAt());
+        self::assertSame($value, $this->comment->getCreatedAt());
     }
 
     /**
-     * Ajouter un espace de stockage à un commentaire
-     *
-     * @return void
+     * Ajouter un espace de stockage à un commentaire.
      */
     public function testStorageSpace(): void
     {
@@ -57,13 +64,11 @@ class CommentTest extends TestCase
         $response = $this->comment->setStorageSpace($value);
 
         self::assertInstanceOf(Comment::class, $response);
-        self::assertEquals($value, $this->comment->getStorageSpace());
+        self::assertSame($value, $this->comment->getStorageSpace());
     }
 
     /**
-     * Ajouter un commentaire parent dans un espaces de stockage
-     *
-     * @return void
+     * Ajouter un commentaire parent dans un espaces de stockage.
      */
     public function testParent(): void
     {
@@ -72,15 +77,13 @@ class CommentTest extends TestCase
         $response = $this->comment->setParent($value);
 
         self::assertInstanceOf(Comment::class, $response);
-        self::assertEquals($value, $this->comment->getParent());
+        self::assertSame($value, $this->comment->getParent());
     }
 
     /**
      * Ajouter un Commentaire enfant dans un commentaire parent
      * Afficher un Commentaire enfant dans un commentaire parent
-     * Supprimer un Commentaire enfant dans un commentaire parent
-     *
-     * @return void
+     * Supprimer un Commentaire enfant dans un commentaire parent.
      */
     public function testReply(): void
     {
@@ -94,7 +97,6 @@ class CommentTest extends TestCase
         // est ce qu'il contient notre value
         self::assertTrue($this->comment->getReplies()->contains($value));
 
-        
         $response = $this->comment->removeReply($value);
 
         self::assertInstanceOf(Comment::class, $response);
@@ -105,9 +107,7 @@ class CommentTest extends TestCase
     /**
      * Ajouter plusieurs Commentaires enfant dans un commentaire parent
      * Afficher plusieurs Commentaires enfant dans un commentaire parent
-     * supprimer plusieurs Commentaires enfant dans un commentaire parent
-     *
-     * @return void
+     * supprimer plusieurs Commentaires enfant dans un commentaire parent.
      */
     public function testComments(): void
     {
@@ -127,7 +127,6 @@ class CommentTest extends TestCase
         self::assertTrue($this->comment->getReplies()->contains($value1));
         self::assertTrue($this->comment->getReplies()->contains($value2));
 
-
         $response = $this->comment->removeReply($value);
 
         self::assertInstanceOf(Comment::class, $response);
@@ -139,9 +138,7 @@ class CommentTest extends TestCase
 
     /**
      * Ajouter pour allier un commentaire a un user
-     * Afficher le propriétaire (user) du commentaire
-     *
-     * @return void
+     * Afficher le propriétaire (user) du commentaire.
      */
     public function testUser(): void
     {
@@ -150,6 +147,6 @@ class CommentTest extends TestCase
         $response = $this->comment->setOwner($value);
 
         self::assertInstanceOf(Comment::class, $response);
-        self::assertEquals($value, $this->comment->getOwner());
+        self::assertSame($value, $this->comment->getOwner());
     }
 }
