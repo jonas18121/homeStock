@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ENVIRONMENT=develop
-ENVIRONMENT_SYMFONY=dev
+ENVIRONMENT=test
+ENVIRONMENT_SYMFONY=test
 
 PHP_BIN=php
 

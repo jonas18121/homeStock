@@ -8,7 +8,10 @@ else
 ENV = $(ENV)
 endif
 
-ifeq ($(ENV),dev)
+ifeq ($(ENV),test)
+BIN_PHP = php
+ENVIRONMENT = test
+else ifeq ($(ENV),dev)
 BIN_PHP = php
 ENVIRONMENT = develop
 else ifeq ($(ENV),staging)
@@ -21,11 +24,12 @@ else ifeq ($(ENV),prod)
 BIN_PHP = php
 ENVIRONMENT = production
 else
-$(error ENV argument is required : dev|staging|preprod|prod)
+$(error ENV argument is required : test|dev|staging|preprod|prod)
 endif
 
 # VARIABLES
 SYMFONY_CONSOLE = $(BIN_PHP) bin/console
+URL_TEST ="http://127.0.0.1:8971"
 
 ifeq ($(OS), Windows_NT)
 	CURRENT_UID = $(cmd id -u)
@@ -66,15 +70,43 @@ quality: phpfixer phpstan  lint
 lint: ## Run Lint globally (app)
 lint:
 	$(SYMFONY_CONSOLE) lint:twig templates 
-	$(SYMFONY_CONSOLE) lint:yaml config translations 
+	$(SYMFONY_CONSOLE) lint:yaml config translations --parse-tags
+	$(SYMFONY_CONSOLE) lint:container --no-debug
+	$(SYMFONY_CONSOLE) doctrine:schema:validate --skip-sync -vvv --no-interaction
 
 phpfixer: ## Run PhpCsFixer globally (app)
-# phpfixer: .php-cs-fixer-dist.php
 	$(BIN_PHP) tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --diff
+
+phpfixer-to-gitlab: ## Run PhpCsFixer globally (app)
+	$(BIN_PHP) tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run -vvv --diff
 
 phpstan: ## Run PhpStan globally (app)
 phpstan: phpstan.dist.neon
 	$(BIN_PHP) vendor/bin/phpstan analyse public src tests --level=max -c phpstan.dist.neon --memory-limit=2G
+
+##-----------------------------------------
+## TESTS
+##-----------------------------------------
+
+behat: ## Run all units tests (app)
+	$(BIN_PHP) vendor/bin/behat --colors
+
+phpunit: ## Run all units tests (app)
+phpunit: phpunit-test phpunit-test-coverage
+
+phpunit-test: ## Run unit tests (app)
+	@echo -e '\nReport : \e]8;;YourNameDomain/tests-report/test-testdox.html\ahttps://YourNameDomain/tests-report/test-testdox.html\e]8;;\a'
+	$(BIN_PHP) vendor/bin/simple-phpunit --testdox --testdox-html public/tests-report/test-testdox.html
+
+phpunit-test-coverage: ## Run unit tests with coverage (app)
+	@echo -e '\nReport : \e]8;;https://YourNameDomain/tests-report/test-coverage/index.html\ahttps://YourNameDomain/tests-report/test-coverage/index.html\e]8;;\a'
+	XDEBUG_MODE=coverage $(BIN_PHP) vendor/bin/simple-phpunit --coverage-text --coverage-html public/tests-report/test-coverage
+
+phpunit-test-to-gitlab: ## Run unit tests (app)
+	$(BIN_PHP) vendor/bin/simple-phpunit --testdox --testdox-xml app/public/tests-report/phpunit-report.xml
+
+phpunit-test-coverage-to-gitlab: ## Run unit tests with coverage (app)
+	XDEBUG_MODE=coverage $(BIN_PHP) vendor/bin/simple-phpunit --log-junit app/public/tests-report/phpunit-report.xml --coverage-cobertura app/public/tests-report/phpunit-coverage.xml --coverage-text --testdox --colors=never
 
 ##-----------------------------------------
 ## DATABASE

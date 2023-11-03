@@ -25,6 +25,8 @@ use Symfony\Component\Validator\Validator\TraceableValidator;
 class UserValidationTest extends KernelTestCase
 {
     /**
+     * @see \Doctrine\DBAL\Logging\Middleware
+     *
      * On test si les données qu'on rentre par exemple dans un formulaire sont valides ou pas.
      *
      * ici on attend zéro erreur

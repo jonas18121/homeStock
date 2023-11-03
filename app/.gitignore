@@ -9,6 +9,10 @@
 /var/
 /vendor/
 /builds/
+
+## Ignorer le contenu de test-coverage sans ignorer test-coverage
+/public/tests-report/test-coverage/*
+!/public/tests-report/test-coverage/.gitkeep
 ###< symfony/framework-bundle ###
 
 ###> symfony/web-server-bundle ###

@@ -36,7 +36,7 @@ class UserRepositoryTest extends KernelTestCase
         $userRepository = self::$container->get(UserRepository::class);
 
         if (null !== $userRepository) {
-            $nb_user = $userRepository->countUser(); // on recupère le repository et exécute count()
+            $nb_user = $userRepository->countUser();
             $this->assertSame(2, $nb_user);
         }
     }

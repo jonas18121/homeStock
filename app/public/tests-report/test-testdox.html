@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Test Documentation</title>
+        <style>
+            body {
+                text-rendering: optimizeLegibility;
+                font-family: Source SansSerif Pro, Arial, sans-serif;
+                font-variant-ligatures: common-ligatures;
+                font-kerning: normal;
+                margin-left: 2rem;
+                background-color: #fff;
+                color: #000;
+            }
+
+            body > ul > li {
+                font-size: larger;
+            }
+
+            h2 {
+                font-size: larger;
+                text-decoration-line: underline;
+                text-decoration-thickness: 2px;
+                margin: 0;
+                padding: 0.5rem 0;
+            }
+
+            ul {
+                list-style: none;
+                margin: 0 0 2rem;
+                padding: 0 0 0 1rem;
+                text-indent: -1rem;
+            }
+
+            .success:before {
+                color: #4e9a06;
+                content: '✓';
+                padding-right: 0.5rem;
+            }
+
+            .defect {
+                color: #a40000;
+            }
+
+            .defect:before {
+                color: #a40000;
+                content: '✗';
+                padding-right: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>User Validation (App\Tests\Entity\UserValidation)</h2>
+        <ul>
+            <li class="success">Valid entity</li>
+            <li class="success">Invalid email entity</li>
+            <li class="success">Invalid password entity</li>
+            <li class="success">Invalid confirm password entity</li>
+            <li class="success">Invalid first name entity</li>
+            <li class="success">Invalid last name entity</li>
+        </ul>
+        <h2>User (App\Tests\Func\User)</h2>
+        <ul>
+            <li class="success">Get home user anonymous</li>
+            <li class="success">Get one user anonymous</li>
+            <li class="success">User login bad</li>
+            <li class="success">User login success</li>
+            <li class="success">Security controller login success</li>
+            <li class="success">Get one user with user connected</li>
+            <li class="success">Get admin dasboard with admin</li>
+            <li class="success">Get admin dasboard with user not admin</li>
+        </ul>
+        <h2>User Repository (App\Tests\Repository\UserRepository)</h2>
+        <ul>
+            <li class="success">Count</li>
+        </ul>
+        <h2>Booking (App\Tests\Unit\Booking)</h2>
+        <ul>
+            <li class="success">Get created at</li>
+            <li class="success">Get date start at</li>
+            <li class="success">Get end at</li>
+            <li class="success">Get finish</li>
+            <li class="success">Get pay</li>
+            <li class="success">Get check for payement</li>
+            <li class="success">User</li>
+        </ul>
+        <h2>Category (App\Tests\Unit\Category)</h2>
+        <ul>
+            <li class="success">Get name</li>
+            <li class="success">Storage space</li>
+            <li class="success">Storage spaces</li>
+        </ul>
+        <h2>Comment (App\Tests\Unit\Comment)</h2>
+        <ul>
+            <li class="success">Get comment</li>
+            <li class="success">Get created at</li>
+            <li class="success">Storage space</li>
+            <li class="success">Parent</li>
+            <li class="success">Reply</li>
+            <li class="success">Comments</li>
+            <li class="success">User</li>
+        </ul>
+        <h2>Storage Space (App\Tests\Unit\StorageSpace)</h2>
+        <ul>
+            <li class="success">Get title</li>
+            <li class="success">Get description</li>
+            <li class="success">Get adresse</li>
+            <li class="success">Get city</li>
+            <li class="success">Get postal code</li>
+            <li class="success">Get space</li>
+            <li class="success">Get price by days</li>
+            <li class="success">Get price by month</li>
+            <li class="success">Get images</li>
+            <li class="success">Get created at</li>
+            <li class="success">Get updated at</li>
+            <li class="success">Comment</li>
+            <li class="success">Comments</li>
+            <li class="success">Booking</li>
+            <li class="success">Bookings</li>
+            <li class="success">Category</li>
+            <li class="success">User</li>
+        </ul>
+        <h2>User (App\Tests\Unit\User)</h2>
+        <ul>
+            <li class="success">Get email</li>
+            <li class="success">Get roles</li>
+            <li class="success">Get password</li>
+            <li class="success">Get last name</li>
+            <li class="success">Get first name</li>
+            <li class="success">Get images</li>
+            <li class="success">Get created at</li>
+            <li class="success">Get update at</li>
+            <li class="success">Get phone number</li>
+            <li class="success">Storage space</li>
+            <li class="success">Storage spaces</li>
+            <li class="success">Comment</li>
+            <li class="success">Comments</li>
+            <li class="success">Booking</li>
+            <li class="success">Bookings</li>
+        </ul>
+    </body>
+</html>
