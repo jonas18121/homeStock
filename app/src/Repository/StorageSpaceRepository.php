@@ -109,15 +109,15 @@ class StorageSpaceRepository extends ServiceEntityRepository
         return $storageSpace;
     }
 
-    public function countStorageSpace(): string
+    public function countStorageSpace(): int
     {
-        /** @var string */
+        /** @var array<int, int> */
         $count = $this->createQueryBuilder('s')
             ->select('COUNT(s)')
             ->getQuery()
             ->getSingleResult()
         ;
 
-        return $count;
+        return (int) $count[1];
     }
 }

@@ -28,16 +28,16 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function countCategory(): string
+    public function countCategory(): int
     {
-        /** @var string */
+        /** @var array<int, int> */
         $count = $this->createQueryBuilder('c')
             ->select('COUNT(c)')
             ->getQuery()
             ->getSingleResult()
         ;
 
-        return $count;
+        return (int) $count[1];
     }
 
     // /**

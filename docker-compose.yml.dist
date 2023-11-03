@@ -49,7 +49,7 @@ services:
             context: .
             dockerfile: node/Dockerfile
         volumes:
-        - './app:/var/www/app'
+            - './app:/var/www/app'
         user: '1000:1000' 
         restart: always
         networks:

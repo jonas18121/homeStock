@@ -28,16 +28,16 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
-    public function countBooking(): string
+    public function countBooking(): int
     {
-        /** @var string */
+        /** @var array<int, int> */
         $count = $this->createQueryBuilder('b')
             ->select('COUNT(b)')
             ->getQuery()
             ->getSingleResult()
         ;
 
-        return $count;
+        return (int) $count[1];
     }
 
     // /**
