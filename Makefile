@@ -28,6 +28,7 @@ endif
 SYMFONY_CONSOLE = $(BIN_PHP) bin/console
 APP_NAME = homestock
 DOMAIN = $(APP_NAME).fr
+ENVIRONMENT_TEST = test
 
 ifeq ($(OS), Windows_NT)
 	CURRENT_UID = $(cmd id -u)
@@ -73,7 +74,7 @@ install-full: ## Install then start project
 install-full: install docker-run composer-install app-fix-folders-files update
 
 install-full-fixture: ## Install then start project with fixture
-install-full-fixture: install docker-run composer-install app-fix-folders-files restore-fixture create front-dev-build
+install-full-fixture: install docker-run composer-install app-fix-folders-files create front-dev-build
 
 restore-fixture: ## Retore application
 	- make app-db-with-fixture
@@ -90,10 +91,19 @@ app-fix-folders-files: ## Fix folders and files for application
 
 create: ## Create application (db, front)
 	- $(RUN_APP) bin/$(ENVIRONMENT)/create.sh
+	- $(RUN_APP) bin/$(ENVIRONMENT_TEST)/create.sh
 
 update: ## Update application (db, front)
 	- $(RUN_APP) bin/$(ENVIRONMENT)/update.sh
+	- $(RUN_APP) bin/$(ENVIRONMENT_TEST)/update.sh
 ## - make front-dev-build
+
+##-----------------------------------------
+## QUALITY AND TESTS
+##-----------------------------------------
+
+QA-test: ## Active quality and phpunit
+QA-test: quality phpunit
 
 ##-----------------------------------------
 ## QUALITY
@@ -110,6 +120,9 @@ phpfixer: ## Run PhpCsFixer globaly (app)
 # phpfixer: app/.php-cs-fixer-dist.php
 	$(RUN_APP) make phpfixer
 
+phpfixer-to-gitlab: ## Run PhpCsFixer globaly into gitlab (app)
+	$(RUN_APP) make phpfixer-to-gitlab
+
 phpstan: ## Run PhpStan globaly (app)
 phpstan: app/phpstan.dist.neon
 	$(RUN_APP) make phpstan
@@ -117,6 +130,31 @@ phpstan: app/phpstan.dist.neon
 # prettier: ## Run Prettier globaly (app)
 # prettier: app/.prettierrc
 # 	$(RUN_NODE) make prettier
+
+##-----------------------------------------
+## TESTS
+##-----------------------------------------
+
+behat: ## Run all behat tests (app)
+	$(RUN_APP) make behat
+
+phpunit: ## Run all units tests (app)
+phpunit: phpunit-test phpunit-test-coverage
+
+phpunit-test: ## Run unit tests (app)
+	$(RUN_APP) make phpunit-test
+
+phpunit-test-coverage: ## Run unit tests with coverage (app)
+	$(RUN_APP) make phpunit-test-coverage
+
+phpunit-to-gitlab: ## Run all units tests (app)
+phpunit-to-gitlab: phpunit-test-to-gitlab phpunit-test-coverage-to-gitlab
+
+phpunit-test-to-gitlab: ## Run unit tests (app)
+	$(RUN_APP) make phpunit-test-to-gitlab
+
+phpunit-test-coverage-to-gitlab: ## Run unit tests with coverage (app)
+	$(RUN_APP) make phpunit-test-coverage-to-gitlab
 
 ##-----------------------------------------
 ## DOCKER

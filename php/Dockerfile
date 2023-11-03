@@ -38,6 +38,18 @@ RUN usermod -u 1000 www-data
 # Installation de Docker Compose
 RUN apt-get install -y docker-compose
 
+# Pour l'installation de xdebug
+## Installation de l'extention amqp
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions amqp
+## For PHP 7.4
+RUN pecl install xdebug-3.1.6 
+RUN docker-php-ext-enable apcu intl amqp xdebug
+## For PHP 8
+# RUN pecl install xdebug-3.2.0 
+# RUN docker-php-ext-enable apcu intl amqp xdebug
+
 # Configuration de sudo pour permettre aux utilisateurs de l'utiliser sans mot de passe (optionnel, à des fins de démonstration uniquement)
 RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
