@@ -509,9 +509,20 @@ a.btn {
   font-size: 8rem;
 }
 
+/* FOOTER */
+
+footer {
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  padding: 3vw;
+}
+
 
 /* **************** css pour TABLETTE *********************** */
-@media only screen and (min-width: 600px) 
+@media only screen and (min-width: 600px) and (max-width: 1024px) 
 {
   /* /////////// H E A D E R ////////////// */
 
@@ -685,6 +696,10 @@ a.btn {
 
   
   /* /////////// M A I N ////////////// */
+
+  .container{
+    padding: 4rem;
+  }
 
   /* ***** table responsive ***** */
 

@@ -28,19 +28,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class StorageSpaceController extends AbstractController
 {
     /**
-     * TODO : Create HomePageController.
-     *
-     * @Route("/", name="home")
-     */
-    public function index(StorageSpaceRepository $storageSpaceRepository): Response
-    {
-        return $this->get_all_storage_space($storageSpaceRepository);
-    }
-
-    /**
      * @Route("/storageSpace", name="storage_space_all")
      */
-    public function get_all_storage_space(StorageSpaceRepository $storageSpaceRepository): Response
+    public function getAllStorageSpace(StorageSpaceRepository $storageSpaceRepository): Response
     {
         return $this->render('storage_space/get_all_storage_space.html.twig', [
             'storageSpaces' => $storageSpaceRepository->find_All_storage(),
@@ -50,7 +40,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/user", name="storage_space_for_user")
      */
-    public function get_all_storage_space_for_user(StorageSpaceRepository $storageSpaceRepository): Response
+    public function getAllStorageSpaceForUser(StorageSpaceRepository $storageSpaceRepository): Response
     {
         /** @var User|null */
         $user = $this->getUser();
@@ -67,7 +57,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/{id}", name="storage_space_one", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
-    public function get_one_product(
+    public function getOneProduct(
         StorageSpace $storageSpace,
         Request $request,
         CommentManager $commentManager
@@ -105,7 +95,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/add", name="storage_space_add")
      */
-    public function create_storage_space(
+    public function createStorageSpace(
         Request $request,
         StorageSpaceManager $storageSpaceManager
     ): Response {
@@ -132,7 +122,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/edit/{id}", name="storage_space_edit", requirements={"id": "\d+"}, methods={"GET", "PUT"})
      */
-    public function edit_storage_space(
+    public function editStorageSpace(
         StorageSpace $storageSpace,
         Request $request,
         StorageSpaceManager $storageSpaceManager
@@ -163,7 +153,7 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace/delete/{id}", name="storage_space_delete", requirements={"id": "\d+"})
      */
-    public function delete_storage_space(
+    public function deleteStorageSpace(
         StorageSpace $storageSpace,
         StorageSpaceManager $storageSpaceManager
     ): Response {

@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('frontend/page-home') }}
+    {{ encore_entry_link_tags('component/slider') }}
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('frontend/page-home') }}
+    {{ encore_entry_script_tags('component/slider') }}
+{% endblock %}
+
+{% block body %}
+
+<div class="page_home_container">
+    <section>
+        <section id="page_home_slider" class="page_slider">
+            <div class="slider">
+
+                 <div class="img_slider">
+                     <img src="uploads/default/slider/location-de-piece.jpg" alt="location-de-piece" class="" />
+                     <div class="slider_text">
+                         <h2>Location de pièces</h2>
+                         <p>Louez une pièce de maison partout en France</p>
+                     </div>
+                </div>
+
+                <div class="img_slider">
+                     <img src="uploads/default/slider/location-de-box.jpg" alt="location-de-box" class="" />
+                     <div class="slider_text">
+                         <h2>Location de box</h2>
+                         <p>Louez un box partout en France</p>
+                     </div>
+                </div>
+
+                <div class="img_slider">
+                     <img src="uploads/default/slider/location-de-garage.jpg" alt="location-de-garage" class="" />
+                     <div class="slider_text">
+                         <h2>Location de garage</h2>
+                         <p>Louez un garage partout en France</p>
+                     </div>
+                </div>
+
+                <div class="img_slider">
+                     <img src="uploads/default/slider/location-de-entrepot.jpg" alt="location-de-entrepot" class="" />
+                     <div class="slider_text">
+                         <h2>Location d' entrepot</h2>
+                         <p>Louez un entrepot partout en France</p>
+                     </div>
+                </div>
+
+                <div class="img_slider">
+                     <img src="uploads/default/slider/location-de-hangar.jpeg" alt="location-de-hangar" class="" />
+                     <div class="slider_text">
+                         <h2>Location de hangar</h2>
+                         <p>Louez un hangar partout en France</p>
+                     </div>
+                </div>
+
+                <div class="next"><i class="fas fa-chevron-circle-right"></i></div>
+                <div class="prev"><i class="fas fa-chevron-circle-left"></i></div>
+
+            </div>
+        </section>
+
+        <section class="page_home_block_part" id="page_home_block_part_1">
+            <h2>Réservez votre espace de stockage en 4 étapes</h2>
+
+            <section class="page_home_step">
+                <div class="page_home_div_step">
+                    <h3>1. CHOISISSEZ</h3>
+                    <p>La taille de box qu'il vous faut</p>
+                    <img src="uploads/default/other_img/BOX-v2.png" alt="BOX" class="" />
+                </div>
+
+                <div class="page_home_div_step">
+                    <h3>2. RÉSERVEZ</h3>
+                    <p>L' espace de stockage dans la ville de votre choix en quelques clics</p>
+                    <img src="uploads/default/other_img/Reserver.png" alt="BOX" class="" />
+                </div>
+
+                <div class="page_home_div_step">
+                    <h3>3. FINALISEZ</h3>
+                    <p>Votre contrat à distance avec la location zéro contact</p>
+                    <img src="uploads/default/other_img/contract-2.png" alt="BOX" class="" />
+                </div>
+
+                <div class="page_home_div_step">
+                    <h3>4. DÉMÉNAGEZ</h3>
+                    <p>Quand vous le souhaitez. Besoin de cartons ?</p>
+                    <img src="uploads/default/other_img/delivery-truck.png" alt="BOX" class="" />
+                </div>
+            </section>
+        </section>
+        <section class="page_home_block_part" id="page_home_block_part_2">
+            <section class="page_home_div_card_french" id="">
+                <div class="page_home_div_card_french_img">
+                    <img src="uploads/default/other_img/carte_france.jpg" alt="BOX" class="" />
+                </div>
+                <div class="page_home_div_card_french_text">
+                    <h3>Louez dans toute la France</h3>
+                    <p>
+                        Louer un box pas cher dans l'un de nos centres de stockage sécurisé permet de répondre à votre besoin de gain d'espace : 
+                        stocker des affaires le temps d'un déménagement, ranger des objets encombrants ou encore protéger des biens lors de travaux. 
+                        Parce que les raisons de louer un espace de rangement sont multiples, nos solutions le sont également. Surveillé (sous vidéo surveillance), 
+                        de taille variable et disponible au meilleur tarif, chaque garde meuble Annexx est un gage de tranquillité et de sécurité. 
+                        Vous avez sûrement vu à la télévision des sites de self storage dans "Storage Wars". 
+                        Annexx vous propose la version plus moderne de ces nouveaux garde meubles, pour particuliers et professionnels.
+                    </p>
+
+                    <button class="page_home_div_card_french_button">
+                        <a href="{{ path('storage_space_all' ) }}" >Voir Les espaces de stockage Disponible</a>
+                    </button>
+                </div>
+            </section>
+        </section>
+        {# <section class="page_home_block_part" id="page_home_block_part_3">
+            <h1>Partie 3</h1>
+        </section> #}
+    </section>
+</div>
+{% endblock %}

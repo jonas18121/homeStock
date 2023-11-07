@@ -1,0 +1,97 @@
+/* css */
+
+/* **************** css pour mobile *********************** */
+
+.page_home_block_part {
+    padding: 2vw 3vw 3vw;
+}
+
+.page_home_block_part h2 {
+    font-size: 3vw;
+    margin-bottom: 2vw;
+}
+
+/* Partie 1 */
+#page_home_block_part_1 {
+    background-color: rgba(233, 233, 240, 0.836);
+}
+
+#page_home_block_part_1 .page_home_step {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#page_home_block_part_1 .page_home_div_step {
+    background-color: #fff;
+    width: 19vw;
+    margin: 1vw 2vw;
+    padding: 1vw;
+}
+
+#page_home_block_part_1 h3 {
+    margin: 1vw 0;
+    font-size: 2vw;
+}
+
+#page_home_block_part_1 img {
+    width: 6vw;
+}
+
+#page_home_block_part_1 p {
+    margin: 1vw 0;
+    font-size: 1.5vw;
+}
+
+/* Partie 2 */
+#page_home_block_part_2 {
+    background-color: rgb(255, 255, 255);
+}
+
+.page_home_div_card_french {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.page_home_div_card_french_img {
+    flex: 1.5;
+    /* width: 150vw; */
+}
+
+.page_home_div_card_french_text {
+    flex: 1;
+    text-align: left;
+    padding-top: 13vw;
+}
+
+.page_home_div_card_french_text h3 {
+    padding-right: 10vw;
+    font-size: 2vw;
+    margin-bottom: 1vw;
+}
+
+.page_home_div_card_french_text p {
+    padding-right: 10vw;
+    font-size: 1.3vw;
+}
+
+.page_home_div_card_french_text .page_home_div_card_french_button {
+    background-color: #000;
+    color: #fff;
+    padding: 1vw;
+    margin: 3vw 0;
+    font-size: 1.3vw;
+}
+
+.page_home_div_card_french_text .page_home_div_card_french_button a {
+    color: #fff;
+}
+
+
+
+
+/* Partie 3 */
+#page_home_block_part_3 {
+    background-color: rgb(15, 100, 7);
+}

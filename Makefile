@@ -94,9 +94,10 @@ create: ## Create application (db, front)
 	- $(RUN_APP) bin/$(ENVIRONMENT_TEST)/create.sh
 
 update: ## Update application (db, front)
+	- make docker-run
 	- $(RUN_APP) bin/$(ENVIRONMENT)/update.sh
 	- $(RUN_APP) bin/$(ENVIRONMENT_TEST)/update.sh
-## - make front-dev-build
+	- make front-dev-build
 
 ##-----------------------------------------
 ## QUALITY AND TESTS
@@ -214,6 +215,7 @@ run-cli-node: ## Create temporary container of node
 ##-----------------------------------------
 
 front-dev-build: ## Build front for dev
+	- make docker-run
 	$(RUN_NODE) bash -c "make front-dev-build"
 
 front-dev-watch: ## Watch front for dev

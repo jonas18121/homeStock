@@ -8,6 +8,7 @@ PHP_BIN=php
 # Cache clear
 $PHP_BIN bin/console cache:clear --env=$ENVIRONMENT_SYMFONY
 
+# Delete database
 $PHP_BIN bin/console doctrine:database:drop --force --env=$ENVIRONMENT_SYMFONY
 
 # Create database

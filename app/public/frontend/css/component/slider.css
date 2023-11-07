@@ -1,0 +1,59 @@
+.slider {
+    height: 80vh;
+    position: relative;
+    overflow: hidden; /* Empêche le débordement horizontal */
+}
+
+.slider .img_slider {
+    height: 100%;
+    width: 100%; 
+    position: absolute;
+    top: 0;
+    opacity: 1;
+    left: 100%; /* Commencez les images en dehors de la zone visible */
+    transition: transform 0.5s; /* Utilisez la propriété transform pour la transition */
+}
+
+.slider .img_slider img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.slider img.active {
+    transform: translateX(0); /* Déplacez les images à gauche pour les afficher */
+}
+
+.next, .prev {
+    color: #fff;
+    font-size: 6rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.next {
+    right: 1rem;
+}
+
+.prev {
+    left: 1rem;
+}
+
+.slider_text {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    font-size: 4vw;
+}
+
+.slider_text h2 {
+    font-size: 6vw;
+}
+
+.slider_text , .slider_text h2 {
+    text-align: left;
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.2);
+}
