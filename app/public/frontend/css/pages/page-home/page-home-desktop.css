@@ -1,0 +1,10 @@
+/* css */
+
+/* **************** css pour Desktop *********************** */
+@media only screen and (min-width: 1025px) 
+{
+    .page_home_container{
+        padding: 0, 0, 4rem;
+        text-align: center;
+    }
+}
