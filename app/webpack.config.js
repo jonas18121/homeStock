@@ -21,8 +21,6 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
 
-
-
     // Frontend
 
     .addEntry('frontend/default', [
@@ -37,7 +35,15 @@ Encore
         './public/frontend/js/pages/page-register/page-register-check.js'
     ])
 
+    .addEntry('frontend/page-home', [
+        './public/frontend/js/pages/page-home/page-home.js'
+    ])
 
+    // Component
+
+    .addEntry('component/slider', [
+        './public/frontend/js/component/slider.js'
+    ])
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     // .enableStimulusBridge('./assets/controllers.json')

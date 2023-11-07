@@ -12,10 +12,12 @@
             {# {% set asset_url  = '/css/main.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" /> #}
             {{ encore_entry_link_tags('frontend/default') }}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         {% endblock %}
 
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
+            {{ encore_entry_script_tags('frontend/default') }}
         {% endblock %}
 
         {% block javascrpit2 %}
@@ -35,7 +37,8 @@
 
 
                     <ul id="menu">
-                        <li><a href='{{ path('storage_space_all') }}' >Accueil</a></li>
+                        <li><a href='{{ path('home_page') }}' >Accueil</a></li>
+                        <li><a href="{{ path('storage_space_all' ) }}" >Espace de stockage Disponible</a></li>
 
                         {% if app.user %}
                             <li><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></li>
@@ -76,6 +79,12 @@
         {% block body %}{% endblock %}
         {% block script %}{% endblock %}
         {% block stripe_success %}{% endblock %}
+
+        <footer>
+            <p>Jonathan© 2023. All Rights Reserved.</p>
+            <p>HomeStock</p>
+            <p><a href="{{ path('storage_space_all' ) }}" >Espace de stockage Disponible</a></p>
+        </footer>
     </body>
     {% block script_facture %}
 
