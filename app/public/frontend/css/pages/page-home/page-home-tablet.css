@@ -1,0 +1,73 @@
+/* css */
+
+/* **************** css pour Tabblette *********************** */
+@media only screen and (min-width: 600px)  
+{
+    .page_home_block_part {
+        padding: 2vw 3vw 3vw;
+    }
+
+    .page_home_block_part h2 {
+        font-size: 3vw;
+    }
+
+    /* Partie 1 */
+
+    #page_home_block_part_1 .page_home_step {
+        flex-direction: row;
+        align-items: normal;
+    }
+
+    #page_home_block_part_1 .page_home_div_step {
+        width: 19vw;
+        height: initial;
+    }
+
+    #page_home_block_part_1 h3 {
+        font-size: 2vw;
+    }
+
+    #page_home_block_part_1 img {
+        width: 6vw;
+    }
+
+    #page_home_block_part_1 p {
+        font-size: 1.5vw;
+    }
+
+    /* Partie 2 */
+
+    .page_home_div_card_french {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: normal;
+    }
+
+    .page_home_div_card_french_img {
+        flex: 1.5;
+    }
+    
+    .page_home_div_card_french_text {
+        flex: 1;
+        text-align: left;
+        padding-top: 13vw;
+    }
+    
+    .page_home_div_card_french_text h3 {
+        padding-right: 10vw;
+        font-size: 2vw;
+        margin-bottom: 1vw;
+    }
+    
+    .page_home_div_card_french_text p {
+        padding-right: 10vw;
+        font-size: 1.3vw;
+    }
+    
+    .page_home_div_card_french_text .page_home_div_card_french_button {
+        padding: 1vw;
+        margin: 3vw 0;
+        font-size: 1.3vw;
+    }
+}
