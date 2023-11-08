@@ -444,7 +444,6 @@ a.btn {
   padding: 0 0.5rem;
 }
 
-
 /* ***** table responsive ***** */
 
 .table-responsive thead {
@@ -515,14 +514,20 @@ footer {
   background-color: #000;
   color: #fff;
   display: flex;
-  flex-direction: row;
-  justify-content:space-between;
-  padding: 3vw;
+  flex-direction: column-reverse;
+  justify-content:center;
+  align-items: center;
+  padding: 6vw;
+}
+
+footer p {
+    margin-bottom: 5vw;
 }
 
 
 /* **************** css pour TABLETTE *********************** */
-@media only screen and (min-width: 600px) and (max-width: 1024px) 
+/* and (max-width: 1024px) */
+@media only screen and (min-width: 600px)  
 {
   /* /////////// H E A D E R ////////////// */
 
@@ -530,7 +535,6 @@ footer {
     padding: 2.5rem .5rem;
     width: 108%;
   }
-
 
   #menuToggle span {
     width: 9rem;
@@ -617,6 +621,19 @@ footer {
   
   .error_input_small {
     font-size: 3.5rem;
+  }
+
+    /* FOOTER */
+
+    footer {
+      flex-direction: row;
+      justify-content:space-between;
+      align-items: normal;
+      padding: 3vw;
+    }
+
+    footer p {
+      margin-bottom: 1vw;
   }
 }
 
@@ -845,7 +862,7 @@ footer {
 }
 
 
-/* **************** css pour Desktop *********************** */
+/* **************** css pour Desktop 2500px *********************** */
 @media only screen and (min-width: 2500px) 
 {
   /* /////////// M A I N ////////////// */
