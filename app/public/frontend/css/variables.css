@@ -1,0 +1,10 @@
+:root {
+    --main-color-old: #4c44bb;
+    --grey-main: rgba(233, 233, 240, 0.836);
+
+    --white: #fff;
+    --white-clear: rgba(255, 255, 255, 0.2);
+
+    --black: #000;
+    --black-clear: rgba(22, 21, 21, 0.4);
+}

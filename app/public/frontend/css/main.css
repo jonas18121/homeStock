@@ -1,39 +1,41 @@
+@import url('./variables.css');
+
 /***********css par défaut mobile ********************/
 
 /* GLOBAL */
 
 *, ::before, ::after {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  outline: none;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none;
 }
 
 html{
-  font-size: 62.5%;
-  height: 100%;
-  /* font-family: serif; */
+    font-size: 62.5%;
+    height: 100%; /* Pour footer en bas de page */
+    font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 }
 
 body{
-  background-color: #333;
-  font-size: 1.6rem; 
-  width: 100%;
-  color: #aaa;
+    background-color: var(--white);
+    font-size: 1.6rem; 
+    width: 100%;
+    color: var(--black);
 }
 
 img, video, table{
-  width: 100%;
-  max-width: 100%;
+    width: 100%;
+    max-width: 100%;
 }
 
 a{
-  text-decoration: none;
-  color: #aaa;
+    text-decoration: none;
+    color: #aaa;
 }
 
 table{
-  width: 100%;
+    width: 100%;
 }
 
 
@@ -76,7 +78,7 @@ nav form button {
 
 #menuToggle li:hover, #menuToggle a:hover
 {
-  color: #FFE4B5;
+  color: var(--main-color-old);
 }
 
 #menuToggle input
@@ -96,7 +98,6 @@ nav form button {
   -webkit-touch-callout: none;
 }
 
-
 #menuToggle span
 {
   display: block;
@@ -105,7 +106,7 @@ nav form button {
   margin-bottom: 0.5rem;
   position: relative;
   
-  background: #4c44bb;
+  background: var(--main-color-old);
   border-radius: .3rem;
   
   z-index: 1;
@@ -132,7 +133,7 @@ nav form button {
 #menuToggle input:checked ~ span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #4c44bb;
+  background: var(--main-color-old);
 }
  
 /*
@@ -182,10 +183,6 @@ nav form button {
   font-size: 2.5rem;
 }
 
-/* #menu li button {
-  font-size: 2rem;
-} */
-
 /*
  * And let's slide it in from the left
  */
@@ -199,6 +196,7 @@ nav form button {
 .container{
    /* padding: 4rem; */
    text-align: center;
+   min-height: 74vh; /* Pour footer en bas de page */
 }
 
 h1, h2, h3, 
@@ -221,73 +219,126 @@ h1, h2, h3,
 
 h1 {
   font-size: 5.5rem;
-  color: #fff;
+  color: var(--black);
   margin: 0 0 8rem;
 }
 
 h2 {
-  font-size: 4rem;
+  font-size: 5vw;
 }
 
 h3, h4, h5 {
-  font-size: 3rem;
+  font-size: 2vw;
 }
 
 .link_for_add {
-  font-size: 4rem;
-  margin: 5rem 0 1rem;
+    font-size: 4rem;
+    margin: 5rem 0;
+    text-align: left;
+    padding: 0 3vw;
 }
 
 /* ***** message add flash ***** */
 .bm-messages-success {
   background-color: #0A8E30;
-  color: #fff;
+  color: var(--white);
 }
 
 .bm-messages-wraning {
   background-color: #a26d0b;
-  color: #fff;
+  color: var(--white);
 }
 
 .bm-messages-error {
   background-color: #A2250B;
-  color: #fff;
+  color: var(--white);
 }
 
 .bm-messages-message, .bm-messages-notice {
   background-color: #534E4D;
-  color: #fff;
+  color: var(--white);
 }
 
 /* ***** page_get_all ***** */
 
-.get_all_storage_space .storage {
-  background-color: #fff; 
-  border-radius: 2rem;
+/* Card */
+
+.get_all_storage_space {
+    padding: 4vw;
 }
 
-.storage {
-    margin: 7rem 0;
-    padding: 0 0 2rem 0;
+.get_all_storage_space .card {
+  width: 100%;
+  height: 135vw;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  color: var(--white);
+  box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 7vw;
+}
+ 
+.get_all_storage_space .card img {
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    transition: opacity .2s ease-out;
+}
+.get_all_storage_space .card h2 {
+    position: absolute;
+    inset: auto auto 30px 30px;
+    margin: 0;
+    transition: inset .3s .3s ease-out;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: normal;
+    text-transform: uppercase;
+    background-color: var(--black-clear);
+    font-size: 10vw;
+    color: var(--white);
+    width: 81vw;
 }
 
-.storage_title {
-    font-size: 4rem;
+.get_all_storage_space .card ul, .card a {
+    position: absolute;
+    opacity: 0;
+    max-width: 80%;
+    transition: opacity .3s ease-out;
+    background-color: var(--black-clear);
+}
+  
+.get_all_storage_space .card ul {
+    inset: auto auto 44vw 7vw;
+    background-color: var(--black-clear);
+}
+  
+.get_all_storage_space .card a {
+    inset: auto auto 20vw 7vw;
+    color: inherit;
+    text-decoration: none;
+    background-color: var(--black-clear);
 }
 
-
-.storage_position span {
-   font-size: 3rem;
+.get_all_storage_space .card li, .get_all_storage_space .card a {
+  font-size: 5vw;
 }
-
-.img_storage_page_get_all {
-  height: 29rem;
-  border-top-left-radius: 2rem;
-  border-top-right-radius: 2rem;
+  
+.get_all_storage_space .card:hover h2 {
+    inset: auto auto 90vw 7vw;
+    transition: inset .3s ease-out;
+    background-color: var(--black-clear);
 }
-
-.storage_price_month {
-  color: #4c44bb;
+  
+.get_all_storage_space .card:hover ul, .get_all_storage_space .card:hover a {
+    opacity: 1;
+    transition: opacity .5s .1s ease-in;
+    background-color: var(--black-clear);
+}
+  
+.get_all_storage_space .card:hover img {
+    transition: opacity .3s ease-in;
+    opacity: 1;
 }
 
 /* ***** page_get_one_storage ***** */
@@ -320,8 +371,6 @@ h3, h4, h5 {
 .comment_delete a {
   color: rgb(88, 27, 27);
 }
-
-
 
 .one_storage_space {
   background-color: #fff;
@@ -387,13 +436,13 @@ textarea.form_input {
 {
   width: 100%;
   height: 100%;
-  font-size: 3rem;
+  font-size: 4vw;
   /* margin: 0 4rem 2rem 0; */
-  margin: 2rem 0;
+  margin: 1vw 0;
   background-color: #4c44bb;
   color: #aaa;
-  border-radius: 2rem;
-  padding: 1rem;
+  border-radius: 2vw;
+  padding: 1vw;
 }
 
 .one_storage_btn {
@@ -401,8 +450,8 @@ textarea.form_input {
 }
 
 a.btn {
-  padding: 2rem;
-  margin: 0 4rem;
+  padding: 2vw;
+  margin: 0 1vw;
 }
 
 .span_modif_get_one_user {
@@ -459,7 +508,6 @@ a.btn {
   display: block;
 }
 
-
 /* on active l'attribut data-title */
 .table-responsive td:before { 
   content: attr(data-title); 
@@ -503,9 +551,24 @@ a.btn {
   background-color: #4c44bb;
 }
 
-/** page strip  **/
+/** page stripe  **/
 .cancel_payment, .return_payment, .success_payment {
   font-size: 8rem;
+}
+
+/************ page_get_one_storage_space ************/
+
+
+.one_storage_space .one_storage {
+    /* display: flex;
+    justify-content: space-between; */
+}
+
+.one_storage_space .one_storage .one_storage_text {
+    text-align: left;
+    padding: 1vw;
+    background-color: var(--grey-main);
+    font-size: 3vw;
 }
 
 /* FOOTER */
@@ -560,11 +623,13 @@ footer p {
 
   /* /////////// M A I N ////////////// */
 
-
   .container{
     padding: 4rem;
   }
 
+  .link_for_add {
+    padding: 0;
+}
 
   /* ***** page_get_all_storage_space ***** */
 
@@ -589,6 +654,39 @@ footer p {
     padding: 0.5rem;
   }
 
+  /* card */
+  .get_all_storage_space{
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 0;
+  }
+
+  .get_all_storage_space .card {
+      width: 43vw;
+      height: 60vw;
+  }
+
+  .get_all_storage_space .card h2 {
+      font-size: 5vw;
+      width: 38vw;
+  }
+
+  .get_all_storage_space .card ul {
+      inset: auto auto 16vw 4vw;
+  }
+
+  .get_all_storage_space .card a {
+      inset: auto auto 4vw 4vw;
+  }
+
+  .get_all_storage_space .card ul, .get_all_storage_space .card li, .get_all_storage_space .card a {
+    font-size: 3vw;
+  }
+      
+  .get_all_storage_space .card:hover h2 {
+      inset: auto auto 44vw 4vw;
+  }
 
   /* ***** table responsive ***** */
   
@@ -644,7 +742,6 @@ footer p {
 
   /* /////////// H E A D E R ////////////// */
 
-
   nav {
     margin: 0;
   }
@@ -666,14 +763,13 @@ footer p {
     transform: none;
     position: initial;
     margin: 0;
-    padding: 1rem 0;
+    padding: 1vw 0;
 
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
-    background-color: #4c44bb;
-    
+    background-color: var(--grey-main);
   }
 
   .menu_li_dashboard {
@@ -686,13 +782,13 @@ footer p {
   }
   
   #menu li a {
-    color: #aaa;
-    font-size: 3rem;
+    color: var(--black);
+    font-size: 2vw;
   }
 
   nav form button {
-    color: #aaa;
-    background-color: #4c44bb;
+    color: var(--black);
+    background-color: var(--grey-main);
     width: 88%;
     font-size: 2.5rem;
   }
@@ -706,12 +802,10 @@ footer p {
     position: absolute;
     top: 3rem;
     left: -17rem;
-    background-color: #4c44bb;
+    background-color: var(--grey-main);
     width: 260%;
   }
 
-
-  
   /* /////////// M A I N ////////////// */
 
   .container{
@@ -719,10 +813,6 @@ footer p {
   }
 
   /* ***** table responsive ***** */
-
-  /* .table-responsive thead {
-    display: table;
-  } */
 
   /* revenir a une structure de tableau de base*/
   .table-responsive table,
@@ -791,50 +881,39 @@ footer p {
 
   /************ page_get_all_storage_space ************/
 
-  .get_all_storage_space {
-    display: flex;
-    flex-wrap: wrap; /* mettre des items à la ligne */
-    justify-content: space-between;
+  /* card */
+
+  .get_all_storage_space .card {
+      width: 450px;
+      height: 600px;
   }
 
-  .get_all_storage_space .storage {
-    width: 23%;
-    /* background-color: #fff;
-    border-radius: 2rem; */
+  .get_all_storage_space .card h2 {
+      font-size: 50px;
+      width: 400px;
   }
 
-  .img_storage_page_get_all {
-    height: 35rem;
-    /* border-radius: 2rem; */
+  .get_all_storage_space .card ul {
+      inset: auto auto 103px 40px;
   }
 
-  .storage_title {
-    font-size: 3.5rem;
-    color: #444;
+  .get_all_storage_space .card a {
+      inset: auto auto 40px 40px;
   }
 
-  .storage_description,
-  .storage_position, 
-  .storage_position span, 
-  .storage_category, 
-  .storage_space, 
-  .storage_price_days, 
-  .storage_price_month, 
-  .storage_date_create, 
-  .storage_owne {
-    font-size: 2.5rem;
+  .get_all_storage_space .card ul, .get_all_storage_space .card li, .get_all_storage_space .card a {
+    font-size: 30px;
+  }
+      
+  .get_all_storage_space .card:hover h2 {
+      inset: auto auto 388px 25px;
   }
 
-  /* .storage_position {
-    display: revert;
-  } */
-
-  
   /************ page_get_one_storage_space ************/
 
   .img_storage_page_get_one {
-    height: 70rem;
-    /* border-radius: 2rem; */
+    height: 30vw;
+    width: 80vw;
   }
 
   .one_storage_space {
@@ -842,9 +921,17 @@ footer p {
     margin: 7rem auto;
   }
 
-  /* .storage {
-    margin:  0;
-  } */
+  .one_storage_space .one_storage {
+      /* display: flex;
+      justify-content: space-between; */
+  }
+
+  .one_storage_space .one_storage .one_storage_text {
+    text-align: left;
+    padding: 1vw;
+    background-color: var(--grey-main);
+    font-size: 2vw;
+  }
 
 
   /* ***** page with form ***** */
@@ -859,6 +946,19 @@ footer p {
     width: 70%;
   }
 
+  .btn_pay_or_cancel_booking, 
+  .success_payment_facturation, 
+  .btn
+  {
+    font-size: 2vw;
+    margin: 1vw 0;
+    padding: 1vw;
+  }
+
+  a.btn {
+    padding: 1vw;
+    margin: 0 1vw;
+  }
 }
 
 

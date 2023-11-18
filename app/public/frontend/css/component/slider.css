@@ -1,5 +1,5 @@
 .slider {
-    height: 80vh;
+    height: 88vh;
     position: relative;
     overflow: hidden; /* Empêche le débordement horizontal */
 }
@@ -60,11 +60,17 @@
 
 @media only screen and (min-width: 0px) and (max-width: 599px)  
 {
+    .next, .prev {
+        font-size: 4vw;
+    }
+
     .slider_text h2 {
         font-size: 12vw;
     }
 
     .slider_text {
         font-size: 11vw;
+        left: 2%;
+        right: 2%;
     }
 }

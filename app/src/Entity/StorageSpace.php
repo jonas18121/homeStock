@@ -282,7 +282,7 @@ class StorageSpace
         return $this;
     }
 
-    public function getImageFile(): ?string
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }

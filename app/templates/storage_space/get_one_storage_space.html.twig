@@ -9,43 +9,37 @@
 
     <section class="section_one_storage_space ">
         <section class="one_storage_space">
-            <article class='storage'>
+            <article class='one_storage'>
 
-                <ul>
-                    <div>
-                        {# <img src= "{{ asset('/images/products/' ~ storageSpace.image) }}" alt="" > #}
-                        {# <img src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > #}
-                        {# <img src="/uploads/images/{{ storageSpace.images }}" alt="{{ storageSpace.title }}" > #}
-                        {% if storageSpace.images %}
-                            <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
-                        {% else %}
-                            <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
-                        {% endif %}
-                    </div>
+                <div class='one_storage_img'>
+                    {% if storageSpace.images %}
+                        <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+                    {% else %}
+                        <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
+                    {% endif %}
+                </div>
 
-                    <li class='storage_title'> {{ storageSpace.title }} </li>
-                    <li class='storage_description'> {{ storageSpace.description }} </li>
-                    <li class='storage_position'> 
-                        <span> {{ storageSpace.adresse }}  </span> 
-                        <span> {{ storageSpace.postalCode }} </span> 
-                        <span> {{ storageSpace.city }} </span>
-                    </li>
-                    <li class='storage_category'> {{ storageSpace.category.name }} </li>
-                    <li class='storage_space'> {{ storageSpace.space }} m2</li>
-                    <li class='storage_price_days'> {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</li>
-                    <li class='storage_price_month'> {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</li>
-                    <li class='storage_date_create'>Créer le : {{ storageSpace.createdAt | date('d/m/Y H:i') }} </li>
-                    <li class='storage_owner'> Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </li>
+                <div class='one_storage_text'>
+                    <p class=''> {{ storageSpace.title }} </p>
+                    <p class=''> {{ storageSpace.description }} </p>
+                    <p class=''>Adresse :
+                        <span>{{ storageSpace.adresse }}</span> 
+                        <span>{{ storageSpace.postalCode }}</span> 
+                        <span>{{ storageSpace.city }}</span>
+                    </p>
+                    <p class=''>Catégorie : {{ storageSpace.category.name }} </p>
+                    <p class=''> {{ storageSpace.space }} m2</p>
+                    <p class=''>Prix par jours : {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</p>
+                    <p class=''>Prix par mois : {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</p>
+                    <p class=''>Créer le : {{ storageSpace.createdAt | date('d/m/Y H:i') }} </p>
+                    <p class=''>Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </p>
 
                     {% if app.user %}
-                        <li class="one_storage_btn">
-                            
-
+                        <p class="one_storage_btn">
                             {% if storageSpace.owner.id == app.user.id %}
                                 <span>
                                     <a href="{{ path('storage_space_edit', { 'id' : storageSpace.id } ) }}" class="btn">Modifier</a>
                                 </span>
-
                                 <span>
                                     <a href="{{ path('storage_space_delete', { 'id' : storageSpace.id } ) }}" class="btn">Supprimer</a>
                                 </span>
@@ -54,23 +48,36 @@
                                     <a href="{{ path('booking_add', { 'id' : storageSpace.id } ) }}" class="btn">Réserver</a>
                                 </span>
                             {% endif %}
-                        </li>
-                    {% else %}
+                        </p>
                     {% endif %}
+                </div>
 
-                </ul>
+
             </article>
         </section>
 
         <section class="one_storage_space">
             <article>
                 <div class="comment">
+                    <div id="add-comment">
+                        <h2>Ajouter un commentaire</h2>
+
+                        {# {% if app.user %} #}
+                            {{ form_start(formComment, { 'attr' : { 'class' : 'container_form' }} ) }}
+                                <div class="div_form">
+                                    <label for="inputTitle" class='form_label'>Commentaire : </label>
+                                    <div>
+                                        {{ form_widget(formComment.content, {attr : {class : 'form_input' }} ) }}
+                                    </div>
+                                    <small class="error_input_small">{{ form_errors(formComment.content) }} </small>
+                                </div>
+                                <button type="submit" class="btn">Ajouter</button>
+                            {{ form_end(formComment) }}
+                        {# {% endif %} #}
+                    </div>
                     <h2>Liste des commentaires</h2>
-
                     {% for comment in storageSpace.comments %}
-
                         {% if comment.parent == null %}
-                        
                             <div class="get_comment">
                                 <h3>Commentaire de {{ comment.owner.lastName }} {{ comment.owner.firstName }}</h3>
                                 <p>Le {{ comment.createdAt | date('d/m/Y H:i') }} 
@@ -113,31 +120,6 @@
                             </div>
                         {% endif %}
                     {% endfor %}
-                </div>
-
-                <div id="add-comment">
-                    <h2>Ajouter un commentaire</h2>
-
-                    {% if app.user %}
-
-                        {{ form_start(formComment, { 'attr' : { 'class' : 'container_form' }} ) }}
-
-                            <div class="div_form">
-
-                                <label for="inputTitle" class='form_label'>Commentaire : </label>
-
-                                <div>
-                                    {{ form_widget(formComment.content, {attr : {class : 'form_input' }} ) }}
-                                </div>
-                                
-                                <small class="error_input_small">{{ form_errors(formComment.content) }} </small>
-
-                            </div>
-
-                            <button type="submit" class="btn">Ajouter</button>
-
-                        {{ form_end(formComment) }}
-                    {% endif %}
                 </div>
             </article>
         </section>
