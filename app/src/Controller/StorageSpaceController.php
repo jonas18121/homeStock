@@ -75,7 +75,9 @@ class StorageSpaceController extends AbstractController
             $user = $this->getUser();
 
             if (!$user) {
-                return $this->redirectToRoute('storage_space_all');
+                $this->addFlash('error', 'Vous devez être connecter pour ajouter un commentaire.');
+
+                return $this->redirectToRoute('storage_space_one', ['id' => $storageSpace->getId()]);
             }
 
             return $commentManager->createCommentFromProduct(

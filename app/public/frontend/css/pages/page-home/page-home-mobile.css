@@ -29,7 +29,7 @@
     width: 56vw;
     margin: 1vw 2vw;
     padding: 1vw;
-    height: 39vw;
+    height: 43vw;
 }
 
 #page_home_block_part_1 h3 {
@@ -73,12 +73,27 @@
     text-align: left;
 }
 
-.page_home_div_card_french_text .page_home_div_card_french_button {
+.page_home_div_card_french_text .page_home_div_card_french_button
+{
     background-color: #000;
     color: #fff;
     padding: 5vw 4vw;
     margin: 9vw 0 0;
     font-size: 4.6vw;
+}
+
+.page_home_step_btn
+{
+    padding: 8vw 19vw 0;
+}
+
+.page_home_step_btn .page_home_div_french_button
+{
+    background-color: #000;
+    color: #fff;
+    padding: 2vw 1vw;
+    margin: 0;
+    font-size: 5vw;
 }
 
 .page_home_div_card_french_text .page_home_div_card_french_button a {
