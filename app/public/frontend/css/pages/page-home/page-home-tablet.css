@@ -70,4 +70,14 @@
         margin: 3vw 0;
         font-size: 1.3vw;
     }
+
+    .page_home_step_btn
+    {
+        padding: 2vw 23vw 0;
+    }
+
+    .page_home_step_btn .page_home_div_french_button
+    {
+        font-size: 2vw;
+    }
 }
