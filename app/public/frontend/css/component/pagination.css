@@ -1,0 +1,16 @@
+
+.navigation {
+    margin: 0 0 3vw;
+}
+
+.navigation .pagination .first,
+.navigation .pagination .previous,
+.navigation .pagination .next,
+.navigation .pagination .last,
+.navigation .pagination .current, 
+.navigation .pagination .page
+{
+    border: 2px solid #aaa;
+    padding: 0.5vw 1vw;
+    margin: 0.2vw;
+}

@@ -11,14 +11,17 @@
 
 namespace App\Controller;
 
+use App\Classe\SearchData;
 use App\Entity\Comment;
 use App\Entity\StorageSpace;
 use App\Entity\User;
 use App\Form\CommentType;
+use App\Form\SearchType;
 use App\Form\StorageSpaceType;
 use App\Manager\CommentManager;
 use App\Manager\StorageSpaceManager;
 use App\Repository\StorageSpaceRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,10 +33,27 @@ class StorageSpaceController extends AbstractController
     /**
      * @Route("/storageSpace", name="storage_space_all")
      */
-    public function getAllStorageSpace(StorageSpaceRepository $storageSpaceRepository): Response
-    {
+    public function getAllStorageSpace(
+        Request $request,
+        StorageSpaceRepository $storageSpaceRepository,
+        PaginatorInterface $paginationInterface
+    ): Response {
+        // Search barre
+        $searchData = new SearchData();
+        $formSearch = $this->createForm(SearchType::class, $searchData);
+        $formSearch->handleRequest($request);
+
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+            $searchData->setPage($request->query->getInt('page', 1));
+            $pagination = $storageSpaceRepository->findBySearch($searchData);
+        } else {
+            // All storageSpaces
+            $pagination = $storageSpaceRepository->findAllStorage($request->query->getInt('page', 1));
+        }
+
         return $this->render('storage_space/get_all_storage_space.html.twig', [
-            'storageSpaces' => $storageSpaceRepository->find_All_storage(),
+            'formSearch' => $formSearch->createView(),
+            'pagination' => $pagination,
         ]);
     }
 

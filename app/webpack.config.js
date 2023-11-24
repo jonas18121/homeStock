@@ -45,6 +45,20 @@ Encore
         './public/frontend/js/component/slider.js'
     ])
 
+    .addEntry('component/input_and_floating_label', [
+        './public/frontend/js/component/input_and_floating_label.js'
+    ])
+
+    .addEntry('component/pagination', [
+        './public/frontend/js/component/pagination.js'
+    ])
+
+    .addEntry('component/search_bar', [
+        './public/frontend/js/component/search_bar.js'
+    ])
+
+    
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     // .enableStimulusBridge('./assets/controllers.json')
 

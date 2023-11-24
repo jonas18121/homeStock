@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div 
+    class="container error_page" 
+    style="
+        background: url('{{ asset('uploads/default/error/error500.jpg') }}')  center center fixed;
+        background-size: cover;
+">
+    <div class="">
+        <h1>Problème serveur</h1>
+        <p>le serveur a rencontré un problème inattendu qui l'empêche de répondre à la requête</p>
+    </div>
+</div>
+{% endblock %}

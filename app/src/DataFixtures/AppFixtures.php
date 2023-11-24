@@ -101,7 +101,7 @@ class AppFixtures extends Fixture
 
         // -------- S T O R A G E  S P A C E -------//
 
-        for ($i = 1; $i <= 3; ++$i) {
+        for ($i = 1; $i <= 30; ++$i) {
             $storageSpace = new StorageSpace();
 
             $storageSpace->setTitle($faker->word())

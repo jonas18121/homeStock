@@ -68,7 +68,7 @@
                         <input type='hidden' name='price' value="{{ booking.storageSpace.priceByMonth }}" id='price'>
                         <input type='hidden' name='booking' value="{{ booking.id }}" id='booking'>
                         <input type='hidden' name='storage' value="{{ booking.storageSpace.id }}" id='storage'>
-                        <td><button id="checkout-button" class='btn_pay_or_cancel_booking'>Payer la reservation</button></td>
+                        <td><button id="checkout-button" class='btn_pay_or_cancel_booking'>Payer</button></td>
                     {% endif %}
 
                     {# 
@@ -85,7 +85,7 @@
                                 <form method="POST" action="{{ path('booking_delete', { 'id' : booking.id }) }}" class="middle" onsubmit="return confirm('Etes-vous sur de vouloir annuler votre réservation ?')">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                                    <button class='btn_pay_or_cancel_booking'> Annuler la réservation </button>
+                                    <button class='btn_pay_or_cancel_booking'> Annuler</button>
                                 </form>
                             </td>
                         {% endif %}

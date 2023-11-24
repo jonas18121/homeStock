@@ -2,6 +2,11 @@
 
 {% block title %}Log in!{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('component/input_and_floating_label') }}
+{% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -11,10 +16,6 @@
     <div class="container_form">
 
         {% if error %}
-
-        {# <pre>
-            {{ dump(error) }}
-        </pre> #}
             <div class='error_form_login'>
                 Email ou mot de passe incorrect(s)
             </div>
@@ -28,15 +29,14 @@
                 </div> #}
             {% endif %}
 
-
-            <div class="div_form">
-                <label for="inputEmail" class="form_label">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form_input" required autofocus>
+            <div class="form-container">
+                <input type="email" value="{{ last_username }}" placeholder="Email" name="email" id="inputEmail" class="form-input" required autofocus>
+                <label for="inputEmail" class="form-label">Email</label>
             </div>
 
-            <div class="div_form">
-                <label for="inputPassword" class="form_label">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form_input" required>
+            <div class="form-container">
+                <input type="password" placeholder="Mot de passe" name="password" id="inputPassword" class="form-input" required>
+                <label for="inputPassword" class="form-label">Mot de passe</label>
             </div>
 
             <input type="hidden" name="_csrf_token"

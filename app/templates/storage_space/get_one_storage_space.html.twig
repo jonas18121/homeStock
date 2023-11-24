@@ -3,7 +3,6 @@
 {% block title %}Espaces de stockage{% endblock %}
 
 {% block body %}
-
 <div class="container">
     <h1>Espaces de stockage</h1>
 
@@ -13,26 +12,26 @@
 
                 <div class='one_storage_img'>
                     {% if storageSpace.images %}
-                        <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
+                        <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one" src= "{{ asset('/uploads/images/' ~ storageSpace.images) }}" alt="" > 
                     {% else %}
-                        <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one " src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
+                        <img class="img_storage_page_get_all img_storage_page_get_all_2500 img_storage_page_get_one" src= "{{ asset('/uploads/default/default.jpg') }}" alt="" > 
                     {% endif %}
                 </div>
 
                 <div class='one_storage_text'>
-                    <p class=''> {{ storageSpace.title }} </p>
-                    <p class=''> {{ storageSpace.description }} </p>
+                    <p class=''> {{ storageSpace.title }}</p>
+                    <p class=''> {{ storageSpace.description }}</p>
                     <p class=''>Adresse :
                         <span>{{ storageSpace.adresse }}</span> 
                         <span>{{ storageSpace.postalCode }}</span> 
                         <span>{{ storageSpace.city }}</span>
                     </p>
-                    <p class=''>Catégorie : {{ storageSpace.category.name }} </p>
+                    <p class=''>Catégorie : {{ storageSpace.category.name }}</p>
                     <p class=''> {{ storageSpace.space }} m2</p>
                     <p class=''>Prix par jours : {{ storageSpace.priceByDays / 100 | number_format(2, '.', ' ') }} € / jours</p>
                     <p class=''>Prix par mois : {{ storageSpace.priceByMonth / 100 | number_format(2, '.', ' ') }} € / mois</p>
-                    <p class=''>Créer le : {{ storageSpace.createdAt | date('d/m/Y H:i') }} </p>
-                    <p class=''>Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }} </p>
+                    <p class=''>Créer le : {{ storageSpace.createdAt | date('d/m/Y H:i') }}</p>
+                    <p class=''>Propriétaire du bien : {{ storageSpace.owner.lastName }} {{ storageSpace.owner.firstName }}</p>
 
                     {% if app.user %}
                         <p class="one_storage_btn">
@@ -51,8 +50,6 @@
                         </p>
                     {% endif %}
                 </div>
-
-
             </article>
         </section>
 
@@ -75,6 +72,7 @@
                             {{ form_end(formComment) }}
                         {# {% endif %} #}
                     </div>
+                        
                     <h2>Liste des commentaires</h2>
                     {% for comment in storageSpace.comments %}
                         {% if comment.parent == null %}
@@ -96,7 +94,6 @@
 
                                 {# on affiche les réponses #}
                                 {% for reply in comment.replies %}
-
                                     <div class="get_comment_response">
                                         <p>
                                             Réponse publié par 
