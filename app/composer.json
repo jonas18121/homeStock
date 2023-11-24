@@ -11,6 +11,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "easycorp/easyadmin-bundle": "^3.2",
+        "knplabs/knp-paginator-bundle": "^5.9",
         "sensio/framework-extra-bundle": "^6.1",
         "stripe/stripe-php": "^7.75",
         "symfony/console": "4.4.*",
@@ -25,6 +26,8 @@
         "symfony/validator": "4.4.*",
         "symfony/webpack-encore-bundle": "^1.17",
         "symfony/yaml": "4.4.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0",
         "vich/uploader-bundle": "^1.17"
     },
     "require-dev": {

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div 
+    class="container error_page" 
+    style="
+        background: url('{{ asset('uploads/default/error/errorAll.png') }}')  center center fixed;
+        background-size: cover;
+    "
+>
+    <div class="">
+        <h1>Erreur</h1>
+    </div>
+</div>
+{% endblock %}

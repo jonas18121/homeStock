@@ -11,9 +11,13 @@
 
 namespace App\Repository;
 
+use App\Classe\SearchData;
 use App\Entity\StorageSpace;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method StorageSpace|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,9 +27,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StorageSpaceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private PaginatorInterface $paginationInterface;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorInterface $paginationInterface
+    ) {
         parent::__construct($registry, StorageSpace::class);
+
+        $this->paginationInterface = $paginationInterface;
     }
 
     // /**
@@ -57,20 +67,22 @@ class StorageSpaceRepository extends ServiceEntityRepository
     }
     */
 
-    /**
-     * @return StorageSpace[]
-     */
-    public function find_All_storage()
+    public function findAllStorage(int $page): SlidingPagination
     {
         /** @var array<int, StorageSpace> */
-        $storageSpaces = $this->createQueryBuilder('s')
+        $data = $this->createQueryBuilder('s')
             ->select('s, b, c')
             ->leftJoin('s.bookings', 'b')
             ->leftJoin('s.category', 'c')
             ->getQuery()
             ->getResult();
 
-        return $storageSpaces;
+        /** @var SlidingPagination */
+        $pagination = $this->paginationInterface->paginate($data, $page, 10);
+
+        if ($pagination instanceof SlidingPagination) {
+            return $pagination;
+        }
     }
 
     /**
@@ -119,5 +131,45 @@ class StorageSpaceRepository extends ServiceEntityRepository
         ;
 
         return (int) $count[1];
+    }
+
+    public function findBySearch(SearchData $searchData): SlidingPagination
+    {
+        /** @var QueryBuilder */
+        $query = $this->createQueryBuilder('s')
+            ->select('s, b, c')
+            ->leftJoin('s.bookings', 'b')
+            ->leftJoin('s.category', 'c')
+            ->addOrderBy('s.created_at', 'DESC');
+
+        if (!empty($searchData->getQuery())) {
+            $query = $query
+                // Si l'user a écrit le code postal d'un produit depuis l'input, on l'affiche
+                ->orWhere('s.postalCode LIKE :searchPostalCode')
+                ->setParameter('searchPostalCode', "%{$searchData->getQuery()}%") // La recherche est partielle donc,
+                // si on ecrit "bon", on va afficher tous les produits qui contiennent "bon"
+
+                // Si l'user a écrit la ville d'un produit depuis l'input, on l'affiche
+                ->orWhere('s.city LIKE :searchCity')
+                ->setParameter('searchCity', "%{$searchData->getQuery()}%")
+
+                // Créer un deuxieme input pour chercher uniquement le prix
+                // Si l'user a écrit le prix de s.priceByMonth est egale ou plus petit que searchPriceByMonth depuis l'input, on l'affiche
+                // ->orWhere('s.priceByMonth <= :searchPriceByMonth')
+                // ->setParameter('searchPriceByMonth', (int) $searchData->getQuery() * 100)
+            ;
+        }
+
+        /** @var array<int, StorageSpace> */
+        $data = $query
+            ->getQuery()
+            ->getResult();
+
+        /** @var SlidingPagination */
+        $pagination = $this->paginationInterface->paginate($data, $searchData->getPage(), 10);
+
+        if ($pagination instanceof SlidingPagination) {
+            return $pagination;
+        }
     }
 }

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div 
+    class="container error_page" 
+    style="
+        background: url('{{ asset('uploads/default/error/error403.jpg') }}')  center center fixed;
+        background-size: cover;
+">
+    <div class="">
+        <h1 style="color: red;">Accès inderdit</h1>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Vérifie si l'élément avec l'ID "session_id" existe dans le DOM
+        if (document.getElementById('session_id') && document.querySelector('#manage-billing-form')) {
+
+            let sessionId = document.getElementById('session_id').value;
+            const manageBillingForm = document.querySelector('#manage-billing-form');
+            
+            manageBillingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                fetch('/customer/portal', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sessionId: sessionId
+                    }),
+                })
+                .then((response) => {
+                    
+                    return response.json()
+                })
+                .then((data) => {
+                    //console.log(data)
+                    window.location.href = data.url;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Vous n\'avez pas encore souscrit à un abonnement.');
+                });
+            });
+        }
+    });
+</script>

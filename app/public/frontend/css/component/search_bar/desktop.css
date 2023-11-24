@@ -1,0 +1,11 @@
+/* **************** css pour Desktop *********************** */
+@media only screen and (min-width: 1025px) 
+{
+    .search {
+        margin: 3vw 25vw;
+    }
+        
+    .search_title {
+        font-size: 2vw;
+    }
+}

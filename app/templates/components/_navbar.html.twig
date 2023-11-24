@@ -1,0 +1,39 @@
+<header>
+    <nav role="navigation" class ='divBar'>
+        <div id="menuToggle">
+
+            <input type="checkbox" />
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <ul id="menu">
+                <li><a href='{{ path('home_page') }}'>Accueil</a></li>
+                <li><a href="{{ path('storage_space_all' ) }}">Espace de stockage</a></li>
+
+                {% if app.user %}
+                    {# <li><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></li> #}
+                    <li class="menu_li_dashboard">
+                        Tableau de bord
+                        <ul class="sous_menu">
+                            <li >
+                                <form id="manage-billing-form" method='POST'>
+                                    <input type='hidden' id='session_id' value={{ app.request.get('stripeSessionId') }}>
+                                    <button type='submit'>Gérer mon abonnement actuel</button>
+                                </form>
+                            </li>
+                            <li><a href="{{ path('booking_for_user') }}">Mes paiements</a></li>
+                            <li><a href="{{ path('storage_space_for_user') }}">Mes annonces d'espace de stockage</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('user_one', { 'id' : app.user.id }) }}"> Mon compte</a></li>
+                    <li><a href="{{ path('app_logout') }}"> Déconnexion</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_registration') }}"> Inscription</a></li>
+                    <li><a href="{{ path('app_login') }}"> Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>

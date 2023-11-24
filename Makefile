@@ -76,7 +76,7 @@ install-full: install docker-run composer-install app-fix-folders-files update
 install-full-fixture: ## Install then start project with fixture
 install-full-fixture: install docker-run composer-install app-fix-folders-files create front-dev-build
 
-restore-fixture: ## Retore application
+restore-fixture: ## Retore fixture
 	- make app-db-with-fixture
 
 app-db-with-fixture: ## Load db with fixture

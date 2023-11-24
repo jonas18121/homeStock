@@ -2,6 +2,11 @@
 
 {% block title 'Modifier un user' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('component/input_and_floating_label') }}
+{% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -13,55 +18,37 @@
 
             {{ form_start(formUser, { 'attr' : { 'class' : 'form' }} ) }}
 
-                <div class="div_form">
-
-                    {# <div class="form-error">
-                        {{ form_errors(formUser.lastName) }}
-                    </div> #}
-
-                    <label for="inputUsername" class="form_label">Nom d'utilisateur</label>
-
+                <div class="form-container">
                     <div>
-                        {{ form_widget(formUser.lastName, {attr : {class : 'form_input' }} ) }}
+                        {{ form_widget(formUser.lastName, {attr : {class : 'form-input' }} ) }}
+                        <label for="inputUsername" class="form-label">Nom d'utilisateur</label>
                     </div>
                     
                     <small class="error_input_small">{{ form_errors(formUser.lastName) }} </small>
-
                 </div>
 
-                <div class="div_form">
-
-                    {# <div class="form-error">
-                        {{ form_errors(formUser.firstName) }}
-                    </div> #}
-
-                    <label for="inputUsername" class="form_label">Prénom d'utilisateur</label>
-
+                <div class="form-container">
                     <div>
-                        {{ form_widget(formUser.firstName, {attr : {class : 'form_input' }} ) }}
+                        {{ form_widget(formUser.firstName, {attr : {class : 'form-input' }} ) }}
+                        <label for="inputUsername" class="form-label">Prénom d'utilisateur</label>
                     </div>
                     
                     <small class="error_input_small">{{ form_errors(formUser.firstName) }} </small>
-
                 </div>
 
-                <div class="div_form">
-
-                    <label for="inputPhoneNumber" class="form_label">{{ form_label(formUser.phoneNumber) }}</label>
-
+                <div class="form-container">
                     <div>
-                        {{ form_widget(formUser.phoneNumber, {attr : {class : 'form_input' }} ) }}
+                        {{ form_widget(formUser.phoneNumber, {attr : {class : 'form-input' }} ) }}
+                        <label for="inputPhoneNumber" class="form-label">{{ form_label(formUser.phoneNumber) }}</label>
                     </div>
                     
                     <small class="error_input_small">{{ form_errors(formUser.phoneNumber) }} </small>
                 </div>
 
-                <div class="div_form">
-
-                    <label for="inputEmail" class="form_label">{{ form_label(formUser.email) }}</label>
-
+                <div class="form-container">
                     <div>
-                        {{ form_widget(formUser.email, {attr : {class : 'form_input' }} ) }}
+                        {{ form_widget(formUser.email, {attr : {class : 'form-input' }} ) }}
+                        <label for="inputEmail" class="form-label">{{ form_label(formUser.email) }}</label>
                     </div>
                     
                     <small class="error_input_small">{{ form_errors(formUser.email) }} </small>

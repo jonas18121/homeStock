@@ -114,6 +114,9 @@
     "jms/metadata": {
         "version": "2.5.0"
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.9.0"
+    },
     "laminas/laminas-code": {
         "version": "4.0.0"
     },
@@ -635,6 +638,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
+    },
+    "twig/extra-bundle": {
+        "version": "v3.7.0"
     },
     "twig/twig": {
         "version": "v3.3.0"
