@@ -4,12 +4,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {#{{ encore_entry_link_tags('app') }}#}
+    {{ encore_entry_link_tags('component/input_and_floating_label') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {#{{ encore_entry_script_tags('app') }}#}
     {{ encore_entry_script_tags('frontend/page-register') }}
     {{ encore_entry_script_tags('frontend/page-register-check') }}
 {% endblock %}
@@ -19,47 +18,47 @@
 <div class="container">
 
     <h1 class="">S'inscrire</h1>
-
+    
     <div class="container_form">
 
         {{ form_start(formRegistration, { 'attr' : { class: 'form', id: 'user-registration-form' }} ) }}
 
-            <div class="div_form">
-                <label for="inputUsername" class="form_label">Nom d'utilisateur</label>
+            <div class="form-container">
                 <div>
-                    {{ form_widget(formRegistration.lastName, {attr : {class : 'form_input' }} ) }}
+                    {{ form_widget(formRegistration.lastName, {attr : {class : 'form-input' }} ) }}
+                    <label for="inputUsername" class="form-label">Nom d'utilisateur</label>
                 </div>
                 <small class="error_input_small" id="error_lastName">{{ form_errors(formRegistration.lastName) }} </small>
             </div>
 
-            <div class="div_form">
-                <label for="inputUsername" class="form_label">Prénom d'utilisateur</label>
+            <div class="form-container">
                 <div>
-                    {{ form_widget(formRegistration.firstName, {attr : {class : 'form_input' }} ) }}
+                    {{ form_widget(formRegistration.firstName, {attr : {class : 'form-input' }} ) }}
+                    <label for="inputUsername" class="form-label">Prénom d'utilisateur</label>
                 </div>
                 <small class="error_input_small" id="error_firstName">{{ form_errors(formRegistration.firstName) }} </small>
             </div>
 
-            <div class="div_form">
-                <label for="inputEmail" class="form_label">{{ form_label(formRegistration.email) }}</label>
+            <div class="form-container">
                 <div>
-                    {{ form_widget(formRegistration.email, {attr : {class : 'form_input' }} ) }}
+                    {{ form_widget(formRegistration.email, {attr : {class : 'form-input' }} ) }}
+                    <label for="inputEmail" class="form-label">{{ form_label(formRegistration.email) }}</label>
                 </div>
                 <small class="error_input_small" id="error_email">{{ form_errors(formRegistration.email) }} </small>
             </div>
 
-            <div class="div_form">
-                <label for="inputPassword" class="form_label">Mot de passe</label>
+            <div class="form-container">
                 <div>
-                    {{ form_widget(formRegistration.password, {attr : {class : 'form_input' }} ) }}
+                    {{ form_widget(formRegistration.password, {attr : {class : 'form-input' }} ) }}
+                    <label for="inputPassword" class="form-label">Mot de passe</label>
                 </div>
                 <small class="error_input_small" id="error_password">{{ form_errors(formRegistration.password) }} </small>
             </div>
 
-            <div class="div_form">
-                <label for="inputPassword" class="form_label">Confirmer Mot de passe</label>
+            <div class="form-container">
                 <div>
-                    {{ form_widget(formRegistration.confirm_password, {attr : {class : 'form_input' }} ) }}
+                    {{ form_widget(formRegistration.confirm_password, {attr : {class : 'form-input' }} ) }}
+                    <label for="inputPassword" class="form-label">Confirmer Mot de passe</label>
                 </div>
                 <small class="error_input_small" id="error_confirm_password">{{ form_errors(formRegistration.confirm_password) }} </small>
             </div>

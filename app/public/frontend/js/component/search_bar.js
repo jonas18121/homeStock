@@ -1,0 +1,1 @@
+import '../../css/component/search_bar/index.css';

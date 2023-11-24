@@ -1,5 +1,6 @@
 :root {
     --main-color-old: #4c44bb;
+    --main-color-old-transparent:rgba(76, 68, 187, 0.5);
     --grey-main: rgba(233, 233, 240, 0.836);
 
     --white: #fff;

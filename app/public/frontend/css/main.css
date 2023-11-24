@@ -218,13 +218,13 @@ h1, h2, h3,
 }
 
 h1 {
-  font-size: 5.5rem;
+  font-size: 4vw;
   color: var(--black);
   margin: 0 0 8rem;
 }
 
 h2 {
-  font-size: 5vw;
+  font-size: 3vw;
 }
 
 h3, h4, h5 {
@@ -258,6 +258,15 @@ h3, h4, h5 {
   background-color: #534E4D;
   color: var(--white);
 }
+
+ /* ***** message add flash ***** */
+ .bm-messages-success,
+ .bm-messages-wraning,
+ .bm-messages-error,
+ .bm-messages-message, 
+ .bm-messages-notice {
+   font-size: 4vw;
+ }
 
 /* ***** page_get_all ***** */
 
@@ -353,7 +362,10 @@ h3, h4, h5 {
 }
 
 .comment .get_comment {
-  margin: 2rem;
+  margin: 1vw;
+  background-color: var(--grey-main);
+  text-align: left;
+  padding: 1vw;
 }
 
 #add-comment {
@@ -380,22 +392,25 @@ h3, h4, h5 {
 /* ***** page with form ***** */
 
 .container_form {
-  margin: 5rem auto;
-  width: 100%;
-  padding: 1rem;
-  background-color: rgba(76, 68, 187, 0.3); 
-  border-radius: 3rem;
+  margin: 4vw;
+  /* width: 100%; */
+  padding: 10vw 6vw;
+  /* background-color: rgba(76, 68, 187, 0.3);  */
+  /* border-radius: 3rem; */
+  background: linear-gradient(217deg, rgba(255, 0, 0,0.1), rgba(255, 0, 0,0) 70.71%),
+    linear-gradient(127deg, rgba(0, 255, 0,0.1), rgba(0, 255, 0,0) 70.71%),
+    linear-gradient(336deg, rgba(0, 0, 255,0.2), rgba(0, 0, 255,0) 70.71%);
 }
 
 .div_form {
-  margin: 5rem 0;
+  /* margin: 5rem 0; */
 }
 
 .form_label {
    display: block;
    text-align: left;
    font-size: 3rem;
-   margin: 2rem 0;
+   /* margin: 2rem 0; */
 }
 
 .form_input {
@@ -403,7 +418,7 @@ h3, h4, h5 {
    width: 100%;
    height: 5rem;
    font-size: 2.5rem;
-   border-radius: 2rem;
+   /* border-radius: 2rem; */
    padding: 10px 10px 10px 15px;
 }
 
@@ -426,8 +441,8 @@ textarea.form_input {
 }
 
 .form_action{
-  font-size: 3rem;
-  margin: 4rem 0;
+  font-size: 4vw;
+  margin: 1vw 0;
 }
 
 .btn_pay_or_cancel_booking, 
@@ -437,12 +452,12 @@ textarea.form_input {
   width: 100%;
   height: 100%;
   font-size: 4vw;
-  /* margin: 0 4rem 2rem 0; */
+  margin: 0 4rem 2rem 0;
   margin: 1vw 0;
   background-color: #4c44bb;
   color: #aaa;
-  border-radius: 2vw;
-  padding: 1vw;
+  /* border-radius: 2vw; */
+  padding: 0.3vw;
 }
 
 .one_storage_btn {
@@ -472,7 +487,7 @@ a.btn {
 }
 
 .error_input_small {
-  font-size: 2.5rem;
+  font-size: 4vw;
   color: red;
   padding: 1rem;
 }
@@ -485,6 +500,16 @@ a.btn {
   background-color: rgba(76, 68, 187, 0.3); 
   padding: 1rem 0;
   border-radius: 2rem;
+}
+
+.profile_one_user .modif_or_supp {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.profile_one_user .modif_or_supp span {
+  padding: 0 24vw;
 }
 
 .profile_one_user li, .profile_one_user button {
@@ -548,7 +573,9 @@ a.btn {
 .responsive_td_name_produit, 
 .table-responsive td.responsive_td_name_produit:before
 {
-  background-color: #4c44bb;
+  /* background-color: #4c44bb; */
+  background-color: var(--main-color-old-transparent);
+  color: var(--white);
 }
 
 /** page stripe  **/
@@ -709,28 +736,43 @@ footer p {
   /* ***** page with form ***** */
 
   .container_form {
-    padding: 2rem;
+    margin: 5rem auto;
+    width: 100%;
+    padding: 9vw 4vw;
   }
 
   #add-comment {
     padding: 0 2rem 2rem;
   }
-
   
   .error_input_small {
-    font-size: 3.5rem;
+      font-size: 3vw;
   }
 
-    /* FOOTER */
+  .form_action{
+    font-size: 3vw;
+    margin: 1vw 0;
+  }
 
-    footer {
-      flex-direction: row;
-      justify-content:space-between;
-      align-items: normal;
-      padding: 3vw;
-    }
+  /* ***** message add flash ***** */
+  .bm-messages-success,
+  .bm-messages-wraning,
+  .bm-messages-error,
+  .bm-messages-message, 
+  .bm-messages-notice {
+    font-size: 3vw;
+  }
 
-    footer p {
+  /* FOOTER */
+
+  footer {
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: normal;
+    padding: 3vw;
+  }
+
+  footer p {
       margin-bottom: 1vw;
   }
 }
@@ -812,8 +854,9 @@ footer p {
     padding: 4rem;
   }
 
+  
   /* ***** table responsive ***** */
-
+  
   /* revenir a une structure de tableau de base*/
   .table-responsive table,
   .table-responsive thead,
@@ -823,10 +866,15 @@ footer p {
   .table-responsive tr {
     display: revert;
   }
-
+  
   /* on désactive l'attribut data-title */
   .table-responsive td:before { 
     content: ""; 
+  }
+  
+  .responsive_td_name_produit
+  {
+    color: var(--black);
   }
 
   .table-responsive td:before { 
@@ -866,7 +914,8 @@ footer p {
   }
 
   .table-responsive th {
-    background-color: #4c44bb;
+    background-color: var(--main-color-old-transparent);
+    color: var(--white);
   }
 
   .table-responsive tr:nth-child(even) {
@@ -937,11 +986,21 @@ footer p {
   /* ***** page with form ***** */
 
   .container_form {
-    width: 70%;
+    width: 55%;
   }
 
-  /* ***** page_get_one_user ***** */
+  .error_input_small {
+      font-size: 1.5vw;
+  }
 
+  .form_action{
+    font-size: 2vw;
+    margin: 1vw 0;
+  }
+
+  
+  /* ***** page_get_one_user ***** */
+  
   .profile_one_user {
     width: 70%;
   }
@@ -950,17 +1009,30 @@ footer p {
   .success_payment_facturation, 
   .btn
   {
-    font-size: 2vw;
+    font-size: 3vw;
     margin: 1vw 0;
-    padding: 1vw;
+    padding: 0.3vw;
   }
 
   a.btn {
     padding: 1vw;
     margin: 0 1vw;
   }
-}
 
+  .profile_one_user li, .profile_one_user button {
+      font-size: 2vw;
+      margin: 1vw 0;
+  }
+
+   /* ***** message add flash ***** */
+   .bm-messages-success,
+   .bm-messages-wraning,
+   .bm-messages-error,
+   .bm-messages-message, 
+   .bm-messages-notice {
+     font-size: 2vw;
+   }
+}
 
 /* **************** css pour Desktop 2500px *********************** */
 @media only screen and (min-width: 2500px) 

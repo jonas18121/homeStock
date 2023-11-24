@@ -1,0 +1,9 @@
+{% for type, messages in app.session.flashbag.all() %}
+    <div class="bm-messages">
+        {% for message in messages %}
+            <div class="bm-messages-{{ type }}" style="padding: 10px;text-align: center;">
+                <p class="bm-message bm-{{ type }}" style="margin: 0px">{{ message|raw }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

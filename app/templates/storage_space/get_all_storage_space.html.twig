@@ -2,17 +2,26 @@
 
 {% block title %}Tous les espaces de stockage{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('component/pagination') }}
+    {{ encore_entry_link_tags('component/search_bar') }}
+{% endblock %}
 
+{% block body %}
 <div class="container">
     <h1>Espaces de stockage disponible</h1>
+
+    {% include 'components/_search_data.html.twig' with {
+        formSearch: formSearch
+    } only %}
 
     {% if app.user %}
         <p class='link_for_add'><a href="{{ path('storage_space_add' ) }}" >Ajouter un espace de stockage</a></p>
     {% endif %}
 
     <section class="get_all_storage_space">
-        {% for storageSpace in storageSpaces %}
+        {% for storageSpace in pagination %}
             {% if storageSpace.available == true %}
                 <article class="card">
                     {% if storageSpace.images %}
@@ -46,6 +55,11 @@
                 </article>
             {% endif %}
         {% endfor %}
+
     </section>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 </div>
 {% endblock %}

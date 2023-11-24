@@ -1,0 +1,67 @@
+/* **************** css pour Desktop *********************** */
+@media only screen and (min-width: 1025px) 
+{
+    /* C'est important que le label et l'input soit en display block, 
+    pour que le translateY fonctionne */
+    Label, input {
+        display: block;
+    }
+
+    div .form-container {
+        margin: 3vw 0 0;
+        text-align: left;
+    }
+
+    .form-container {
+        transition: all .3s; /* Effet de transition */
+    }
+
+    .form-label {
+        /* Le label va se placer a une certaine hauteur par rapport a l'input en fonction du nombre écrit dans translateY() */
+        transform: translateY(-1.5em);
+        transform-origin: 0 0;/* Mettre le label a gauche, lorsqu'il est en haut  */
+        transition: all .3s; /* Effet de transition */
+        font-size: 2vw;
+    }
+
+    .form-input {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid black;
+        box-shadow: none;
+        transition: all .5s;/* Effet de transition */
+        background-color: transparent;
+        font-size: 2vw;
+    }
+
+    /* Il faut mettre un placerholder pour que tout ce système fonctionne  */
+    .form-input::placeholder {
+        color: transparent;
+    }
+
+    /* .form-input:has(+ .form-label:focus) == selectionne le form-input qui est suivi de form-label qui à un focus  */
+    .form-input:focus,
+    .form-input:has(+ .form-label:focus),
+    .form-container:focus .form-input
+    {
+        box-shadow: none;
+        outline: none; /* Enlever la surbrillance au focus */
+        border-bottom: 3px solid rgba(35, 125, 7, 0.8); /* Modification du border bottom au focus */
+    }
+
+    /* Le label monte au focus(sur l'input ou sur le label) et reste en haut, si l'user écrit */
+    /* Le label doit etre sous l'input */
+    .form-input:focus + .form-label,
+    .form-input + .form-label:focus,
+    .form-input:not(:placeholder-shown) + .form-label,
+    .form-container:focus .form-input + .form-label, 
+    .form-container:focus .form-input:not(:placeholder-shown) + .form-label
+    {
+        transform: translateY(-6vw) scale(.8);
+    }
+
+    /* agir sur tous les enfant de .form-container au focus */
+    .form-container:focus-within {
+        transform: scale(1.01,1.01); 
+    }
+}

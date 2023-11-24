@@ -1,0 +1,10 @@
+@media only screen and (min-width: 600px)  
+{
+    .search {
+        margin: 3vw 14vw;
+    }
+        
+    .search_title {
+        font-size: 3vw;
+    }
+}
